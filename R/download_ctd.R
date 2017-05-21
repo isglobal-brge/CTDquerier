@@ -20,7 +20,7 @@
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
-#' @result Passed name into \code{filename} argument if it could be download
+#' @return Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
 #' @examples
 #' download_ctd_genes()
@@ -33,7 +33,7 @@ download_ctd_genes <- function( filename = "CTD_genes.tsv.gz", mode = "auto", ve
     if( verbose ) {
       message( "Downloading gene vocabilary from CTDbase ( '", filename, "' ).")
     }
-    res <- tryCatch( download.file(
+    res <- tryCatch( utils::download.file(
       url = fileURL,
       destfile = filename,
       method = mode ),
@@ -72,7 +72,7 @@ download_ctd_genes <- function( filename = "CTD_genes.tsv.gz", mode = "auto", ve
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
-#' @result Passed name into \code{filename} argument if it could be download
+#' @return Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
 #' @examples
 #' download_ctd_chem()
@@ -85,7 +85,7 @@ download_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz", mode = "auto",
     if( verbose ) {
       message( "Downloading gene vocabilary from CTDbase ( '", filename, "' ).")
     }
-    res <- tryCatch( download.file(
+    res <- tryCatch( utils::download.file(
       url = fileURL,
       destfile = filename,
       method = mode ),

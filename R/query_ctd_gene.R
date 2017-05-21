@@ -1,7 +1,9 @@
 #' Function to query CTDbase using gene terminology ( Gene Symbol )
 #'
 #' This function cheks for CTDbase gene vocabulary and query CTDbase
-#' for each one, downloading (...)
+#' for each one, downloading gene-gene interactions, chemicals
+#' interactions, associated desease, associated KEGG pathways and
+#' associated GO terms.
 #'
 #' @param terms Character vector with the genes used in the query.
 #' @param filename (default \code{"CTD_genes.tsv.gz"}) Name of the file
@@ -9,9 +11,10 @@
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
-#' @return
-#' @example s
-#' rst <- query_ctd_gene( terms = c("APP", "HMOX1A", "hmox1" ), verbose = TRUE )
+#' @return An object of class \link{\code{CTDquery}}.
+#' @examples
+#' rst <- query_ctd_gene( terms = c( "APP", "HMOX1A", "hmox1" ), verbose = TRUE )
+#' @export query_ctd_gene
 query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto", verbose = FALSE ) {
   ## SETUP
   rst <- download_ctd_genes( filename, mode, verbose )
@@ -28,7 +31,7 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
   ## VALIDATE INPUT GENES
   terms <- toupper( terms )
   keep <- S4Vectors::DataFrame( GeneSymbol = "", GeneID = "" )
-  disc <- c()
+  disc <- character()
   for( ii in 1:length( terms ) ) {
     if( terms[ ii ] %in% tbl$GeneSymbol ) {
       keep <- rbind( keep, tbl[ tbl$GeneSymbol == terms[ ii ] , c( "GeneSymbol", "GeneID" ) ] )
@@ -97,7 +100,7 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
     # gene_interactions <- rbind( gene_interactions, tmp )
 
     if( verbose ) {
-      message( " . Downloading GGI" )
+      message( " . Downloading 'gene-gene interaction' table." )
     }
     tmp <- download_url( url = url_gg )
     if( nrow( tmp ) > 0 ) {
@@ -105,11 +108,11 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
       tmp$GeneID <- keep[ ii, 2 ]
       gene_gene_interactions <- rbind( gene_gene_interactions, tmp )
     } else if( verbose ) {
-      message(" . . No GGI available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
+      message(" . . No 'gene-gene interaction' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
 
     if( verbose ) {
-      message( " . Downloading DSS" )
+      message( " . Downloading 'disease' table." )
     }
     tmp <- download_url( url = url_disease )
     if( nrow( tmp ) > 0 ) {
@@ -117,11 +120,11 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
       tmp$GeneID <- keep[ ii, 2 ]
       gene_diseases <- rbind( gene_diseases, tmp )
     } else if( verbose ) {
-      message(" . . No DSS available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
+      message(" . . No 'disease' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
 
     if( verbose ) {
-      message( " . Downloading GCI" )
+      message( " . Downloading 'gene-chemical interation' table." )
     }
     tmp <- download_url( url = url_chemical )
     if( nrow( tmp ) > 0 ) {
@@ -129,11 +132,11 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
       tmp$GeneID <- keep[ ii, 2 ]
       gene_chemical_interaction <- rbind( gene_chemical_interaction, tmp )
     } else if( verbose ) {
-      message(" . . No GCI available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
+      message(" . . No 'gene-chemical interation' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
 
     if( verbose ) {
-      message( " . Downloading GO" )
+      message( " . Downloading 'GO terms' table." )
     }
     tmp <- download_url( url = url_go )
     if( nrow( tmp ) > 0 ) {
@@ -141,11 +144,11 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
       tmp$GeneID <- keep[ ii, 2 ]
       gene_go <- rbind( gene_go, tmp )
     } else if( verbose ) {
-      message(" . . No GO available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
+      message(" . . No 'GO terms' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
 
     if( verbose ) {
-      message( " . Downloading KEGG" )
+      message( " . Downloading 'KEGG pathways' table." )
     }
     tmp <- download_url( url = url_kegg )
     if( nrow( tmp ) > 0 ) {
@@ -153,7 +156,7 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
       tmp$GeneID <- keep[ ii, 2 ]
       gene_kegg <- rbind( gene_kegg, tmp )
     } else if( verbose ) {
-      message(" . . No KEGG available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
+      message(" . . No 'KEGG pathways' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
     # //
   }
@@ -163,7 +166,7 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
     type                   = "GENE",
     terms                  = S4Vectors::DataFrame( keep ),
     losts                  = disc,
-    # gene_interactions      = gene_interactions,
+    gene_interactions      = S4Vectors::DataFrame(),
     chemicals_interactions = gene_chemical_interaction,
     diseases               = gene_diseases,
     gene_gene_interactions = gene_gene_interactions,
@@ -193,15 +196,15 @@ prepare_ctd_gene <- function( set ) {
   }
 
   if( set == "gene_kegg" )  {
-    gene_diseases <- rbind( 1:2 )
-    colnames( gene_diseases ) <- c( "Pathway", "Pathway ID" )
-    return( S4Vectors::DataFrame( gene_diseases[ -1, ] ) )
+    gene_kegg <- rbind( 1:2 )
+    colnames( gene_kegg ) <- c( "Pathway", "Pathway ID" )
+    return( S4Vectors::DataFrame( gene_kegg[ -1, ] ) )
   }
 
   if( set == "gene_go" ) {
-    gene_diseases <- rbind( 1:5 )
-    colnames( gene_diseases ) <- c( "Ontology", "Qualifiers", "GO Term Name", "GO Term ID", "Organisms (Evidence)" )
-    return( S4Vectors::DataFrame( gene_diseases[ -1, ] ) )
+    gene_go <- rbind( 1:5 )
+    colnames( gene_go ) <- c( "Ontology", "Qualifiers", "GO Term Name", "GO Term ID", "Organisms (Evidence)" )
+    return( S4Vectors::DataFrame( gene_go[ -1, ] ) )
   }
 
   if( set == "gene_chemical_interaction" ) {

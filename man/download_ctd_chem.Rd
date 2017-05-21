@@ -4,13 +4,21 @@
 \alias{download_ctd_chem}
 \title{Function to download checmicals available in CTDbase}
 \usage{
-download_ctd_chem(filename = "CTD_chemicals.tsv.gz", mode = "auto")
+download_ctd_chem(filename = "CTD_chemicals.tsv.gz", mode = "auto",
+  verbose = FALSE)
 }
 \arguments{
 \item{filename}{(default \code{"CTD_chemicals.tsv.gz"}) Name of the file in
 the local system.}
 
 \item{mode}{(default \code{"auto"}) Mode passed to \code{download.file}.}
+
+\item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
+information of each step.}
+}
+\value{
+Passed name into \code{filename} argument if it could be download
+\code{1} otherwise.
 }
 \description{
 This function download the "Chemical vocabulary" file (\code{CTD_chemicals.tsv.gz})

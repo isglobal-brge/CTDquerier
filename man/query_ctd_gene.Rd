@@ -18,7 +18,15 @@ to store the CTDbase gene vocabilary.}
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
 information of each step.}
 }
+\value{
+An object of class \link{\code{CTDquery}}.
+}
 \description{
 This function cheks for CTDbase gene vocabulary and query CTDbase
-for each one, downloading (...)
+for each one, downloading gene-gene interactions, chemicals
+interactions, associated desease, associated KEGG pathways and
+associated GO terms.
+}
+\examples{
+rst <- query_ctd_gene( terms = c( "APP", "HMOX1A", "hmox1" ), verbose = TRUE )
 }
