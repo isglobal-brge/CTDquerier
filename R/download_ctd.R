@@ -18,6 +18,8 @@
 #' @param filename (default \code{"CTD_genes.tsv.gz"}) Name of the file in
 #' the local system.
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
+#' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
+#' information of each step.
 #' @result Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
 #' @examples
@@ -68,13 +70,15 @@ download_ctd_genes <- function( filename = "CTD_genes.tsv.gz", mode = "auto", ve
 #' @param filename (default \code{"CTD_chemicals.tsv.gz"}) Name of the file in
 #' the local system.
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
+#' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
+#' information of each step.
 #' @result Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
 #' @examples
 #' download_ctd_chem()
 #' file.exists( "CTD_chemicals.tsv.gz" )
 #' @export download_ctd_genes
-download_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz", mode = "auto" ) {
+download_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz", mode = "auto", verbose = FALSE ) {
   fileURL <- "http://ctdbase.org/reports/CTD_chemicals.tsv.gz"
 
   if( !file.exists( filename ) ) {

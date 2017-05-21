@@ -69,8 +69,9 @@ load_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz" ) {
   if( class( tbl ) == "data.frame" ) {
     colnames( tbl ) <-
       c( "ChemicalName", "ChemicalID", "CasRN", "Definition", "ParentIDs", "TreeNumbers", "ParentTreeNumbers", "Synonyms", "DrugBankIDs" )
-    tbl <- tbl[ !.is.na( tbl$ChemicalName ), ]
+    tbl <- tbl[ !is.na( tbl$ChemicalName ), ]
     tbl$ChemicalName <- toupper( tbl$ChemicalName )
+    tbl$Synonyms <- toupper( tbl$Synonyms )
     tbl
   } else {
     data.frame()

@@ -2,8 +2,9 @@ setClass( "CTDquery",
   representation =
     representation(
       # esentials
-      type     = "character",
-      objects  = "DataFrame",
+      type                   = "character",
+      terms                  = "DataFrame",
+      losts                  = "character",
       # CTDbase results
       # gene_interactions      = "DataFrame",
       chemicals_interactions = "DataFrame",

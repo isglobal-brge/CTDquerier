@@ -41,7 +41,6 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
   if( length( disc ) != 0 ) {
     warning( length( disc ) , "/", length( terms ), " terms were discarted." )
   }
-  rm( disc )
   ## //
 
   gene_interactions <- prepare_ctd_gene( "gene_interactions" )
@@ -158,17 +157,18 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
     }
     # //
   }
-  rm(tmp, ii)
+  rm( tmp, ii )
 
   new( "CTDquery",
-    type     = "GENE",
-    objects  = S4Vectors::DataFrame( keep ),
-       # gene_interactions      = gene_interactions,
-       chemicals_interactions = gene_chemical_interaction,
-       diseases               = gene_diseases,
-       gene_gene_interactions = gene_gene_interactions,
-       kegg                   = gene_kegg,
-       go                     = gene_go
+    type                   = "GENE",
+    terms                  = S4Vectors::DataFrame( keep ),
+    losts                  = disc,
+    # gene_interactions      = gene_interactions,
+    chemicals_interactions = gene_chemical_interaction,
+    diseases               = gene_diseases,
+    gene_gene_interactions = gene_gene_interactions,
+    kegg                   = gene_kegg,
+    go                     = gene_go
   )
 }
 
