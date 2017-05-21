@@ -15,6 +15,7 @@
 #'   \item \code{"go terms"}: Table with a relatio of the GO terms afected by the given
 #' chemicals or where the given genes play a role.
 #' }
+
 setMethod( "extract",
   signature  = "CTDquery",
   definition = function( object, name, .... ) {

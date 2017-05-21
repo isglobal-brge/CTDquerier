@@ -4,19 +4,23 @@
 \name{CTDquerier}
 \alias{CTDquerier}
 \alias{CTDquerier-package}
-\title{CTDquerier: Package for CTDbase data query, visualization and analysis.}
+\title{Package for CTDbase data query, data visualization and data analysis.}
 \description{
-CTDquerier: Package for CTDbase data query, visualization and analysis.
+Package for CTDbase data query, data visualization and data analysis.
 }
-\section{CTDbase data download}{
-NA
+\section{Data Download}{
+
+\code{CTDquerier} offers two functions to query CTDbase (http://ctdbase.org):
+\link{\code{query_ctd_gene}} to query CTDbase given a set of genes; and
+\link{\code{query_ctd_chem}} to query CTDbase given a set of chemicals. Both
+functions returns \link{\code{CTDquery}} objects. Raw downloaded information
+can be retrieved from \link{\code{CTDquery}} using method
+\code{\link[psygenet2r]{extract}}.
 }
 
-\section{CTDbase data visualization}{
-NA
-}
+\section{Data Visualization}{
 
-\section{CTDbase data analysis}{
-NA
+\link{\code{CTDquery}} objects offers basic visualization of the downloaded
+information using standard \code{plot} method.
 }
 
