@@ -101,8 +101,8 @@ load_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz" ) {
 #' download_ctd_dise()
 #' fdl <- load_ctd_disease()
 #' dim(fdl)
-#' @export load_ctd_disease
-load_ctd_disease <- function( filename = "CTD_diseases.tsv.gz" ) {
+#' @export load_ctd_dise
+load_ctd_dise <- function( filename = "CTD_diseases.tsv.gz" ) {
   tbl <- tryCatch( read.delim( filename, header = FALSE, comment.char = "#", sep = "\t", stringsAsFactors = FALSE ),
                    error = function( e ) 1 )
 

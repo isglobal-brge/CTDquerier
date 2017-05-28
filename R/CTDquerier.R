@@ -17,7 +17,6 @@
 #' @docType package
 #' @name CTDquerier
 #'
-#' @import S4Vectors
 #' @import utils
 #'
 #' @importFrom RCurl getURL
