@@ -2,7 +2,7 @@
 % Please edit documentation in R/load_ctd.R
 \name{load_ctd_chem}
 \alias{load_ctd_chem}
-\title{Function to load the \code{.tsv.gz} file for genes}
+\title{Function to load the \code{.tsv.gz} file for chemicals}
 \usage{
 load_ctd_chem(filename = "CTD_chemicals.tsv.gz")
 }
@@ -14,7 +14,7 @@ chemicals downloaded from CTDbase.}
 A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 }
 \description{
-Function to load the \code{.tsv.gz} file for genes
+Function to load the \code{.tsv.gz} file for chemicals
 }
 \details{
 The field included in the file (\code{CTD_chemicals.tsv.gz}) are:

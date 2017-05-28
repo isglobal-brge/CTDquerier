@@ -39,7 +39,7 @@ load_ctd_gene <- function( filename = "CTD_genes.tsv.gz" ) {
   }
 }
 
-#' Function to load the \code{.tsv.gz} file for genes
+#' Function to load the \code{.tsv.gz} file for chemicals
 #'
 #' @details The field included in the file (\code{CTD_chemicals.tsv.gz}) are:
 #' \enumerate{
@@ -72,6 +72,45 @@ load_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz" ) {
     tbl <- tbl[ !is.na( tbl$ChemicalName ), ]
     tbl$ChemicalName <- toupper( tbl$ChemicalName )
     tbl$Synonyms <- toupper( tbl$Synonyms )
+    tbl
+  } else {
+    data.frame()
+  }
+}
+
+
+#' Function to load the \code{.tsv.gz} file for disease
+#'
+#' @details The field included in the file (\code{CTD_diseases.tsv.gz}) are:
+#' \enumerate{
+#'  \item DiseaseName
+#'  \item DiseaseID (MeSH or OMIM identifier)
+#'  \item Definition
+#'  \item AltDiseaseIDs (alternative identifiers; '|'-delimited list)
+#'  \item ParentIDs (identifiers of the parent terms; '|'-delimited list)
+#'  \item TreeNumbers (identifiers of the disease's nodes; '|'-delimited list)
+#'  \item ParentTreeNumbers (identifiers of the parent nodes; '|'-delimited list)
+#'  \item Synonyms ('|'-delimited list)
+#'  \item SlimMappings (MEDIC-Slim mappings; '|'-delimited list)
+#'  }
+#'
+#' @param filename (default "CTD_diseases.tsv.gz") File with the
+#' chemicals downloaded from CTDbase.
+#' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
+#' @examples
+#' download_ctd_dise()
+#' fdl <- load_ctd_disease()
+#' dim(fdl)
+#' @export load_ctd_disease
+load_ctd_disease <- function( filename = "CTD_diseases.tsv.gz" ) {
+  tbl <- tryCatch( read.delim( filename, header = FALSE, comment.char = "#", sep = "\t", stringsAsFactors = FALSE ),
+                   error = function( e ) 1 )
+
+  if( class( tbl ) == "data.frame" ) {
+    colnames( tbl ) <-
+      c( "DiseaseName", "DiseaseID", "AltDiseaseIDs", "Definition", "ParentIDs", "TreeNumbers", "ParentTreeNumbers", "Synonyms", "SlimMappings" )
+    tbl <- tbl[ !is.na( tbl$DiseaseName ), ]
+    tbl$DiseaseName <- toupper( tbl$DiseaseName )
     tbl
   } else {
     data.frame()

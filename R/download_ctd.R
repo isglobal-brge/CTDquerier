@@ -77,19 +77,70 @@ download_ctd_genes <- function( filename = "CTD_genes.tsv.gz", mode = "auto", ve
 #' @examples
 #' download_ctd_chem()
 #' file.exists( "CTD_chemicals.tsv.gz" )
-#' @export download_ctd_genes
+#' @export download_ctd_chem
 download_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz", mode = "auto", verbose = FALSE ) {
   fileURL <- "http://ctdbase.org/reports/CTD_chemicals.tsv.gz"
 
   if( !file.exists( filename ) ) {
     if( verbose ) {
-      message( "Downloading gene vocabilary from CTDbase ( '", filename, "' ).")
+      message( "Downloading chemical vocabilary from CTDbase ( '", filename, "' ).")
     }
     res <- tryCatch( utils::download.file(
       url = fileURL,
       destfile = filename,
       method = mode ),
     error = function( e ) { 1 } )
+  } else {
+    res <- filename
+  }
+
+  if( res == 1 ) {
+    ""
+  } else {
+    filename
+  }
+}
+
+#' Function to download diseases available in CTDbase
+#'
+#' This function download the "Disease vocabulary" file (\code{CTD_diseases.tsv.gz})
+#' from \code{http://ctdbase.org/downloads}.
+#'
+#' @details The field included in the file (\code{CTD_diseases.tsv.gz}) are:
+#' \enumerate{
+#'  \item DiseaseName
+#'  \item DiseaseID (MeSH or OMIM identifier)
+#'  \item Definition
+#'  \item AltDiseaseIDs (alternative identifiers; '|'-delimited list)
+#'  \item ParentIDs (identifiers of the parent terms; '|'-delimited list)
+#'  \item TreeNumbers (identifiers of the disease's nodes; '|'-delimited list)
+#'  \item ParentTreeNumbers (identifiers of the parent nodes; '|'-delimited list)
+#'  \item Synonyms ('|'-delimited list)
+#'  \item SlimMappings (MEDIC-Slim mappings; '|'-delimited list)
+#'  }
+#'
+#' @param filename (default \code{"CTD_diseases.tsv.gz"}) Name of the file in
+#' the local system.
+#' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
+#' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
+#' information of each step.
+#' @return Passed name into \code{filename} argument if it could be download
+#' \code{1} otherwise.
+#' download_ctd_dise()
+#' file.exists( "CTD_diseases.tsv.gz" )
+#' @export download_ctd_dise
+download_ctd_dise <- function( filename = "CTD_diseases.tsv.gz", mode = "auto", verbose = FALSE ) {
+  fileURL <- "http://ctdbase.org/reports/CTD_diseases.tsv.gz"
+
+  if( !file.exists( filename ) ) {
+    if( verbose ) {
+      message( "Downloading disease vocabilary from CTDbase ( '", filename, "' ).")
+    }
+    res <- tryCatch( utils::download.file(
+      url = fileURL,
+      destfile = filename,
+      method = mode ),
+      error = function( e ) { 1 } )
   } else {
     res <- filename
   }
