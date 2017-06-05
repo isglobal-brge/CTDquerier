@@ -1,5 +1,5 @@
 ---
-title: "CTDquerier: Case study on Environmental Chemicals and Human Non-Comunicable Diseases"
+title: "CTDquerier: Case study on Environmental Chemicals and Human Non-Communicable Diseases"
 author:
 - name: Carles Hernandez-Ferrer
   affiliation: ISGlobal, Centre for Research in Environmental Epidemiology (CREAL)
@@ -8,10 +8,10 @@ author:
   email: juanr.gonzalez@isglobal.org
 date: "`r doc_date()`"
 package: "`r pkg_ver('CTDquerier')`"
-bibliography: case_study.bib
 csl: biomed-central.csl
+bibliography: case_study.bib
 vignette: >
-  %\VignetteIndexEntry{CTDquerier: Case study on Environmental Chemicals and Human Non-Comunicable Diseases}
+  %\VignetteIndexEntry{CTDquerier: Case study on Environmental Chemicals and Human Non-Communicable Diseases}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 output: 
@@ -25,7 +25,7 @@ output:
 
 The health impact of chemicals is determined by a process of assessment which aims to provide a consensus scientific description of the risks of chemical exposures. The International Programme on Chemical Safety (IPCS) of the World Health Organization (WHO) is one of the organizations that works to establish the scientific basis for the sound management of chemicals, and to strengthen national capabilities and capacities for chemical safety. In its responsibilities are the publication of the reports and other related documents so that governments and international and national organizations can use them as the basis for taking preventive actions against adverse health and environmental impacts.
 
-The leading cause of deaths and disability worldwide is ischaemic heart  disease. The second largest contributor to global mortality is stroke. The 35% of the first and the 42% of the second could be prevented by reducing or removing exposure to chemicals such as from  ambient air pollution, household air pollution, second-hand smoke and lead [@WHOHealthEnvironment2016].
+The leading cause of deaths and disability worldwide is ischaemic heart disease. The second largest contributor to global mortality is stroke. The 35% of the first and the 42% of the second could be prevented by reducing or removing exposure to chemicals such as from  ambient air pollution, household air pollution, second-hand smoke and lead [@WHOHealthEnvironment2016].
 
 Chemicals such as heavy metals, pesticides, solvents, paints, detergents, kerosene, carbon monoxide and drugs lead to unintentional poisonings at home and in workplace. This type of unintentional poisonings are estimated to cause 193 000 deaths annually [@WHOHealthEnvironment2016][@WHOKnownsUnknowns2016].
 
@@ -40,16 +40,16 @@ The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a pub
 
 *CTDbase* is curated by professional biocurators who leverage controlled vocabularies, ontologies and structured notation to code a triad of core interactions describing chemical-gene, chemical-disease and gene-disease relationships, which are then internally integrated to generate inferred chemical-gene-disease networks [@CTDbase2017][@CTDbase2011].
 
-*CTDbase* if offered to public by using a web-baed inetrface that includes basic and advanced query options to access data for sequences, references, and toxic agents, and a platform for analyzing sequences.
+*CTDbase* if offered to public by using a web-based interface that includes basic and advanced query options to access data for sequences, references, and toxic agents, and a platform for analysing sequences.
 
 *CTDbase* includes more than 30.5 million toxicogenomic connections relating chemicals/drugs, genes/proteins, diseases, exposures, Gene Ontology (GO) annotations, pathways (KEGG/Reactome), and gene interaction modules [@CTDbase2017].
 
 
 ## `CTDquerier` R package
 
-`CTDquerier` is an R package that allows to R users to download basic data from *CTDbase* about genes, chemicals and diseases. Once the user's input is validated allows to query *CTDbase* to dowload the information of the given input from the other modules. Tables \@ref(tab:CTDquerier-queries) indicates the information `CTDquerier` can download from *CTDbase* depending on the user's input.
+`CTDquerier` is an R package that allows to R users to download basic data from *CTDbase* about genes, chemicals and diseases. Once the user's input is validated allows to query *CTDbase* to download the information of the given input from the other modules. Tables \@ref(tab:CTDquerier-queries) indicates the information `CTDquerier` can download from *CTDbase* depending on the user's input.
 
-Input Type | Gene Interaction | Disease | Pathway | Gene Ontology | Chemical Interaction |
+|          | Gene Interaction | Disease | Pathway | Gene Ontology | Chemical Interaction |
 :----------|:----------------:|:-------:|:-------:|:-------------:|:--------------------:|
 Genes      | X                | X       | X       | X             | X                    |
 Chemical   | X                | X       | X       | X             |                      |
@@ -57,16 +57,191 @@ Disease    | X                |         | X       |               | X           
 
 : (\#tab:CTDquerier-queries) Relation between input accepted by `CTDquerier` and the data it is capable to download from *CTDbase*.
 
+`CTDquerier` can be installed using `devtools`. To install `CTDquerier` run the following command in an R session:
+
+```{r eval=FALSE}
+devtools::install_github( "carleshf/CTDquerier" )
+```
 
 
 ### Installation
 
-## Objectives
+# Case-Study
+
+The case-study is based on the results shows in the article entitled "Case-control admixture mapping in Latino populations enriches for known asthma-associated genes", from *Torgerson et. al.* [@Torgerson2012]. The genes from **Table E1** were collected and used as starting point for this document.
+
+## Introduction
+
+Asthma is a common long term inflammatory disease of the airways of the lungs. It is characterized by variable and recurring symptoms, reversible airflow obstruction, and bronchospasm. Symptoms include episodes of wheezing, coughing, chest tightness, and shortness of breath. Asthma is thought to be caused by a combination of genetic and environmental factors. Environmental factors include exposure to air pollution and allergens. Diagnosis is usually based on the pattern of symptoms, response to therapy over time, and spirometry. Asthma is classified according to the frequency of symptoms, forced expiratory volume in one second, and peak expiratory flow rate. It may also be classified as atopic or non-atopic where atopy refers to a predisposition toward developing a type 1 hypersensitivity reaction.
+
+The Genetics of Asthma in Latino Americans (GALA) study [@Price2009] includes subjects with asthma and their biological parents recruited from schools, clinics, and hospitals at 4 sites: San Francisco Bay Area, New York City, Puerto Rico, and Mexico City. Patients were contacted to participate in the study if approved by their primary physician.  On the basis of interviews and questionnaire data, subjects were included in the study if they were between the ages of 8 and 40 years with physician-diagnosed mild to moderate-to-severe asthma and had experienced 2 or more symptoms in the previous 2 years at the time of recruitment (including wheezing, coughing, and/or shortness of breath) and if both parents and 4 sets of grandparents self-identified as being of either Puerto Rican or Mexican ethnicity. 
+
+Genotyping of GALA subjects was performed by using the Affymetrix 6.0 GeneChip Array that contained more than 900,000 SNPs before quality control measures. Markers were filtered based on 95% call rates, Hardy-Weinberg equilibrium P values of greater than $10^{-6}$. Subjects were filtered based on 95% call rates and consistency between genetic and reported sex. SNPs were filtered for linkage disequilibrium (LD) based on $r^2$ values of greater than 0.5 before performing a principal component analysis.
+
+After quality control, the total number of SNPs included in the study was 729,685, and the total number of subjects was 529 children with asthma (253 Mexican and 276 Puerto Rican subjects) and 347 control subjects (158 Mexican and 189 Puerto Rican subjects). 
+
+Comparisons of local ancestry between cases and control subjects identified 62 admixture mapping peaks with a difference in local ancestry at a P value of less than $10^{-3}$. A total of 29 peaks were identified in Puerto Rican subjects and 33 in Mexican subjects. We observed a significant enrichment of previously identified asthma-associated genes within the 62 admixture mapping peaks (P = .0051). Six (9.6%) of the 62 admixture mapping peaks contained at least 1 gene that had been positively associated with asthma, as compiled from the Genetic Association Database [@Becker2004]. No individual SNP within the 62 admixture mapping peaks was significantly associated with asthma after multiple testing correction, including SNPs imputed from the 1000 Genomes Project. 
+
+## Set-Up
+
+### Reading Data File
+
+The **Table E1** from the GALA Study [@Torgerson2012] was downloaded and converted into a `.csv` file. Then it can be loaded with function `read.csv`.
+
+```{r gala_read_csv}
+table_e1_csv <- system.file(
+  paste0( "extdata", .Platform$file.sep, "gala_table_e1.csv" ), 
+  package="CTDquerier"
+)
+table_e1 <- read.csv( table_e1_csv, stringsAsFactors = FALSE )
+```
+
+From this table, we are interested in the last column, called *Genes*. We will filter this column, removing the `NA` values.
+
+```{r gala_remove_na_file}
+dim( table_e1 )
+table_e1 <- table_e1[ table_e1$Genes != "NA ", ]
+dim( table_e1 )
+```
+We filtered 17 rows that had no genes. No we will extract the genes from each one of the remaining rows.
+
+```{r gala_create_list}
+gala_genes <- trimws( unlist( strsplit( table_e1$Genes, "," ) ) )
+length( gala_genes )
+```
+
+We end up with a total list of 305 related to asthma genes.
+
+### Querying *CTDbase* by Genes
+
+The first step to use `CTDquery` is to use the generated list of genes of interest to query *CTDabse*. This is done using the function `query_ctd_gene`, that takes a list of genes to validate it to *CTDbase gene-vocabulary* and then performs a query per gene in order to download their associated information.
+
+```{r load_ctdquerier, message=FALSE}
+library( CTDquerier )
+```
+```{r gale_query, eval=FALSE}
+gala <- query_ctd_gene( terms = gala_genes, verbose = TRUE )
+```
+Since this process can be hight time-consuming, `CTDquerier` has the result of the query and it can be loaded with:
+
+```{r gala_data}
+data( gala, package = "CTDquerier" )
+gala
+```
+
+## Questions answered about GALA genes
+
+### How many of GALA genes are in *CTDbase*?
+
+Original genes from Table E1 are stored in the variable `gala_genes`. The result obtained from querying *CTDbase* with those genes is stored in the variable `gala`.
+
+The list `gala_genes` has a length has 305 genes but `gala` was generated using 258 terms. This means that 47 genes from the GALA study were not present in *CTDbase*. This can be plotted using the method `plot` of a `CTDquery` object.
+
+```{r gala_plot_query, message=FALSE}
+library( ggplot2 )
+plot( gala ) + ggtitle( "Lost & Found Genes from GALA Study" )
+```
+
+The names of the *lost* genes from GALA study can be obtained using the method `get_terms`. The names follow:
+
+```{r gala_lost}
+get_terms( gala )[[ "lost" ]]
+```
+
+### How many diseases are associated to GALA genes according to *CTDbase*?
+
+The call to `query_ctd_gene` done in previous section has download "all the information available" in *CTDbase* for the given GALA genes. The line with `#Diseases` that can be seen when an object of class `CTDquery` is shown indicates the number of relationships between a gene or chemical and diseases.
+
+```{r gala_show_2}
+gala
+```
+
+For the GALA genes, there are a total of 278'761 associations between genes and diseases. The table with the associations between genes and diseases can be obtained using the method `extract` from `psygenet2r` R package.
+
+```{r gala_gda_all}
+library( psygenet2r )
+gala_all_diseases <- extract( gala, name = "diseases" )
+colnames( gala_all_diseases )
+dim( gala_all_diseases )
+```
+
+We can corroborate that the table with the associations between gene and diseases has close to ~300K rows. We can also check that the genes used to create this table:
+
+```{r gala_disease_genes}
+length( unique( gala_all_diseases$GeneSymbol ) )
+sum( get_terms( gala )[[ "found" ]] %in% 
+    unique( gala_all_diseases$GeneSymbol ) )
+sum( !get_terms( gala )[[ "found" ]] %in% 
+    unique( gala_all_diseases$GeneSymbol ) )
+```
+
+Then, 246 genes were used to create the table of associations between genes and diseases, and 12 have not been used. We can check the name of the genes that do not contributed to create the table of associations between genes and diseases:
+
+```{r gala_diseases_no_genes}
+get_terms( gala )[[ "found" ]][ 
+    !get_terms( gala )[[ "found" ]] %in% unique( gala_all_diseases$GeneSymbol )
+]
+```
+
+The number of unique diseases associated to the GALA genes is:
+
+```{r gala_diseases_unique}
+length( unique( gala_all_diseases$Disease.Name ) )
+```
+
+### What is the level of evidence of the association between GALA genes and asthma according to *CTDbase*?
+
+The first step to locate the level of evidence of the association between GALA genes and asthma is to locate asthma in the table of associations between genes and diseases.
+
+```{r gala_diseases_asthma_names}
+grep( "Asthma", unique( gala_all_diseases$Disease.Name ), value = TRUE )
+```
+
+The previous code shows the five entries existing in the table of associations between GALA genes and *CTDbase* diseases.
+
+Then, to look for the level of evidence of the association between GALA genes and asthma we will subset the table `gala_all_diseases` selecting only the entries for `"Asthma"`.
+
+```{r gala_diseases_asthma}
+gala_asthma <- gala_all_diseases[ gala_all_diseases$Disease.Name == "Asthma" , ]
+dim( gala_asthma )
+```
+
+The subsetting resulted in a table with 209 entries. *CTDbase* has two ways to compute the level of evidence of the association between a gene and a disease. Both of them can be obtained from the table `gala_asthma` and are the columns `Inference.Score` and `Reference.Count`. The first contains the *CTDbase* inference-score of gene-disease association in base of a series of criterion defined by *CTDbase*'s developers while the second are just the number of bibliographical references enforcing the relation.
+
+Then, the mean of the `Inference.Score` can be interpreted as the level of evidence of the association between GALA genes and asthma according to *CTDbase*:
+
+```{r gala_diseases_asthma_evidence}
+mean( gala_asthma$Inference.Score, na.rm = TRUE )
+```
+
+Otherwise one could say that GALA genes have a total reference coud of association with asthma of 2'982.
+
+```{r gala_diseases_asthma_reference}
+sum( gala_asthma$Reference.Count, na.rm = TRUE )
+```
+
+### Which genes are associated to asthma according to *CTDbase*?
+### Which chemicals are associated to GALA genes according to *CTDbase*?
+### Which chemicals are associated to asthma according to *CTDbase*?
+### Which chemicals are associated to both GALA genes and to asthma according to *CTDbase*?
+### Are the GALA genes significantly associated with asthma according to *CTDabse*?
 
 
-# Getting Started
 
 
+
+
+
+
+
+
+# Session Info.
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+# to remove
 
 Case-control admixture mapping in Latino populations enriches for known asthma-associated genes 
 http://www.sciencedirect.com/science/article/pii/S0091674912003703
@@ -77,26 +252,7 @@ https://www-ncbi-nlm-nih-gov.sare.upf.edu/pmc/articles/PMC5034599/
 Genome-wide profiling identifies epithelial cell genes associated with asthma and with treatment response to corticosteroids
 http://www.pnas.org/content/104/40/15858.full
 
-
-
-
-
 The Effects of Environmental Toxins on Allergic Inflammation
 https://www-ncbi-nlm-nih-gov.sare.upf.edu/pmc/articles/PMC4214967/
-
-
-```{r show_statistics}
-plot(1:4, 1:4)
-```
-
-
-
-
-
-# Session info
-
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
-```
 
 # Bibliography

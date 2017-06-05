@@ -1,4 +1,5 @@
 #' @describeIn CTDquery Method to obtain a specific inner table from an \code{CTDquery} object.
+#' @param object Object of class \code{CTDquery}.
 #' @param name Name of the table to be retrived.
 #' @details Available tables are:
 #' \enumerate{
