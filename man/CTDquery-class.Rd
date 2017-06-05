@@ -14,7 +14,8 @@
 
 \S4method{get_terms}{CTDquery}(object)
 
-\S4method{plot}{CTDquery,ANY}(x, y, ...)
+\S4method{plot}{CTDquery,ANY}(x, y, index_name = "base",
+  representation = "heatmap", ...)
 }
 \arguments{
 \item{object}{Object of class \code{CTDquery}.}
@@ -24,6 +25,8 @@
 \item{x}{Object of class \code{CTDquery}.}
 
 \item{y}{NOT USED}
+
+\item{index_name}{Name of the plot to be draw.}
 }
 \value{
 An object of class \code{CTDquery}
@@ -55,7 +58,7 @@ chemicals or where the given genes play a role.
 \itemize{
 \item \code{extract}: Method to obtain a specific inner table from an \code{CTDquery} object.
 
-\item \code{get_terms}: Return a list with the terms used to create the object.
+\item \code{get_terms}: Return a list with the terms found to create the object.
 
 \item \code{plot}: Generates a basic plot showing the number of terms
 that can be used to query CTDbase.

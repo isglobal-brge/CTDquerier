@@ -208,7 +208,7 @@ dim( gala_asthma )
 
 The subsetting resulted in a table with 209 entries. *CTDbase* has two ways to compute the level of evidence of the association between a gene and a disease. Both of them can be obtained from the table `gala_asthma` and are the columns `Inference.Score` and `Reference.Count`. The first contains the *CTDbase* inference-score of gene-disease association in base of a series of criterion defined by *CTDbase*'s developers while the second are just the number of bibliographical references enforcing the relation.
 
-Then, the mean of the `Inference.Score` can be interpreted as the level of evidence of the association between GALA genes and asthma according to *CTDbase*:
+Then, the mean of the *Inference Score* can be interpreted as the level of evidence of the association between GALA genes and asthma according to *CTDbase*:
 
 ```{r gala_diseases_asthma_evidence}
 mean( gala_asthma$Inference.Score, na.rm = TRUE )
@@ -218,6 +218,13 @@ Otherwise one could say that GALA genes have a total reference coud of associati
 
 ```{r gala_diseases_asthma_reference}
 sum( gala_asthma$Reference.Count, na.rm = TRUE )
+```
+
+Then we can check for the *Inference Score* of the association of each gene with a single diseases, in the case Asthma. We can obtain this score by plotting the *Inference Score* with GALA genes and sub-setting the diseases by Asthma:
+
+```{r gala_diseases_asthma_evidence_plot}
+plot( gala, index_name = "disease", subset.y = "Asthma", filter.score = 20 ) +
+    ggtitle( "Evidence of the association between GALA genes and Asthma" )
 ```
 
 ### Which genes are associated to asthma according to *CTDbase*?

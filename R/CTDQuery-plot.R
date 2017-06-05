@@ -2,24 +2,27 @@
 #' that can be used to query CTDbase.
 #' @param x Object of class \code{CTDquery}.
 #' @param y NOT USED
+#' @param index_name Name of the plot to be draw.
 #' @export
 setMethod(
     f = "plot",
     signature = "CTDquery",
-    definition = function( x, y, ... ) {
-        dta <- data.frame(
-            Variable = c( "Found", "Lost" ),
-            Value = c( length( x@terms$GeneSymbol ),
-                       length( x@losts ) )
-        )
-        ggplot2::ggplot( dta, ggplot2::aes_string( x = "Variable", y = "Value", fill = "Variable" ) ) +
-            ggplot2::theme_minimal() +
-            ggplot2::geom_bar( stat = "identity" ) +
-            ggplot2::xlab("") + ggplot2::ylab( "Count" ) +
-            ggplot2::theme( legend.position = "none" ) +
-            ggplot2::scale_fill_manual(
-                breaks = c( "Found", "Lost" ),
-                values = c( "#2E8B57", "#B22222" )
-            )
+    definition = function( x, y, index_name = "base",  representation = "heatmap", ... ) {
+        index_name <- base::tolower( index_name )
+        index_name <- match.arg( index_name, choices = c( "base", "disease" ) )
+
+        if( index_name == "base" ) {
+            in_plot_base( x )
+        } else {
+            if( x@type == "GENE" ) { ## BLUE
+                if( index_name == "disease" ) {
+                    if( representation == "heatmap" ) {
+                        int_plot_gene_disease_heatmap( x, ... )
+                    } else {
+                        stop( "No network representation for 'disease association'." )
+                    }
+                }
+            }
+        }
     }
 )
