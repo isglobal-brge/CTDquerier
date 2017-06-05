@@ -1,5 +1,5 @@
 int_plot_gene_kegg_heatmap <- function( x, subset.x, subset.y, max.length = 30 ) {
-  tbl <- psygenet2r::extract( x, name = "kegg pathways" )
+  tbl <- psygenet2r::extract( x, index_name = "kegg pathways" )
 
   if( !missing( subset.x ) ) {
     tbl <- tbl[ tbl$GeneSymbol %in% subset.x, ]

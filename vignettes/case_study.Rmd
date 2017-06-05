@@ -160,7 +160,7 @@ For the GALA genes, there are a total of 278'761 associations between genes and 
 
 ```{r gala_gda_all}
 library( psygenet2r )
-gala_all_diseases <- extract( gala, name = "diseases" )
+gala_all_diseases <- extract( gala, index_name = "diseases" )
 colnames( gala_all_diseases )
 dim( gala_all_diseases )
 ```
@@ -228,10 +228,76 @@ plot( gala, index_name = "disease", subset.y = "Asthma", filter.score = 20 ) +
 ```
 
 ### Which genes are associated to asthma according to *CTDbase*?
+
+The way we can obtain all the information related to a disease from *CTDbase* is near the same as the way we got the information from genes. The function to be used is `query_ctd_dise`:
+
+```{r ctd_asthma}
+asthma <- query_ctd_dise( terms = "Asthma", verbose = TRUE )
+```
+
+As we can see from the log obtained when `verbose` is set to `TRUE`, the information downloaded from *CTDabse* by `CTDquerier` for diseases is composed by disease-gene interactions, disease-chemical interactions and pathway interactions (KEGG).
+
+```{r ctd_asthma_show}
+asthma
+```
+
+So, to know the exact number of genes associated with Asthma according to *CTDbase* we extract the proper table and count the unique genes in it.
+
+```{r ctd_asthma_n_genes}
+ctd_asthma <- extract( asthma, index_name = "gene interactions" )
+length( unique( ctd_asthma$Gene.Symbol ) )
+```
+
+So, according to *CTDbase*, there are 22'704 to Asthma. But are we sure we are talking about **only** Asthma?
+
+```{r ctd_asthma_table, results="asis"}
+library(knitr)
+tt <- as.data.frame( table( ctd_asthma$Disease.Name ) )
+colnames( tt ) <- c( "Disease", "Frequency" )
+kable( tt[ order( tt$Frequency, decreasing = TRUE ), ] )
+```
+
+Hence, the *true* answer is 22'258, not 22'704.
+
 ### Which chemicals are associated to GALA genes according to *CTDbase*?
+
+The object `gala` has a total of 16'611 gene-chemical interaction registers. We can obtain this table using the `extract` method.
+
+```{r gala_chemicals}
+gala_chem <- extract( gala, index_name = "chemical interactions" )
+colnames( gala_chem )
+length( unique( gala_chem$Chemical.Name ) )
+```
+
+So, GALA genes are *associated* with 1'829 unique chemicals according to *CTDabse*. The `Reference.Count` of these *associations* can be ploted. First, lets see its distribution:
+
+```{r, gala_chemicals_table}
+table( gala_chem$Reference.Count )
+```
+
+The plot for this information corresponds to a heat-map. The arguments `subset.x` and `subset.y` are used to filter the elements in X-axis (genes) and Y-axis (chemicals). The argument `filter.score` allows to filter by `Reference.Count`'s value.
+
+```{r, gala_chemicals_plot}
+plot( gala, index_name = "chemical", filter.score = 10 )
+```
+
 ### Which chemicals are associated to asthma according to *CTDbase*?
+
+```{r ctd_asthma_chem}
+ctd_asthma_chem <- extract( asthma, index_name = "chemical interactions" )
+colnames( ctd_asthma_chem )
+length( unique( ctd_asthma_chem$Chemical.Name ) )
+```
+
+Hence, the short answer is 5'282. Then we can go for the `Inference.Score` or `Reference.Count` plot.
+
+```{r ctd_asthma_plot}
+plot( asthma, index_name = "chemical", subset.x = "Asthma", filter.score = 30 )
+```
+
 ### Which chemicals are associated to both GALA genes and to asthma according to *CTDbase*?
 ### Are the GALA genes significantly associated with asthma according to *CTDabse*?
+### Are the GALA genes significantly enriched in Air Pollutants chemicals according to *CTDabse*?
 
 
 

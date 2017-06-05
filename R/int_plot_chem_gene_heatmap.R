@@ -1,5 +1,5 @@
 int_plot_chem_gene_heatmap <- function( x, subset.x, subset.y, filter.score = 2, max.length = 30 ) {
-  tbl <- psygenet2r::extract( x, name = "genes interactions" )
+  tbl <- psygenet2r::extract( x, index_name = "genes interactions" )
   tbl <- tbl[ tbl$Reference.Count >= filter.score, ]
 
   if( !missing( subset.x ) ) {

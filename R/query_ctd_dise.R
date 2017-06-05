@@ -1,7 +1,7 @@
-#' Function to query CTDbase using gene terminology ( Gene Symbol )
+#' Function to query CTDbase using disease terminology
 #'
-#' This function cheks for CTDbase gene vocabulary and query CTDbase
-#' for each one, downloading gene-gene interactions, chemicals
+#' This function cheks for CTDbase disease vocabulary and query CTDbase
+#' for each one, downloading disease-gene interactions, chemicals
 #' interactions, associated desease, associated KEGG pathways and
 #' associated GO terms.
 #'
@@ -13,7 +13,7 @@
 #' information of each step.
 #' @return An object of class \link{\code{CTDquery}}.
 #' @examples
-#' rst <- query_ctd_dise( terms = c( "APP", "HMOX1A", "hmox1" ), verbose = TRUE )
+#' rst <- query_ctd_dise( terms = "Asthma", verbose = TRUE )
 #' @export query_ctd_dise
 query_ctd_dise <- function( terms, filename = "CTD_diseases.tsv.gz", mode = "auto", verbose = FALSE ) {
   ## SETUP
@@ -30,11 +30,11 @@ query_ctd_dise <- function( terms, filename = "CTD_diseases.tsv.gz", mode = "aut
 
   ## VALIDATE INPUT DISEASES
   terms <- toupper( terms )
-  keep <- S4Vectors::DataFrame( GeneSymbol = "", GeneID = "" )
+  keep <- S4Vectors::DataFrame( DiseaseName = "", DiseaseID = "" )
   disc <- character()
   for( ii in 1:length( terms ) ) {
-    if( terms[ ii ] %in% tbl$GeneSymbol ) {
-      keep <- rbind( keep, tbl[ tbl$GeneSymbol == terms[ ii ] , c( "GeneSymbol", "GeneID" ) ] )
+    if( terms[ ii ] %in% tbl$DiseaseName ) {
+      keep <- rbind( keep, tbl[ tbl$DiseaseName == terms[ ii ] , c( "DiseaseName", "DiseaseID" ) ] )
     } else {
       disc <- c(disc, terms[ ii ])
     }
@@ -46,115 +46,66 @@ query_ctd_dise <- function( terms, filename = "CTD_diseases.tsv.gz", mode = "aut
   }
   ## //
 
-  gene_interactions <- prepare_ctd_gene( "gene_interactions" )
-  gene_gene_interactions <- prepare_ctd_gene( "gene_gene_interactions" )
-  gene_diseases <- prepare_ctd_gene( "gene_diseases" )
-  gene_go <- prepare_ctd_gene( "gene_go" )
-  gene_kegg <- prepare_ctd_gene( "gene_kegg" )
-  gene_chemical_interaction <- prepare_ctd_gene( "gene_chemical_interaction" )
+
+
+
+  disease_gene_interactions <- prepare_ctd_disease( "disease_gene_interactions" )
+  disease_kegg <- prepare_ctd_disease( "disease_kegg" )
+  disease_chemical_interaction <- prepare_ctd_disease( "disease_chemical_interaction" )
   for( ii in 1:nrow( keep ) ) {
     if( verbose ) {
-      message( "Staring query for gene '", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
+      message( "Staring query for disease '", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
 
     ## PREPARE URLs
-    # url_idx <- get_ctd_url(
-    #   index    = "chemical_gene_interaction",
-    #   term     = keep[ ii, 2 ],
-    #   category = "gene"
-    # )
-    url_gg <- get_ctd_url(
-      index    = "gene_gene_interaction",
+    url_idx <- get_ctd_url(
+      index    = "disease_gene",
       term     = keep[ ii, 2 ],
-      category = "gene"
-    )
-    url_disease <- get_ctd_url(
-      index    = "gene_disease",
-      term     = keep[ ii, 2 ],
-      category = "gene"
+      category = "disease"
     )
     url_kegg <- get_ctd_url(
-      index    = "gene_kegg",
+      index    = "disease_kegg",
       term     = keep[ ii, 2 ],
-      category = "gene"
-    )
-    url_go <- get_ctd_url(
-      index    = "gene_go",
-      term     = keep[ ii, 2 ],
-      category = "gene"
+      category = "disease"
     )
     url_chemical <- get_ctd_url(
-      index    = "gene_chemical_interaction",
+      index    = "disease_chemical",
       term     = keep[ ii, 2 ],
-      category = "gene"
+      category = "disease"
     )
     ## //
 
     # DOWNLOAD CONTENT
-    # if( verbose ) {
-    #   message( " . Downloading IDX" )
-    # }
-    # tmp <- download_url( url = url_idx )
-    # tmp$GeneSymbol <- keep[ ii, 1 ]
-    # tmp$GeneID <- keep[ ii, 2 ]
-    # gene_interactions <- rbind( gene_interactions, tmp )
-
     if( verbose ) {
-      message( " . Downloading 'gene-gene interaction' table." )
+      message( " . Downloading 'disease-gene interaction' table." )
     }
-    tmp <- download_url( url = url_gg )
+    tmp <- download_url( url = url_idx )
     if( nrow( tmp ) > 0 ) {
-      tmp$GeneSymbol <- keep[ ii, 1 ]
-      tmp$GeneID <- keep[ ii, 2 ]
-      gene_gene_interactions <- rbind( gene_gene_interactions, tmp )
+        #tmp$GeneSymbol <- keep[ ii, 1 ]
+        #tmp$GeneID <- keep[ ii, 2 ]
+        disease_gene_interactions <- rbind( disease_gene_interactions, tmp )
     } else if( verbose ) {
-      message(" . . No 'gene-gene interaction' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
+        message(" . . No 'disease-chemical interation' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
-
     if( verbose ) {
-      message( " . Downloading 'disease' table." )
-    }
-    tmp <- download_url( url = url_disease )
-    if( nrow( tmp ) > 0 ) {
-      tmp$GeneSymbol <- keep[ ii, 1 ]
-      tmp$GeneID <- keep[ ii, 2 ]
-      gene_diseases <- rbind( gene_diseases, tmp )
-    } else if( verbose ) {
-      message(" . . No 'disease' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
-    }
-
-    if( verbose ) {
-      message( " . Downloading 'gene-chemical interation' table." )
+      message( " . Downloading 'disease-chemical interation' table." )
     }
     tmp <- download_url( url = url_chemical )
     if( nrow( tmp ) > 0 ) {
-      tmp$GeneSymbol <- keep[ ii, 1 ]
-      tmp$GeneID <- keep[ ii, 2 ]
-      gene_chemical_interaction <- rbind( gene_chemical_interaction, tmp )
+      #tmp$GeneSymbol <- keep[ ii, 1 ]
+      #tmp$GeneID <- keep[ ii, 2 ]
+      disease_chemical_interaction <- rbind( disease_chemical_interaction, tmp )
     } else if( verbose ) {
-      message(" . . No 'gene-chemical interation' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
+      message(" . . No 'disease-chemical interation' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
-
-    if( verbose ) {
-      message( " . Downloading 'GO terms' table." )
-    }
-    tmp <- download_url( url = url_go )
-    if( nrow( tmp ) > 0 ) {
-      tmp$GeneSymbol <- keep[ ii, 1 ]
-      tmp$GeneID <- keep[ ii, 2 ]
-      gene_go <- rbind( gene_go, tmp )
-    } else if( verbose ) {
-      message(" . . No 'GO terms' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
-    }
-
     if( verbose ) {
       message( " . Downloading 'KEGG pathways' table." )
     }
     tmp <- download_url( url = url_kegg )
     if( nrow( tmp ) > 0 ) {
-      tmp$GeneSymbol <- keep[ ii, 1 ]
-      tmp$GeneID <- keep[ ii, 2 ]
-      gene_kegg <- rbind( gene_kegg, tmp )
+      #tmp$GeneSymbol <- keep[ ii, 1 ]
+      #tmp$GeneID <- keep[ ii, 2 ]
+      disease_kegg <- rbind( disease_kegg, tmp )
     } else if( verbose ) {
       message(" . . No 'KEGG pathways' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
@@ -163,54 +114,36 @@ query_ctd_dise <- function( terms, filename = "CTD_diseases.tsv.gz", mode = "aut
   rm( tmp, ii )
 
   new( "CTDquery",
-       type                   = "GENE",
+       type                   = "DISEASE",
        terms                  = S4Vectors::DataFrame( keep ),
        losts                  = disc,
-       gene_interactions      = S4Vectors::DataFrame(),
-       chemicals_interactions = gene_chemical_interaction,
-       diseases               = gene_diseases,
-       gene_gene_interactions = gene_gene_interactions,
-       kegg                   = gene_kegg,
-       go                     = gene_go
+       gene_interactions      = disease_gene_interactions,
+       chemicals_interactions = disease_chemical_interaction,
+       diseases               = S4Vectors::DataFrame(),
+       gene_gene_interactions = S4Vectors::DataFrame(),
+       kegg                   = disease_kegg,
+       go                     = S4Vectors::DataFrame()
   )
 }
 
 
-prepare_ctd_gene <- function( set ) {
-  if( set == "gene_interactions" ) {
+prepare_ctd_disease <- function( set ) {
+  if( set == "disease_gene_interactions" ) {
     gene_interactions <- rbind( 1:8 )
-    colnames( gene_interactions ) <- c( "Chemical.Name", "Chemical.ID", "CAS.RN", "Interaction", "Interaction.Actions", "Reference.Count", "Organism.Count", "origin" )
+    colnames( gene_interactions ) <- c( "Gene Symbol", "Gene ID", "Disease Name", "Disease ID", "Direct Evidence", "Inference Network", "Inference Score", "Reference Count" )
     return( S4Vectors::DataFrame(gene_interactions[ -1, ] ) )
   }
 
-  if( set == "gene_gene_interactions" ) {
-    gene_gene_interactions <- rbind( 1:13 )
-    colnames( gene_gene_interactions ) <- c( "Source.Gene.Symbol", "Source.Gene.ID", "Target.Gene.Symbol", "Target.Gene.ID", "Source.Organism", "Target.Organism", "Assay", "Interaction.Type", "Throughput", "Reference.Authors", "Reference.Citation", "PubMed.ID", "origin" )
-    return( S4Vectors::DataFrame( gene_gene_interactions[ -1, ] ) )
-  }
-
-  if( set == "gene_diseases" ) {
-    gene_diseases <- rbind( 1:6 )
-    colnames( gene_diseases ) <- c( "Disease Name", "Disease ID", "Direct Evidence", "Inference Network", "Inference Score", "Reference Count" )
-    return( S4Vectors::DataFrame( gene_diseases[ -1, ] ) )
-  }
-
-  if( set == "gene_kegg" )  {
-    gene_kegg <- rbind( 1:2 )
-    colnames( gene_kegg ) <- c( "Pathway", "Pathway ID" )
+  if( set == "disease_kegg" )  {
+    gene_kegg <- rbind( 1:5 )
+    colnames( gene_kegg ) <- c( "Disease Name", "Disease ID", "Pathway", "Pathway ID", "Association inferred via" )
     return( S4Vectors::DataFrame( gene_kegg[ -1, ] ) )
   }
 
-  if( set == "gene_go" ) {
-    gene_go <- rbind( 1:5 )
-    colnames( gene_go ) <- c( "Ontology", "Qualifiers", "GO Term Name", "GO Term ID", "Organisms (Evidence)" )
-    return( S4Vectors::DataFrame( gene_go[ -1, ] ) )
-  }
-
-  if( set == "gene_chemical_interaction" ) {
-    gene_chemical_interaction <- rbind( 1:7 )
-    colnames( gene_chemical_interaction ) <- c( "Chemical Name", "Chemical ID", "CAS RN", "Interaction", "Interaction Actions", "Reference Count", "Organism Count" )
-    return( S4Vectors::DataFrame( gene_chemical_interaction[ -1, ] ) )
+  if( set == "disease_chemical_interaction" ) {
+    disease_chemical_interaction <- rbind( 1:9 )
+    colnames( disease_chemical_interaction ) <- c( "Chemical Name", "Chemical ID", "CAS RN", "Disease Name", "Disease ID", "Direct Evidence", "Inference Network", "Inference Score", "Reference Count" )
+    return( S4Vectors::DataFrame( disease_chemical_interaction[ -1, ] ) )
   }
 
   stop( "[INTERNAL] Invalid selected set." )

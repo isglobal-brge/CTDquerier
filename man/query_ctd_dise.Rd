@@ -2,7 +2,7 @@
 % Please edit documentation in R/query_ctd_dise.R
 \name{query_ctd_dise}
 \alias{query_ctd_dise}
-\title{Function to query CTDbase using gene terminology ( Gene Symbol )}
+\title{Function to query CTDbase using disease terminology}
 \usage{
 query_ctd_dise(terms, filename = "CTD_diseases.tsv.gz", mode = "auto",
   verbose = FALSE)
@@ -22,11 +22,11 @@ information of each step.}
 An object of class \link{\code{CTDquery}}.
 }
 \description{
-This function cheks for CTDbase gene vocabulary and query CTDbase
-for each one, downloading gene-gene interactions, chemicals
+This function cheks for CTDbase disease vocabulary and query CTDbase
+for each one, downloading disease-gene interactions, chemicals
 interactions, associated desease, associated KEGG pathways and
 associated GO terms.
 }
 \examples{
-rst <- query_ctd_dise( terms = c( "APP", "HMOX1A", "hmox1" ), verbose = TRUE )
+rst <- query_ctd_dise( terms = "Asthma", verbose = TRUE )
 }

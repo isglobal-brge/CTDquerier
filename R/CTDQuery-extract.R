@@ -19,22 +19,22 @@
 
 setMethod( "extract",
   signature  = "CTDquery",
-  definition = function( object, name, .... ) {
-    name <- tolower( name )
-    if( name == "genes interactions" ) {
+  definition = function( object, index_name, ... ) {
+      index_name <- base::tolower( index_name )
+    if( index_name == "gene interactions" ) {
       return( object@gene_interactions )
-    } else if( name == "chemicals interactions" ) {
+    } else if( index_name == "chemical interactions" ) {
       return( object@chemicals_interactions )
-    } else if( name == "diseases" ) {
+    } else if( index_name == "diseases" ) {
       return( object@diseases )
-    } else if( name == "gene-gene interactions" ) {
+    } else if( index_name == "gene-gene interactions" ) {
       return( object@gene_gene_interactions )
-    } else if( name == "kegg pathways" ) {
+    } else if( index_name == "kegg pathways" ) {
       return( object@kegg )
-    } else if( name == "go terms" ) {
+    } else if( index_name == "go terms" ) {
       return( object@go )
     } else {
-      stop( "Invalid provided 'name'. ")
+      stop( "Invalid provided 'index_name'. ")
     }
   }
 )

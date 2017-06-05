@@ -10,7 +10,7 @@
 \alias{plot,CTDquery,ANY-method}
 \title{Class CTDquery}
 \usage{
-\S4method{extract}{CTDquery}(object, name, ....)
+\S4method{extract}{CTDquery}(object, name, ...)
 
 \S4method{get_terms}{CTDquery}(object)
 

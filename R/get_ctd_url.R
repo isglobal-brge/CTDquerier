@@ -20,6 +20,15 @@ get_ctd_url <- function( index, term = "", category = "" ) {
   url$gene_go                   <- "http://ctdbase.org/detail.go?d-7449458-e=5&6578706f7274=1&type=CATEGORY&acc=TERM&view=go"
   url$gene_kegg                 <- "http://ctdbase.org/detail.go?d-148988-e=5&6578706f7274=1&type=CATEGORY&acc=TERM&view=pathway"
 
+
+
+
+  url$disease_chemical          <- "http://ctdbase.org/detail.go?acc=TERM&view=chem&6578706f7274=1&type=CATEGORY&d-1332398-e=5"
+  url$disease_gene              <- "http://ctdbase.org/detail.go?acc=TERM&view=gene&6578706f7274=1&type=CATEGORY&d-1332398-e=5"
+  url$disease_kegg                 <- "http://ctdbase.org/detail.go?acc=TERM&view=pathway&6578706f7274=1&type=CATEGORY&d-148988-e=5"
+
+
+
   ## TODO - IMPLEMENT
   url$gene_exposures <- "http://ctdbase.org/detail.go?acc=TERM&type=CATEGORY&checkAllReceptorFields=on&includePhenotype=on&includeNumberStressorSamples=on&includeReceptorNotes=on&includeAssociatedStudyTitle=on&includeDetectionFrequency=on&includeMedium=on&includeExposureEventNotes=on&includeStressorSourceDetails=on&view=expConsol&includeReceptorDescription=on&includeOutcomeIxnType=on&checkAllOutcomeFields=on&includeAssayNotes=on&includeMeasurementStatistic=on&includeDisease=on&includeStressorSourceCategory=on&6578706f7274=1&includeStateOrProvince=on&d-1393217-e=5&includeSmokerStatus=on&includeNumberOfReceptors=on&includeAge=on&includeMethods=on&includeLimitsOfDetection=on&includeCityTownRegionOrArea=on&includeCountry=on&checkAllReferenceFields=on&checkAllFields=on&checkAllStressorFields=on&includeBiomarkerLevel=on&checkAllEventFields=on&includeStressorNotes=on&includeExposureOutcomeNotes=on&includeGender=on&includeReference=on&includeStudyFactorNms=on&includeEnrollmentYears=on&includeStressorAgent=on&includeRace=on&includeBiomarker=on&includeAnatomy=on"
 
