@@ -2,12 +2,12 @@
 title: "CTDquerier: Case study on Environmental Chemicals and Human Non-Communicable Diseases"
 author:
 - name: Carles Hernandez-Ferrer
-  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology (CREAL)
+  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology ( CREAL )
 - name: Juan R. Gonzalez
-  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology (CREAL)
+  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology ( CREAL )
   email: juanr.gonzalez@isglobal.org
 date: "`r doc_date()`"
-package: "`r pkg_ver('CTDquerier')`"
+package: "`r pkg_ver( 'CTDquerier' )`"
 csl: biomed-central.csl
 bibliography: case_study.bib
 vignette: >

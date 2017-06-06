@@ -2,12 +2,12 @@
 title: "CTDquerier: A package to retrive CTDbase data for downstrime analysis and data visualization"
 author:
 - name: Carles Hernandez-Ferrer
-  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology (CREAL)
+  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology ( CREAL )
 - name: Juan R. Gonzalez
-  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology (CREAL)
+  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology ( CREAL )
   email: juanr.gonzalez@isglobal.org
 date: "`r doc_date()`"
-package: "`r pkg_ver('CTDquerier')`"
+package: "`r pkg_ver( 'CTDquerier' )`"
 csl: biomed-central.csl
 bibliography: case_study.bib
 vignette: >
@@ -79,7 +79,7 @@ A tipical gene-query follows:
 
 ```{r ctd_genes}
 ctd_genes <- query_ctd_gene( 
-    terms = c( "APOE", "APOEB", "APOE2", "APOE3" , "APOE4" ) )
+    terms = c( "APOE", "APOEB", "APOE2", "APOE3" , "APOE4", "APOA1", "APOA5" ) )
 ctd_genes
 ```
 
@@ -89,7 +89,9 @@ As can be seen, `query_ctd_gene` informs about the number of terms used in the q
 get_terms( ctd_genes )
 ```
 
-Now that the information about the genes of interest was download from *CTDbase* we can access to it using the method `extract`. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from genes the accesible tables are:
+### Extract Tables
+
+Now that the information about the genes of interest was download from *CTDbase* we can access to it using the method `extract`, from `psygenet2r` R package. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from genes the accesible tables are:
 
 | Table                    | Available | Accessor                   |
 |:-------------------------|:---------:|:---------------------------|
@@ -100,6 +102,35 @@ Now that the information about the genes of interest was download from *CTDbase*
 | Pathways (KEGG)          | YES       | `"kegg pathways"`          |
 | GO (Gene Ontology Terms) | YES       | `"go terms"`               |
 
+Example of how to extract one of this tables follows:
+
+```{r ctd_gene_ext_dise}
+library( psygenet2r )
+extract( ctd_genes , index_name = "diseases" )[ 1:2, 1:3 ]
+```
+
+### Ploting Gene Created `CTDquery` Objects
+
+The geneirc `plot` function has the same mechanism that `extract`. Using the argument `index_name` we select the table to plot. Then, the arguments `subset.x` and `subset.y` allows to filter the X-axis and Y-axis. Depending the table to be ploted, the argument `field.score` can be used to select the field to ploted (that can takes `"Inference"` or `"Reference"` values). Then argument `filter.score` can be used to filter entries of teh table. Finally, the argument `max.length` is in charge to reduce the charaters of the labels.
+
+The following plot shows the number of reference that cites the association between the APOE-like genes and chemicals.
+
+```{r ctd_gene_hm_chem}
+plot( ctd_genes, index_name = "chemical", filter.score = 3 )
+```
+
+Then, next plot shows shows the inference score that associates the APOE-like genes with diseases according to *CTDbase*.
+
+```{r ctd_gene_hm_dise}
+plot( ctd_genes, index_name = "disease", filter.score = 115 )
+```
+
+The plot to explore the gene-gene interactions is based in a network representation. The genes from the original set are dark-colored, while the other genes are light-colored.
+
+```{r ctd_gene_hm_gene}
+plot( ctd_genes, index_name = "gene-gene interaction", 
+    representation = "network", main = "APOE-like gene-gene interactions" )
+```
 
 ## ... by chemical
 
@@ -125,6 +156,8 @@ As can be seen, `query_ctd_chem` informs about the number of terms used in the q
 get_terms( ctd_chem )
 ```
 
+### Extract Tables
+
 Now that the information about the chemicals of interest was download from *CTDbase* we can access to it using the method `extract`. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from chemicals the accesible tables are:
 
 | Table                    | Available | Accessor                   |
@@ -135,6 +168,14 @@ Now that the information about the chemicals of interest was download from *CTDb
 | Gene-Gene Interactions   | NO        | `"gene-gene interactions"` |
 | Pathways (KEGG)          | YES       | `"kegg pathways"`          |
 | GO (Gene Ontology Terms) | YES       | `"go terms"`               |
+
+Example of how to extract one of this tables follows:
+
+```{r ctd_chem_ext_dise}
+extract( ctd_chem , index_name = "diseases" )[ 1:2, 1:6 ]
+```
+
+### Ploting Chemical Created `CTDquery` Objects
 
 ## ... by disease
 
@@ -160,6 +201,8 @@ As can be seen, `query_ctd_chem` informs about the number of terms used in the q
 get_terms( ctd_diseases )
 ```
 
+### Extract Tables
+
 Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `extract`. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from diseases the accesible tables are:
 
 | Table                    | Available | Accessor                   |
@@ -170,6 +213,12 @@ Now that the information about the diseases of interest was download from *CTDba
 | Gene-Gene Interactions   | NO        | `"gene-gene interactions"` |
 | Pathways (KEGG)          | YES       | `"kegg pathways"`          |
 | GO (Gene Ontology Terms) | NO        | `"go terms"`               |
+
+```{r ctd_dise_ext_gene}
+extract( ctd_diseases , index_name = "gene interactions" )[ 1:2, 1:5 ]
+```
+
+### Ploting Disease Created `CTDquery` Objects
 
 # Session Info.
 

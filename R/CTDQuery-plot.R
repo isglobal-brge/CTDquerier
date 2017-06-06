@@ -7,9 +7,9 @@
 setMethod(
     f = "plot",
     signature = "CTDquery",
-    definition = function( x, y, index_name = "base",  representation = "heatmap", ... ) {
+    definition = function( x, y, index_name = "base", representation = "heatmap", ... ) {
         index_name <- base::tolower( index_name )
-        index_name <- match.arg( index_name, choices = c( "base", "disease", "chemical" ) )
+        #index_name <- match.arg( index_name, choices = c( "base", "disease", "chemical" ) )
 
         if( index_name == "base" ) {
             in_plot_base( x )
@@ -26,6 +26,15 @@ setMethod(
                         int_plot_gene_chemical_heatmap( x, ... )
                     } else {
                         stop( "No network representation for 'disease association'." )
+                    }
+                } else if( index_name == "gene-gene interaction" ) {
+                    if( representation == "heatmap" ) {
+                        warning( "Are you sure you dont what to use 'network' representation?" )
+                        int_plot_gene_gene_heatmap( x, ... )
+                    } else if ( representation == "network" ) {
+                        int_plot_gene_gene_network( x, ... )
+                    } else {
+                        stop( "Only available 'heatmap' ant 'network' representations." )
                     }
                 }
             } else if( x@type == "DISEASE" ) {

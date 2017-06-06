@@ -33,10 +33,7 @@ int_plot_gene_disease_heatmap <- function( x, subset.x, subset.y,
             ggplot2::geom_tile( ggplot2::aes_string( fill = field.score ) ) +
             ggplot2::theme(
                 axis.text.x = ggplot2::element_text( angle = 90, hjust = 1 ),
-                axis.ticks = ggplot2::element_blank(),
-                panel.background = ggplot2::element_rect (fill = "white", colour = "white" ),
-                panel.grid.major = ggplot2::element_blank(),
-                panel.grid.minor = ggplot2::element_blank()
+                axis.ticks = ggplot2::element_blank()
             ) +
             ggplot2::scale_fill_gradient( low = "white", high = "steelblue", name = field.name ) +
             ggplot2::xlab( "" ) + ggplot2::ylab( "" )
