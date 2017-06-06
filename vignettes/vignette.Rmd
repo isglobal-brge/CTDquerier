@@ -1,0 +1,180 @@
+---
+title: "CTDquerier: A package to retrive CTDbase data for downstrime analysis and data visualization"
+author:
+- name: Carles Hernandez-Ferrer
+  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology (CREAL)
+- name: Juan R. Gonzalez
+  affiliation: ISGlobal, Centre for Research in Environmental Epidemiology (CREAL)
+  email: juanr.gonzalez@isglobal.org
+date: "`r doc_date()`"
+package: "`r pkg_ver('CTDquerier')`"
+csl: biomed-central.csl
+bibliography: case_study.bib
+vignette: >
+  %\VignetteIndexEntry{CTDquerier: A package to retrive CTDbase data for downstrime analysis and data visualization}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output: 
+  BiocStyle::html_document2:
+    toc_float: true
+---
+
+
+# Introduction
+
+## The Comparative Toxicogenomics Database
+
+The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a public resource for toxicogenomic information manually curated from the peer-reviewed scientific literature, providing key information about the interactions of environmental chemicals with gene products and their effect on human disease [@CTDbase2003][@CTDbase2017]. *CTDbase* if offered to public by using a web-based interface that includes basic and advanced query options to access data for sequences, references, and toxic agents, and a platform for analysing sequences.
+
+## `CTDquerier` R package
+
+`CTDquerier` is an R package that allows to R users to download basic data from *CTDbase* about genes, chemicals and diseases. Once the user's input is validated allows to query *CTDbase* to download the information of the given input from the other modules.
+
+`CTDquerier` can be installed using `devtools`. To install `CTDquerier` run the following command in an R session:
+
+
+```{r eval=FALSE}
+devtools::install_github( "carleshf/CTDquerier" )
+```
+
+Once installed, `CTDquerier` should be loaded running the following command:
+
+```{r message=FALSE}
+library( CTDquerier )
+```
+
+The main function of `CTDquerier` are three depending of the input: *genes*, *chemicals* or *diseases*. Tables \@ref(tab:CTDquerier-functions) indicates the proper function to be used to query *CTDbase* depending on the input.
+
+| Input     | Function         |
+|:----------|:-----------------|
+| Genes     | `query_ctd_gene` |
+| Chemicals | `query_ctd_chem` |
+| Diseases  | `query_ctd_dise` |
+
+: (\#tab:CTDquerier-functions) Main functions of `CTDquerier`, designed to accept a specific input.
+
+The function to query *CTDbase* relies on a set of function that download the specific vocabulary of each input. Table \@ref(tab:CTDquerier-vocabulary) shows the different functions that are used to download the specific vocabulary and to load it into R. This process is transparent to user since it is encapsulated into each one of the query functions.
+
+| Input     | Load Function   | Download Function    |
+|:----------|:----------------|:---------------------|
+| Genes     | `load_ctd_gene` | `download_ctd_genes` |
+| Chemicals | `load_ctd_chem` | `download_ctd_chem`  |
+| Diseases  | `load_ctd_dise` | `download_ctd_dise`  |
+
+: (\#tab:CTDquerier-vocabulary) Functions used to download and load specific vocabulary from *CTDbase*.
+
+# Querying *CTDbase* ...
+
+## ... by gene
+
+To query *CTDbase* for a given gene or set of genes, we use the function `query_ctd_gene`:
+
+```{r args_query_gene}
+args( query_ctd_gene )
+```
+
+The argument `terms` is the one that must be filled with the list of genes of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for genes. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
+
+A tipical gene-query follows:
+
+```{r ctd_genes}
+ctd_genes <- query_ctd_gene( 
+    terms = c( "APOE", "APOEB", "APOE2", "APOE3" , "APOE4" ) )
+ctd_genes
+```
+
+As can be seen, `query_ctd_gene` informs about the number of terms used in the query and the number of terms lost in the process. To know the exact terms that were found in *CTDbase* and the ones that were lost, we use the method `get_terms`.
+
+```{r ctd_get_genes}
+get_terms( ctd_genes )
+```
+
+Now that the information about the genes of interest was download from *CTDbase* we can access to it using the method `extract`. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from genes the accesible tables are:
+
+| Table                    | Available | Accessor                   |
+|:-------------------------|:---------:|:---------------------------|
+| Gene Interactions        | NO        | `"gene interactions"`      |
+| Chemicals Interactions   | YES       | `"chemical interactions"`  |
+| Diseases                 | YES       | `"diseases"`               |
+| Gene-Gene Interactions   | YES       | `"gene-gene interactions"` |
+| Pathways (KEGG)          | YES       | `"kegg pathways"`          |
+| GO (Gene Ontology Terms) | YES       | `"go terms"`               |
+
+
+## ... by chemical
+
+To query *CTDbase* for a given chemical or set of chemicals, we use the function `query_ctd_chem`:
+
+```{r args_query_chem}
+args( query_ctd_chem )
+```
+
+The argument `terms` is the one that must be filled with the list of chemicals of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for chemicals. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
+
+
+A tipical gene-query follows:
+
+```{r ctd_chem}
+ctd_chem <- query_ctd_chem( terms = c( "Zinc", "Cadmium" ) )
+ctd_chem
+```
+
+As can be seen, `query_ctd_chem` informs about the number of terms used in the query and the number of terms lost in the process. To know the exact terms that were found in *CTDbase* and the ones that were lost, we use the method `get_terms`.
+
+```{r ctd_get_chem}
+get_terms( ctd_chem )
+```
+
+Now that the information about the chemicals of interest was download from *CTDbase* we can access to it using the method `extract`. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from chemicals the accesible tables are:
+
+| Table                    | Available | Accessor                   |
+|:-------------------------|:---------:|:---------------------------|
+| Gene Interactions        | YES       | `"gene interactions"`      |
+| Chemicals Interactions   | NO        | `"chemical interactions"`  |
+| Diseases                 | YES       | `"diseases"`               |
+| Gene-Gene Interactions   | NO        | `"gene-gene interactions"` |
+| Pathways (KEGG)          | YES       | `"kegg pathways"`          |
+| GO (Gene Ontology Terms) | YES       | `"go terms"`               |
+
+## ... by disease
+
+To query *CTDbase* for a given disease or set of diseases, we use the function `query_ctd_dise`:
+
+```{r args_query_dise}
+args( query_ctd_dise )
+```
+
+The argument `terms` is the one that must be filled with the list of diseases of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for diseases. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
+
+
+A tipical gene-query follows:
+
+```{r ctd_dise}
+ctd_diseases <- query_ctd_dise( terms = c( "Dementia", "Alzheimer" ) )
+ctd_diseases
+```
+
+As can be seen, `query_ctd_chem` informs about the number of terms used in the query and the number of terms lost in the process. To know the exact terms that were found in *CTDbase* and the ones that were lost, we use the method `get_terms`.
+
+```{r ctd_get_dise}
+get_terms( ctd_diseases )
+```
+
+Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `extract`. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from diseases the accesible tables are:
+
+| Table                    | Available | Accessor                   |
+|:-------------------------|:---------:|:---------------------------|
+| Gene Interactions        | YES       | `"gene interactions"`      |
+| Chemicals Interactions   | YES       | `"chemical interactions"`  |
+| Diseases                 | NO        | `"diseases"`               |
+| Gene-Gene Interactions   | NO        | `"gene-gene interactions"` |
+| Pathways (KEGG)          | YES       | `"kegg pathways"`          |
+| GO (Gene Ontology Terms) | NO        | `"go terms"`               |
+
+# Session Info.
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+
+# Bibliography

@@ -49,11 +49,11 @@ The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a pub
 
 `CTDquerier` is an R package that allows to R users to download basic data from *CTDbase* about genes, chemicals and diseases. Once the user's input is validated allows to query *CTDbase* to download the information of the given input from the other modules. Tables \@ref(tab:CTDquerier-queries) indicates the information `CTDquerier` can download from *CTDbase* depending on the user's input.
 
-|          | Gene Interaction | Disease | Pathway | Gene Ontology | Chemical Interaction |
-:----------|:----------------:|:-------:|:-------:|:-------------:|:--------------------:|
-Genes      | X                | X       | X       | X             | X                    |
-Chemical   | X                | X       | X       | X             |                      |
-Disease    | X                |         | X       |               | X                    |
+|           | Gene Interaction | Disease | Pathway | Gene Ontology | Chemical Interaction |
+|:----------|:----------------:|:-------:|:-------:|:-------------:|:--------------------:|
+|Genes      | X                | X       | X       | X             | X                    |
+|Chemical   | X                | X       | X       | X             |                      |
+|Disease    | X                |         | X       |               | X                    |
 
 : (\#tab:CTDquerier-queries) Relation between input accepted by `CTDquerier` and the data it is capable to download from *CTDbase*.
 
@@ -62,9 +62,6 @@ Disease    | X                |         | X       |               | X           
 ```{r eval=FALSE}
 devtools::install_github( "carleshf/CTDquerier" )
 ```
-
-
-### Installation
 
 # Case-Study
 
@@ -271,7 +268,7 @@ colnames( gala_chem )
 length( unique( gala_chem$Chemical.Name ) )
 ```
 
-So, GALA genes are *associated* with 1'829 unique chemicals according to *CTDabse*. The `Reference.Count` of these *associations* can be ploted. First, lets see its distribution:
+So, GALA genes are *associated* with 1'829 unique chemicals according to *CTDabse*. The `Reference.Count` of these *associations* can be plotted. First, lets see its distribution:
 
 ```{r, gala_chemicals_table, results="asis"}
 kable( t( table( gala_chem$Reference.Count ) ) )
@@ -302,7 +299,7 @@ plot( asthma, index_name = "chemical", subset.x = "Asthma", filter.score = 30 ) 
 
 ### Which chemicals are associated to both GALA genes and to asthma according to *CTDbase*?
 
-The table `gala_chem` contains teh relation between GALA genes and the chemicals associated to these genes according to *CTDbase*. The table `ctd_asthma_chem` contains the chemicals associated to Asthma accordint to *CTDbase*.
+The table `gala_chem` contains the relation between GALA genes and the chemicals associated to these genes according to *CTDbase*. The table `ctd_asthma_chem` contains the chemicals associated to Asthma according to *CTDbase*.
 
 To find the chemicals that are both related to GALA genes and Asthma, according to *CTDbase* we apply an intersection to both tables.
 
@@ -316,9 +313,9 @@ So, there are 1'485 chemicals shearing association between GALA genes and Asthma
 length( intr_chem ) / nrow( gala_chem ) * 100
 length( intr_chem ) / nrow( ctd_asthma_chem ) * 100
 ```
-In other words, the 8.94% of the total association from GALA genes to *CTDbase* chemicals are shared with the Asthma related chemicals. Also that the 15.77% og the chemicals related to Asthma according to *CTDbase* are shared with the chemicals asociated with GALA genes.
+In other words, the 8.94% of the total association from GALA genes to *CTDbase* chemicals are shared with the Asthma related chemicals. Also that the 15.77% of the chemicals related to Asthma according to *CTDbase* are shared with the chemicals associated with GALA genes.
 
-The follofing code has the aim to create a `data.frame` (called `dta`) with only three columns: the chemical's name and their reference count in both GALA and Asthma chemicals sets.
+The following code has the aim to create a `data.frame` (called `dta`) with only three columns: the chemical's name and their reference count in both GALA and Asthma chemicals sets.
 
 ```{r intersect_gala_asthma_chem_plot_1}
 gala_chem_r <- gala_chem[ gala_chem$Chemical.Name %in% intr_chem, ]
@@ -355,7 +352,7 @@ In other to see if GALA genes are significantly associated with asthma we will u
 enrich( gala, asthma )
 ```
 
-In this case, `enrich` is takeing the genes in the `gala` object, the genes in the `asthma` object and all the genes in *CTDbase* and performing a Fisher test with these numbers (see `fisher.test`).
+In this case, `enrich` is taking the genes in the `gala` object, the genes in the `asthma` object and all the genes in *CTDbase* and performing a Fisher test with these numbers (see `fisher.test`).
 
 ### Are the GALA genes significantly enriched in Air Pollutants chemicals according to *CTDabse*?
 
@@ -365,12 +362,11 @@ First of all we need to obtain the information about air pollutants from *CTDbas
 air <- query_ctd_chem( terms = "Air Pollutants" )
 air
 ```
-Once we obtained all th information about air pollutants from *CTDbase* we can use the already seen method `enrich` to see if the GALA genes are anriched in air Pollutants' chemicals.
+Once we obtained all the information about air pollutants from *CTDbase* we can use the already seen method `enrich` to see if the GALA genes are enriched in air Pollutants' chemicals.
 
 ```{r gala_enrich_air}
 enrich( gala, air )
 ```
-
 
 In this case, `enrich` is using the chemicals in `gala` object, the chemicals in `air` object and all the chemicals in *CTDbase* to perform the Fisher test.
 
@@ -379,19 +375,5 @@ In this case, `enrich` is using the chemicals in `gala` object, the chemicals in
 ```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
-
-# to remove
-
-Case-control admixture mapping in Latino populations enriches for known asthma-associated genes 
-http://www.sciencedirect.com/science/article/pii/S0091674912003703
-
-Maternal smoking in pregnancy and its influence on childhood asthma
-https://www-ncbi-nlm-nih-gov.sare.upf.edu/pmc/articles/PMC5034599/
-
-Genome-wide profiling identifies epithelial cell genes associated with asthma and with treatment response to corticosteroids
-http://www.pnas.org/content/104/40/15858.full
-
-The Effects of Environmental Toxins on Allergic Inflammation
-https://www-ncbi-nlm-nih-gov.sare.upf.edu/pmc/articles/PMC4214967/
 
 # Bibliography

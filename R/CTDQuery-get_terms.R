@@ -4,7 +4,7 @@ setMethod(
     signature = "CTDquery",
     definition = function(object) {
         return(list(
-            "found" = object@terms$GeneSymbol,
+            "found" = object@terms[ , 1 ],
             "lost" = object@losts
         ))
     }
