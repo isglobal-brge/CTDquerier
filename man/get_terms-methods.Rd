@@ -7,7 +7,7 @@
 get_terms(object)
 }
 \arguments{
-\item{object}{Object of class \link{CTDuqery}.}
+\item{object}{Object of class \link{\code{CTDuqery}}.}
 }
 \value{
 A list with two accessors: \code{"used"} for the terms that

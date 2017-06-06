@@ -202,7 +202,9 @@ The previous code shows the five entries existing in the table of associations b
 Then, to look for the level of evidence of the association between GALA genes and asthma we will subset the table `gala_all_diseases` selecting only the entries for `"Asthma"`.
 
 ```{r gala_diseases_asthma}
-gala_asthma <- gala_all_diseases[ gala_all_diseases$Disease.Name == "Asthma" , ]
+gala_asthma <- gala_all_diseases[ 
+    gala_all_diseases$Disease.Name == "Asthma" , 
+]
 dim( gala_asthma )
 ```
 
@@ -271,14 +273,14 @@ length( unique( gala_chem$Chemical.Name ) )
 
 So, GALA genes are *associated* with 1'829 unique chemicals according to *CTDabse*. The `Reference.Count` of these *associations* can be ploted. First, lets see its distribution:
 
-```{r, gala_chemicals_table}
-table( gala_chem$Reference.Count )
+```{r, gala_chemicals_table, results="asis"}
+kable( t( table( gala_chem$Reference.Count ) ) )
 ```
 
 The plot for this information corresponds to a heat-map. The arguments `subset.x` and `subset.y` are used to filter the elements in X-axis (genes) and Y-axis (chemicals). The argument `filter.score` allows to filter by `Reference.Count`'s value.
 
 ```{r, gala_chemicals_plot}
-plot( gala, index_name = "chemical", filter.score = 10 )
+plot( gala, index_name = "chemical", filter.score = 6 )
 ```
 
 ### Which chemicals are associated to asthma according to *CTDbase*?
@@ -316,7 +318,9 @@ length( intr_chem ) / nrow( ctd_asthma_chem ) * 100
 ```
 In other words, the 8.94% of the total association from GALA genes to *CTDbase* chemicals are shared with the Asthma related chemicals. Also that the 15.77% og the chemicals related to Asthma according to *CTDbase* are shared with the chemicals asociated with GALA genes.
 
-```{r intersect_gala_asthma_chem_plot}
+The follofing code has the aim to create a `data.frame` (called `dta`) with only three columns: the chemical's name and their reference count in both GALA and Asthma chemicals sets.
+
+```{r intersect_gala_asthma_chem_plot_1}
 gala_chem_r <- gala_chem[ gala_chem$Chemical.Name %in% intr_chem, ]
 gala_chem_r <- gala_chem_r[ !duplicated( gala_chem_r$Chemical.Name ), ]
 ctd_asthma_chem_r <- ctd_asthma_chem[ ctd_asthma_chem$Chemical.Name %in% intr_chem, ]
@@ -331,61 +335,44 @@ colnames( dta ) <- c( "Chemical.Name", "Reference.Gala", "Reference.Asthma" )
 dta <- dta[ 
     order( dta$Reference.Gala, dta$Reference.Asthma, decreasing = TRUE ), 
 ]
+dta[1:3, ]
+```
 
+Having this `data.frame`, we can use the function `leaf_plot` to compare the number of references for the top 25 chemicals.
 
-g1 <- ggplot(data = dta[1:25, ], aes(x = Chemical.Name, y = Reference.Gala)) +
-  geom_bar(stat = "identity") + ggtitle("GALA") +
-  theme(axis.title.x = element_blank(), 
-        axis.title.y = element_blank(), 
-        axis.text.y = element_blank(), 
-        axis.ticks.y = element_blank(), 
-        plot.margin = unit(c(1,-1,1,0), "mm")) +
-  scale_y_reverse() + coord_flip() +
-    theme(plot.title = element_text(hjust = 0.5))
-
-g2 <- ggplot(data = dta[1:25, ], aes(x = Chemical.Name, y = Reference.Asthma)) +xlab(NULL)+
-  geom_bar(stat = "identity") + ggtitle("Asthma") +
-  theme(axis.title.x = element_blank(), axis.title.y = element_blank(), 
-        axis.text.y = element_blank(), axis.ticks.y = element_blank(),
-        plot.margin = unit(c(1,0,1,-1), "mm")) +
-  coord_flip() +
-    theme(plot.title = element_text(hjust = 0.5))
-
-library(grid)
-g.mid<-ggplot(data = dta[1:25, ], aes(x=1,y=Chemical.Name))+geom_text(aes(label=Chemical.Name))+
-  geom_segment(aes(x=0.94,xend=0.96,yend=Chemical.Name))+
-  geom_segment(aes(x=1.04,xend=1.065,yend=Chemical.Name))+
-  ggtitle("")+
-  ylab(NULL)+
-  scale_x_continuous(expand=c(0,0),limits=c(0.94,1.065))+
-  theme(axis.title=element_blank(),
-        panel.grid=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank(),
-        panel.background=element_blank(),
-        axis.text.x=element_text(color=NA),
-        axis.ticks.x=element_line(color=NA),
-        plot.margin = unit(c(1,-1,1,-1), "mm"))
-
-library(gridExtra)
-gg1 <- ggplot_gtable(ggplot_build(g1))
-gg2 <- ggplot_gtable(ggplot_build(g2))
-gg.mid <- ggplot_gtable(ggplot_build(g.mid))
-
-grid.arrange(gg1,gg.mid,gg2,ncol=3,widths=c(4/9,1/9,4/9))
+```{r intersect_gala_asthma_chem_plot_2}
+leaf_plot( dta[1:25, ], label = "Chemical.Name", 
+    valueLeft = "Reference.Gala", valueRight = "Reference.Asthma",
+    titleLeft = "GALA", titleRight = "Asthma"
+)
 ```
 
 ### Are the GALA genes significantly associated with asthma according to *CTDabse*?
+
+In other to see if GALA genes are significantly associated with asthma we will use the method `enrich`. this method allows to perform a Fisher test given two objects of class \code{CTDquery}.
+
+```{r gala_enrich_asthma}
+enrich( gala, asthma )
+```
+
+In this case, `enrich` is takeing the genes in the `gala` object, the genes in the `asthma` object and all the genes in *CTDbase* and performing a Fisher test with these numbers (see `fisher.test`).
+
 ### Are the GALA genes significantly enriched in Air Pollutants chemicals according to *CTDabse*?
 
+First of all we need to obtain the information about air pollutants from *CTDbase*. This is done using the function `query_ctd_chem`.
+
+```{r air_ctd}
+air <- query_ctd_chem( terms = "Air Pollutants" )
+air
+```
+Once we obtained all th information about air pollutants from *CTDbase* we can use the already seen method `enrich` to see if the GALA genes are anriched in air Pollutants' chemicals.
+
+```{r gala_enrich_air}
+enrich( gala, air )
+```
 
 
-
-
-
-
-
-
+In this case, `enrich` is using the chemicals in `gala` object, the chemicals in `air` object and all the chemicals in *CTDbase* to perform the Fisher test.
 
 # Session Info.
 

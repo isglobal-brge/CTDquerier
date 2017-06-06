@@ -16,5 +16,7 @@ Imports: RCurl,
     reshape2,
     igraph,
     methods,
-    utils
+    utils,
+    grid,
+    gridExtra
 RoxygenNote: 6.0.1
