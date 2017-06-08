@@ -1,5 +1,12 @@
-int_plot_gene_go_heatmap <- function( x, subset.x, subset.y, max.length = 30 ) {
+int_plot_gene_go_heatmap <- function( x, subset.x, subset.y, max.length = 30,
+        ontology = c("Biological Process", "Cellular Component",
+                                                   "Molecular Function" ) ) {
+    ontology <- match.arg( base::tolower( ontology ),
+        base::tolower( c("Biological Process", "Cellular Component",
+                                            "Molecular Function" ) ) )
     tbl <- psygenet2r::extract( x, index_name = "go terms" )
+    tbl$Ontology <- base::tolower( tbl$Ontology )
+    tbl <- tbl[ tbl$Ontology %in% ontology, ]
 
     if( !missing( subset.x ) ) {
         tbl <- tbl[ tbl$GeneSymbol %in% subset.x, ]

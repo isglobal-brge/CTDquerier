@@ -222,10 +222,11 @@ plot( ctd_chem, index_name = "kegg pathways", filter.score = 1e-40 )
 
 The argument `filter.score` can be used to filter arrocations by their P-Value. Only the associations with a -Value lower or equal to the value given to `filter.score` are keep. Then, the heat-map calculates the terciles of the distribution of P-Values to create the legend (that has alwas four categories).
 
+The heatmap for GO terms follows the same mechanic:
+
 ```{r ctd_gen_ntw_go}
 plot( ctd_chem, index_name = "go terms",
-    representation = "network", main = "GO terms related to APOE genes",
-    ontology = "Molecular Function" )
+    representation = "network", filter.score = 1e-230 )
 ```
 
 ## ... by disease

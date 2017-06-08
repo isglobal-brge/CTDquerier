@@ -77,7 +77,7 @@ setMethod(
                         #int_plot_gene_go_heatmap( x, ... )
                         stop( "No heatmap representation for 'go terms'." )
                     } else {
-                        int_plot_gene_go_network( x, ... )
+                        int_plot_chem_go_heatmap( x, ... )
                     }
                 } else {
                     stop( "Invalid provided 'index_name' for 'CHEMICAL' query. ")
