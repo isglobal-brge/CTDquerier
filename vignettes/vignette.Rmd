@@ -91,9 +91,9 @@ get_terms( ctd_genes )
 
 ### Extract Tables
 
-Now that the information about the genes of interest was download from *CTDbase* we can access to it using the method `extract`, from `psygenet2r` R package. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from genes the accesible tables are:
+Now that the information about the genes of interest was download from *CTDbase* we can access to it using the method `extract`, from `psygenet2r` R package. Method extract allows to access to different tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from genes the accessible tables are:
 
-| Table                    | Available | Accessor                   |
+| Table                    | Available | Accessors                  |
 |:-------------------------|:---------:|:---------------------------|
 | Gene Interactions        | NO        | `"gene interactions"`      |
 | Chemicals Interactions   | YES       | `"chemical interactions"`  |
@@ -109,9 +109,9 @@ library( psygenet2r )
 extract( ctd_genes , index_name = "diseases" )[ 1:2, 1:3 ]
 ```
 
-### Ploting Gene Created `CTDquery` Objects
+### Plotting Gene Created `CTDquery` Objects
 
-The geneirc `plot` function has the same mechanism that `extract`. Using the argument `index_name` we select the table to plot. Then, the arguments `subset.x` and `subset.y` allows to filter the X-axis and Y-axis. Depending the table to be ploted, the argument `field.score` can be used to select the field to ploted (that can takes `"Inference"` or `"Reference"` values). Then argument `filter.score` can be used to filter entries of teh table. Finally, the argument `max.length` is in charge to reduce the charaters of the labels.
+The generic `plot` function has the same mechanism that `extract`. Using the argument `index_name` we select the table to plot. Then, the arguments `subset.x` and `subset.y` allows to filter the X-axis and Y-axis. Depending the table to be plotted, the argument `field.score` can be used to select the field to plotted (that can takes `"Inference"` or `"Reference"` values). Then argument `filter.score` can be used to filter entries of the table. Finally, the argument `max.length` is in charge to reduce the characters of the labels.
 
 The following plot shows the number of reference that cites the association between the APOE-like genes and chemicals.
 
@@ -125,12 +125,29 @@ Then, next plot shows shows the inference score that associates the APOE-like ge
 plot( ctd_genes, index_name = "disease", filter.score = 115 )
 ```
 
-The plot to explore the gene-gene interactions is based in a network representation. The genes from the original set are dark-colored, while the other genes are light-colored.
+The plot to explore the gene-gene interactions is based in a network representation. The genes from the original set are dark-coloured, while the other genes are light-coloured.
 
-```{r ctd_gene_hm_gene}
+```{r ctd_gene_ntw_gene}
 plot( ctd_genes, index_name = "gene-gene interaction", 
     representation = "network", main = "APOE-like gene-gene interactions" )
 ```
+
+Finally both KEG pathways and GO terms related to the given set of genes can be also visually explored. for KEGG pathways:
+
+```{r ctd_gen_ntw_hegg}
+plot( ctd_genes, index_name = "kegg pathways", 
+    representation = "network", main = "KEGG pathways related to APOE genes" )
+```
+
+With idea to allow user to create clean networks, arguments `subset.x` and `subset.y` can be used to filter genes and KEGG pathways. For GO term we use the same structure:
+
+```{r ctd_gen_ntw_go}
+plot( ctd_genes, index_name = "go terms",
+    representation = "network", main = "GO terms related to APOE genes",
+    ontology = "Molecular Function" )
+```
+
+The argument `ontology` can take values `"Biological Process"`, `"Cellular Component"` and `"Molecular Function"`. One of them or any combination. This helps to filter the relation that will be plotted in the network. With the same idea, arguments `subset.x` and `subset.y` can be used to filter genes and GO terms.
 
 ## ... by chemical
 
@@ -142,8 +159,7 @@ args( query_ctd_chem )
 
 The argument `terms` is the one that must be filled with the list of chemicals of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for chemicals. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
 
-
-A tipical gene-query follows:
+A typical chemical-query follows:
 
 ```{r ctd_chem}
 ctd_chem <- query_ctd_chem( terms = c( "Zinc", "Cadmium" ) )
@@ -158,9 +174,9 @@ get_terms( ctd_chem )
 
 ### Extract Tables
 
-Now that the information about the chemicals of interest was download from *CTDbase* we can access to it using the method `extract`. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from chemicals the accesible tables are:
+Now that the information about the chemicals of interest was download from *CTDbase* we can access to it using the method `extract`. Method extract allows to access to different tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from chemicals the accessible tables are:
 
-| Table                    | Available | Accessor                   |
+| Table                    | Available | Accessors                  |
 |:-------------------------|:---------:|:---------------------------|
 | Gene Interactions        | YES       | `"gene interactions"`      |
 | Chemicals Interactions   | NO        | `"chemical interactions"`  |
@@ -175,7 +191,42 @@ Example of how to extract one of this tables follows:
 extract( ctd_chem , index_name = "diseases" )[ 1:2, 1:6 ]
 ```
 
-### Ploting Chemical Created `CTDquery` Objects
+### Plotting Chemical Created `CTDquery` Objects
+
+The generic `plot` function seen in the previous sections for *gene queries* also works with the *chemical queries*. The arguments that can be used are the same when ploting both types of queries.
+
+The following plot shows the inference score for each chemical-gene association according to *CTDbase*.
+
+```{r ctd_chem_hm_gene}
+plot( ctd_chem, index_name = "gene", filter.score = 5 )
+```
+
+This associations, or relations, can be further inspected in a network representation that includes the effect of the chemical on the altered genes.
+
+```{r ctd_chem_ntw_gene}
+plot( ctd_chem, index_name = "gene", representation = "network",
+    filter.score = 3, main = "Gen-Chemical interaction for Zinc and Cadmium" )
+```
+
+Consequently, a heat-map with the inference score for the associations between chemicals and diseases can also be plotted.
+
+```{r ctd_chm_htm_dise}
+plot( ctd_chem, index_name = "disease" )
+```
+
+The association between KEGG pathways and chemicals can be seen as a heat-map. The heat-map shows the P-Value of the association between ecach pathway and each chemical.
+
+```{r ctd_chem_htm_kegg}
+plot( ctd_chem, index_name = "kegg pathways", filter.score = 1e-40 )
+```
+
+The argument `filter.score` can be used to filter arrocations by their P-Value. Only the associations with a -Value lower or equal to the value given to `filter.score` are keep. Then, the heat-map calculates the terciles of the distribution of P-Values to create the legend (that has alwas four categories).
+
+```{r ctd_gen_ntw_go}
+plot( ctd_chem, index_name = "go terms",
+    representation = "network", main = "GO terms related to APOE genes",
+    ontology = "Molecular Function" )
+```
 
 ## ... by disease
 
@@ -187,8 +238,7 @@ args( query_ctd_dise )
 
 The argument `terms` is the one that must be filled with the list of diseases of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for diseases. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
 
-
-A tipical gene-query follows:
+A typical gene-query follows:
 
 ```{r ctd_dise}
 ctd_diseases <- query_ctd_dise( terms = c( "Dementia", "Alzheimer" ) )
@@ -203,9 +253,9 @@ get_terms( ctd_diseases )
 
 ### Extract Tables
 
-Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `extract`. Methd extract allows to access to diferent tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from diseases the accesible tables are:
+Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `extract`. Method extract allows to access to different tables according to the origin of the \code{CTDquery} object. For a \code{CTDquery} created from diseases the accessible tables are:
 
-| Table                    | Available | Accessor                   |
+| Table                    | Available | Accessors                  |
 |:-------------------------|:---------:|:---------------------------|
 | Gene Interactions        | YES       | `"gene interactions"`      |
 | Chemicals Interactions   | YES       | `"chemical interactions"`  |
@@ -218,7 +268,7 @@ Now that the information about the diseases of interest was download from *CTDba
 extract( ctd_diseases , index_name = "gene interactions" )[ 1:2, 1:5 ]
 ```
 
-### Ploting Disease Created `CTDquery` Objects
+### Plotting Disease Created `CTDquery` Objects
 
 # Session Info.
 

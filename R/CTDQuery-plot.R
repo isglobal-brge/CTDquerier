@@ -34,8 +34,53 @@ setMethod(
                     } else if ( representation == "network" ) {
                         int_plot_gene_gene_network( x, ... )
                     } else {
-                        stop( "Only available 'heatmap' ant 'network' representations." )
+                        stop( "Only available 'heatmap' and 'network' representations." )
                     }
+                } else if( index_name == "kegg pathways" ) {
+                    if( representation == "heatmap" ) {
+                        #int_plot_gene_kegg_heatmap( x, ... )
+                        stop( "No heatmap representation for 'kegg pathways'." )
+                    } else {
+                        int_plot_gene_kegg_network( x, ... )
+                    }
+                } else if( index_name == "go terms" ) {
+                    if( representation == "heatmap" ) {
+                        #int_plot_gene_go_heatmap( x, ... )
+                        stop( "No heatmap representation for 'go terms'." )
+                    } else {
+                        int_plot_gene_go_network( x, ... )
+                    }
+                } else {
+                    stop( "Invalid provided 'index_name' for 'GENE' query. ")
+                }
+            } else if( x@type == "CHEMICAL" ) { ## GREEN
+                if( index_name == "gene" ) {
+                    if( representation == "heatmap" ) {
+                        int_plot_chem_gene_heatmap( x, ... )
+                    } else {
+                        int_plot_chem_gene_network( x, ... )
+                    }
+                } else if( index_name == "disease" ) {
+                    if( representation == "heatmap" ) {
+                        int_plot_chem_disease_heatmap( x, ... )
+                    } else {
+                        stop( "No network representation for 'disease association'." )
+                    }
+                } else if( index_name == "kegg pathways" ) {
+                    if( representation == "heatmap" ) {
+                        int_plot_chem_kegg_heatmap( x, ... )
+                    } else {
+                        stop( "No network representation for 'kegg pathways'." )
+                    }
+                } else if( index_name == "go terms" ) {
+                    if( representation == "heatmap" ) {
+                        #int_plot_gene_go_heatmap( x, ... )
+                        stop( "No heatmap representation for 'go terms'." )
+                    } else {
+                        int_plot_gene_go_network( x, ... )
+                    }
+                } else {
+                    stop( "Invalid provided 'index_name' for 'CHEMICAL' query. ")
                 }
             } else if( x@type == "DISEASE" ) {
                 if( index_name == "chemical" ) {

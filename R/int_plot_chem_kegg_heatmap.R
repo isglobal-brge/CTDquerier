@@ -1,56 +1,57 @@
-int_plot_chem_kegg_heatmap <- function( x, subset.x, subset.y, max.length = 30 ) {
-  tbl <- psygenet2r::extract( x, index_name = "kegg pathways" )
+int_plot_chem_kegg_heatmap <- function( x, subset.x, subset.y, filter.score, max.length = 30 ) {
+    tbl <- psygenet2r::extract( x, index_name = "kegg pathways" )
 
-  if( !missing( subset.x ) ) {
-    tbl <- tbl[ tbl$GeneSymbol %in% subset.x, ]
-  }
-
-  if( !missing( subset.y ) ) {
-    tbl <- tbl[ tbl$Pathway %in% subset.y, ]
-  }
-
-
-  tbl$Pathway <- sapply( tbl$Pathway, function( name ) {
-    if( nchar( name ) > max.length ) {
-      paste0( substr( name, 1, 17 ), "..." )
-    } else {
-      name
+    if( !missing( subset.x ) ) {
+        tbl <- tbl[ tbl$ChemicalName %in% toupper( subset.x ), ]
     }
-  } )
-  tbl$ChemicalName <- sapply( tbl$ChemicalName, function( name ) {
-    if( nchar( name ) > max.length ) {
-      paste0( substr( name, 1, 17 ), "..." )
-    } else {
-      name
-    }
-  } )
 
-  chemicals <- unique( tbl$ChemicalName )
-  tbl <- data.frame( tbl )[ , c( "Pathway", "ChemicalName" ) ]
-  tbl$Score <- 0
-  pathways <- unique( tbl$Pathway )
-  for( gg in chemicals ) {
-    for( pp in pathways ) {
-      if( nrow( tbl[ tbl$ChemicalName == gg & tbl$Pathway == pp,  ] ) == 0 ) {
-        tbl <- rbind(tbl, c( pp, gg, 0 ) )
-      } else {
-        tbl[ tbl$ChemicalName == gg & tbl$Pathway == pp, "Score" ] <- 1
-      }
+    if( !missing( subset.y ) ) {
+        tbl <- tbl[ tbl$Pathway %in% subset.y, ]
     }
-  }
-  rm( gg, pp )
 
-  ggplot2::ggplot( data.frame( tbl ), ggplot2::aes_string( x = "ChemicalName", y = "Pathway" ) ) +
-    ggplot2::theme_bw() +
-    ggplot2::geom_tile( ggplot2::aes_string( fill = "Score" ) ) +
-    ggplot2::theme(
-      axis.text.x = ggplot2::element_text( angle = 90, hjust = 1 ),
-      axis.ticks = ggplot2::element_blank(),
-      panel.background = ggplot2::element_rect (fill = "white", colour = "white" ),
-      panel.grid.major = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank(),
-      legend.position = "none"
-    ) +
-    ggplot2::scale_fill_manual( values = c( "white", "darkgreen" ) ) +
-    ggplot2::xlab( "" ) + ggplot2::ylab( "" )
+    if( !missing( filter.score ) ) {
+        tbl <- tbl[ tbl$P.value <= filter.score, ]
+    }
+
+
+    tbl$Pathway <- sapply( tbl$Pathway, function( name ) {
+        if( nchar( name ) > max.length ) {
+            paste0( substr( name, 1, 17 ), "..." )
+        } else {
+            name
+        }
+    } )
+
+    tbl$ChemicalName <- sapply( tbl$ChemicalName, function( name ) {
+        if( nchar( name ) > max.length ) {
+            paste0( substr( name, 1, 17 ), "..." )
+        } else {
+            name
+        }
+    } )
+
+
+    categories <- c( 0,
+        quantile( tbl$P.value, probs =  seq(0, 1, 0.33), na.rm = TRUE )[ -4 ],
+        max( tbl$P.value ) )
+
+
+    tbl <- data.frame( tbl )[ , c( "Pathway", "ChemicalName", "P.value" ) ]
+    tbl$CScore <- cut( tbl$P.value,
+        breaks =  categories,
+        include.lowest = TRUE, right = TRUE )
+
+    rgb_grad <- rev( c( "#FFFFFF", "#CAE2D5", "#96C5AB", "#62A881", "#2E8B57" ) )
+    names( rgb_grad ) <- levels( tbl$CScore )
+
+    ggplot2::ggplot( data.frame( tbl ), ggplot2::aes_string( x = "ChemicalName", y = "Pathway" ) ) +
+        ggplot2::theme_bw() +
+        ggplot2::geom_tile( ggplot2::aes_string( fill = "CScore" ) ) +
+        ggplot2::theme(
+            axis.text.x = ggplot2::element_text( angle = 90, hjust = 1 ),
+            axis.ticks = ggplot2::element_blank()
+        ) +
+        ggplot2::scale_fill_manual( breaks = names( rgb_grad ),
+            values = rgb_grad, name = "P-Value" ) +
+        ggplot2::xlab( "" ) + ggplot2::ylab( "" )
 }
