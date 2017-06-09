@@ -83,11 +83,17 @@ setMethod(
                     stop( "Invalid provided 'index_name' for 'CHEMICAL' query. ")
                 }
             } else if( x@type == "DISEASE" ) {
-                if( index_name == "chemical" ) {
+                if( index_name == "gene" ) {
+                    if( representation == "heatmap" ) {
+                        int_plot_dise_gene_heatmap( x, ... )
+                    } else {
+                        stop( "No network representation for 'gene association'." )
+                    }
+                } else if( index_name == "chemical" ) {
                     if( representation == "heatmap" ) {
                         int_plot_disease_chemical_heatmap( x, ... )
                     } else {
-                        stop( "No network representation for 'disease association'." )
+                        stop( "No network representation for 'chemical association'." )
                     }
                 }
             }

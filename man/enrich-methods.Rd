@@ -12,8 +12,8 @@ enrich(x, y, ...)
 \item{y}{Object of class \link{\code{CTDuqery}}.}
 }
 \value{
-A list with class \code{htest}. Check \link[stats]
-{\code{fisher.test}} for more information.
+A list with class \code{htest}. Check
+\code{fisher.test} for more information.
 }
 \description{
 This methods performes a fisher test using the genes or chemicals

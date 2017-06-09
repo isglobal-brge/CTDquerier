@@ -25,8 +25,8 @@ setGeneric("get_terms", function(object)
 #' @aliases enrich
 #' @param x Object of class \link{\code{CTDuqery}}.
 #' @param y Object of class \link{\code{CTDuqery}}.
-#' @return A list with class \code{htest}. Check \link[stats]
-#' {\code{fisher.test}} for more information.
+#' @return A list with class \code{htest}. Check
+#' \code{fisher.test} for more information.
 #' @export enrich
 setGeneric("enrich", function(x, y, ...)
     standardGeneric("enrich")

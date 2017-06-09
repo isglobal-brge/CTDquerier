@@ -21,15 +21,8 @@ int_plot_chem_gene_heatmap <- function( x, subset.x, subset.y, filter.score = 2,
   chemicals <- unique( tbl$Chemical.Name )
   tbl <- data.frame( tbl )[ , c( "Chemical.Name", "Gene.Symbol", "Reference.Count" ) ]
   genes <- unique( tbl$Gene.Symbol )
-  for( gg in genes ) {
-    for( cc in chemicals ) {
-      if( nrow( tbl[ tbl$Gene.Symbol == gg & tbl$Chemical.Name == cc,  ] ) == 0 ) {
-        tbl <- rbind(tbl, c( cc, gg, 0 ) )
-      }
-    }
-  }
-  rm( gg, cc )
   tbl$Reference.Count <- as.numeric( tbl$Reference.Count )
+
   ggplot2::ggplot( data.frame( tbl ), ggplot2::aes_string( x = "Chemical.Name", y = "Gene.Symbol" ) ) +
     ggplot2::theme_bw() +
     ggplot2::geom_tile( ggplot2::aes_string( fill = "Reference.Count" ) ) +
