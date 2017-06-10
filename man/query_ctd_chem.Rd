@@ -22,7 +22,7 @@ in \code{terms} argument and a possible match in CTDbase.}
 information of each step.}
 }
 \value{
-An object of class \link{\code{CTDquery}}.
+An object of class \code{\link{CTDquery}}.
 }
 \description{
 This function cheks for CTDbase gene vocabulary and query CTDbase

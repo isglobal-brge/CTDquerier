@@ -7,9 +7,11 @@
 enrich(x, y, ...)
 }
 \arguments{
-\item{x}{Object of class \link{\code{CTDquery}}.}
+\item{x}{Object of class \code{\link{CTDquery}}.}
 
-\item{y}{Object of class \link{\code{CTDquery}}.}
+\item{y}{Object of class \code{\link{CTDquery}}.}
+
+\item{...}{NOT USED}
 }
 \value{
 A list with class \code{htest}. Check
@@ -17,5 +19,5 @@ A list with class \code{htest}. Check
 }
 \description{
 This methods performes a fisher test using the genes or chemicals
-in two objects of class \link{\code{CTDquery}}.
+in two objects of class \code{\link{CTDquery}}.
 }

@@ -14,7 +14,7 @@ downloaded from CTDbase.}
 A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 }
 \description{
-This function works in pair with \link{\code{download_ctd_genes}}. This
+This function works in pair with \code{\link{download_ctd_genes}}. This
 function loads into the R session the downloaded \code{"CTD_genes.tsv.gz"}
 file.
 }
@@ -32,7 +32,7 @@ The field included in the file (\code{CTD_genes.tsv.gz}) are:
 }
 }
 \examples{
-download_ctd_gene()
+download_ctd_genes()
 fdl <- load_ctd_gene()
 dim( fdl )
 }

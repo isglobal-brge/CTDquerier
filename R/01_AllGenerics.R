@@ -3,7 +3,7 @@
 #' @name get_terms
 #' @rdname get_terms-methods
 #' @aliases get_terms
-#' @param object Object of class \link{\code{CTDquery}}.
+#' @param object Object of class \code{\link{CTDquery}}.
 #' @return A list with two accessors: \code{"used"} for the terms that
 #' exsist in CTDbase, and \code{"lost"} with the terms that do not
 #' existi in CTDbase.
@@ -18,13 +18,14 @@ setGeneric("get_terms", function(object)
 #' Method to perform enrichment analysis using two \code{CTDquery} objects
 #'
 #' This methods performes a fisher test using the genes or chemicals
-#' in two objects of class \link{\code{CTDquery}}.
+#' in two objects of class \code{\link{CTDquery}}.
 #'
 #' @name enrich
 #' @rdname enrich-methods
 #' @aliases enrich
-#' @param x Object of class \link{\code{CTDquery}}.
-#' @param y Object of class \link{\code{CTDquery}}.
+#' @param x Object of class \code{\link{CTDquery}}.
+#' @param y Object of class \code{\link{CTDquery}}.
+#' @param ... NOT USED
 #' @return A list with class \code{htest}. Check
 #' \code{fisher.test} for more information.
 #' @export enrich

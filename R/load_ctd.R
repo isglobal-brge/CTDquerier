@@ -1,6 +1,6 @@
 #' Function to load the \code{.tsv.gz} file for genes
 #'
-#' This function works in pair with \link{\code{download_ctd_genes}}. This
+#' This function works in pair with \code{\link{download_ctd_genes}}. This
 #' function loads into the R session the downloaded \code{"CTD_genes.tsv.gz"}
 #' file.
 #'
@@ -20,7 +20,7 @@
 #' downloaded from CTDbase.
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
-#' download_ctd_gene()
+#' download_ctd_genes()
 #' fdl <- load_ctd_gene()
 #' dim( fdl )
 #' @export load_ctd_gene

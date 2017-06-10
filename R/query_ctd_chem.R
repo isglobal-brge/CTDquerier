@@ -12,7 +12,7 @@
 #' in \code{terms} argument and a possible match in CTDbase.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
-#' @return An object of class \link{\code{CTDquery}}.
+#' @return An object of class \code{\link{CTDquery}}.
 #' @examples
 #' rst <- query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE )
 #' @export query_ctd_chem

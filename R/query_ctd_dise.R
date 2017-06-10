@@ -11,7 +11,7 @@
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
-#' @return An object of class \link{\code{CTDquery}}.
+#' @return An object of class \code{\link{CTDquery}}.
 #' @examples
 #' rst <- query_ctd_dise( terms = "Asthma", verbose = TRUE )
 #' @export query_ctd_dise

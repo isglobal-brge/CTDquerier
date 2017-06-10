@@ -51,9 +51,9 @@ representation.}
 An object of class \code{CTDquery}
 }
 \description{
-Class resulting of \link{\code{query_ctd_gene}},
-\link{\code{query_ctd_chem}} and \link{\code{query_ctd_dise}}. It is used
-to encapsulate all the information in \emp{CTDbase} for given set of genes,
+Class resulting of \code{\link{query_ctd_gene}},
+\code{\link{query_ctd_chem}} and \code{\link{query_ctd_dise}}. It is used
+to encapsulate all the information in \emph{CTDbase} for given set of genes,
 chemicals or diseases.
 }
 \details{
@@ -91,8 +91,8 @@ that can be used to query CTDbase.
 \describe{
 \item{\code{type}}{Character saving \code{"GENE"}, \code{"CHEMICAL"} or
 \code{"DISEASE"} depending if it was created using
-\code{\link{prepare_ctd_gene}}, \code{\link{prepare_ctd_chem}} or
-\link{\code{query_ctd_dise}}}
+\code{\link{query_ctd_gene}}, \code{\link{query_ctd_chem}} or
+\code{\link{query_ctd_dise}}}
 
 \item{\code{terms}}{\code{DataFrame} with the genes, chemicals or diseases used
 to create the object.}
@@ -126,7 +126,7 @@ specific pattern: gene-disease, gene-chemical or disease-chemical.
 \seealso{
 \code{\link{query_ctd_gene}} to create a \code{CTDquery}
 from a set of genes, \code{\link{query_ctd_chem}} to create a
-\code{CTDquery} from a set of chemicals, \link{\code{query_ctd_dise}} to
+\code{CTDquery} from a set of chemicals, \code{\link{query_ctd_dise}} to
 create a \code{CTDquery} from a set of diseases,
 \code{\link[psygenet2r]{extract}} to retrive encapsulated data and
 \code{plot} to get nice plots from stored data.
