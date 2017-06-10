@@ -1,18 +1,19 @@
 #' Class CTDquery
 #'
-#' Class resulting of \link{\code{prepare_ctd_gene}} and
-#' \link{\code{prepare_ctd_chem}}. It is sued to encapsulate
-#' all the information in CTDbase for given set of genes
-#' or chemicals.
+#' Class resulting of \link{\code{query_ctd_gene}},
+#' \link{\code{query_ctd_chem}} and \link{\code{query_ctd_dise}}. It is used
+#' to encapsulate all the information in \emp{CTDbase} for given set of genes,
+#' chemicals or diseases.
 #'
 #' @name CTDquery
 #' @aliases CTDquery-class
 #' @rdname CTDquery-class
 #' @exportClass CTDquery
-#' @slot type Character saving \code{"GENE"} or \code{"CHEMICAL"}
-#' depending if it was created using \code{\link{prepare_ctd_gene}}
-#' or \code{\link{prepare_ctd_chem}}.
-#' @slot terms \code{DataFrame} with the genes or chemicals used
+#' @slot type Character saving \code{"GENE"}, \code{"CHEMICAL"} or
+#' \code{"DISEASE"} depending if it was created using
+#' \code{\link{prepare_ctd_gene}}, \code{\link{prepare_ctd_chem}} or
+#' \link{\code{query_ctd_dise}}
+#' @slot terms \code{DataFrame} with the genes, chemicals or diseases used
 #' to create the object.
 #' @slot losts Character with the terms used to create the object
 #' but that were nor present in CTDbase.
@@ -28,10 +29,12 @@
 #' given chemicals or where the given genes play a role.
 #' @slot go Table with a relatio of the GO terms afected by the given
 #' chemicals or where the given genes play a role.
-#' @seealso \code{\link{prepare_ctd_gene}} to create a \code{CTDquery}
-#' from a set of genes, \code{\link{prepare_ctd_chem}} to create a
-#' \code{CTDquery} from a set of chemicals and \link{extract} to
-#' retrive encapsulated data.
+#' @seealso \code{\link{query_ctd_gene}} to create a \code{CTDquery}
+#' from a set of genes, \code{\link{query_ctd_chem}} to create a
+#' \code{CTDquery} from a set of chemicals, \link{\code{query_ctd_dise}} to
+#' create a \code{CTDquery} from a set of diseases,
+#' \code{\link[psygenet2r]{extract}} to retrive encapsulated data and
+#' \code{plot} to get nice plots from stored data.
 #' @return An object of class \code{CTDquery}
 setClass( "CTDquery",
   representation =

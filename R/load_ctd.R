@@ -22,7 +22,7 @@
 #' @examples
 #' download_ctd_gene()
 #' fdl <- load_ctd_gene()
-#' dim(fdl)
+#' dim( fdl )
 #' @export load_ctd_gene
 load_ctd_gene <- function( filename = "CTD_genes.tsv.gz" ) {
   tbl <- tryCatch( read.delim( filename, header = FALSE, comment.char = "#", sep = "\t", stringsAsFactors = FALSE ),
@@ -60,7 +60,7 @@ load_ctd_gene <- function( filename = "CTD_genes.tsv.gz" ) {
 #' @examples
 #' download_ctd_chem()
 #' fdl <- load_ctd_chem()
-#' dim(fdl)
+#' dim( fdl )
 #' @export load_ctd_chem
 load_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz" ) {
   tbl <- tryCatch( read.delim( filename, header = FALSE, comment.char = "#", sep = "\t", stringsAsFactors = FALSE ),
@@ -99,8 +99,8 @@ load_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz" ) {
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
 #' download_ctd_dise()
-#' fdl <- load_ctd_disease()
-#' dim(fdl)
+#' fdl <- load_ctd_dise()
+#' dim( fdl )
 #' @export load_ctd_dise
 load_ctd_dise <- function( filename = "CTD_diseases.tsv.gz" ) {
   tbl <- tryCatch( read.delim( filename, header = FALSE, comment.char = "#", sep = "\t", stringsAsFactors = FALSE ),

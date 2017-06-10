@@ -1,7 +1,6 @@
 #' @describeIn CTDquery Method to obtain a specific inner table from an \code{CTDquery} object.
 #' @param object Object of class \code{CTDquery}.
-#' @param name Name of the table to be retrived.
-#' @details Available tables are:
+#' @details Available tables are (\code{index_name}):
 #' \enumerate{
 #'   \item \code{"genes interactions"}: (Only for chemicals) Table with a relation
 #'   of the genes interacting with the given chemicals.

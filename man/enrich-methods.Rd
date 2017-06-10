@@ -2,14 +2,14 @@
 % Please edit documentation in R/01_AllGenerics.R
 \name{enrich}
 \alias{enrich}
-\title{Method to perform enrichment analysis using two \code{CTDuqery} objects}
+\title{Method to perform enrichment analysis using two \code{CTDquery} objects}
 \usage{
 enrich(x, y, ...)
 }
 \arguments{
-\item{x}{Object of class \link{\code{CTDuqery}}.}
+\item{x}{Object of class \link{\code{CTDquery}}.}
 
-\item{y}{Object of class \link{\code{CTDuqery}}.}
+\item{y}{Object of class \link{\code{CTDquery}}.}
 }
 \value{
 A list with class \code{htest}. Check
@@ -17,5 +17,5 @@ A list with class \code{htest}. Check
 }
 \description{
 This methods performes a fisher test using the genes or chemicals
-in two objects of class \link{\code{CTDuqery}}.
+in two objects of class \link{\code{CTDquery}}.
 }

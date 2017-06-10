@@ -16,7 +16,7 @@ int_plot_chem_go_heatmap <- function( x, subset.chemical, subset.go,
 
     if( !missing( subset.go ) ) {
         tbl <- tbl[ base::tolower( tbl$GO.Term.Name ) %in%
-                        bas::tolower( subset.go ), ]
+                        base::tolower( subset.go ), ]
     }
 
     if( !missing( filter.score ) ) {

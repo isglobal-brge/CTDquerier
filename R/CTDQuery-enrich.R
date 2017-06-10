@@ -2,6 +2,7 @@
 #' object of class \code{CTDquery}.
 #' @note The pairs of \code{CTDquery} objects given to x and y must follow a
 #' specific pattern: gene-disease, gene-chemical or disease-chemical.
+#' @param ... NOT USED
 setMethod(
     f = "enrich",
     signature = "CTDquery",
@@ -28,7 +29,7 @@ setMethod(
 
         } else if ( x@type == "DISEASE" ) {
             if( y@type == "CHEMICAL" ) {
-                this_gene <- sygenet2r::extract( y, index_name = "gene interactions" )
+                this_gene <- psygenet2r::extract( y, index_name = "gene interactions" )
                 inthis_gene <- psygenet2r::extract( y, index_name = "gene interactions" )
                 this_gene <- unique( this_gene$Gene.Symbol )
                 inthis_gene <- unique( inthis_gene$Gene.Symbol )

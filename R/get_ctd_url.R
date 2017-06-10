@@ -1,5 +1,3 @@
-#' Given an index, a term and a category it returns the URL from CTD to
-#' download the corresponding information.
 get_ctd_url <- function( index, term = "", category = "" ) {
 
   url <- list()

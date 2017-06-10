@@ -34,5 +34,5 @@ The field included in the file (\code{CTD_genes.tsv.gz}) are:
 \examples{
 download_ctd_gene()
 fdl <- load_ctd_gene()
-dim(fdl)
+dim( fdl )
 }
