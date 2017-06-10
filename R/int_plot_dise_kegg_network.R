@@ -1,15 +1,15 @@
-int_plot_gene_kegg_network <- function( x, subset.gene, subset.pathway, main ) {
+int_plot_dise_kegg_network <- function( x, subset.disease, subset.pathway, main ) {
     tbl <- psygenet2r::extract( x, index_name = "kegg pathways" )
 
-    if( !missing( subset.gene ) ) {
-        tbl <- tbl[ tbl$GeneSymbol %in% subset.gene, ]
+    if( !missing( subset.disease ) ) {
+        tbl <- tbl[ tbl$Disease.Name %in% subset.disease, ]
     }
 
     if( !missing( subset.pathway ) ) {
         tbl <- tbl[ tbl$Pathway %in% subset.pathway, ]
     }
 
-    edges <- tbl[ , c( "Pathway", "GeneSymbol" ) ]
+    edges <- tbl[ , c( "Pathway", "Disease.Name" ) ]
     netw  <- igraph::graph.data.frame( edges, directed = FALSE )
     netw  <- igraph::simplify( netw )
     lay   <- igraph::layout_with_fr( netw )
@@ -22,7 +22,7 @@ int_plot_gene_kegg_network <- function( x, subset.gene, subset.pathway, main ) {
     igraph::plot.igraph( netw,
                          vertex.frame.color = "white",
                          layout             = lay,
-                         vertex.color       = ifelse( igraph::V( netw )$name %in% tbl$GeneSymbol, "#A52A2A", "#FFA500" ),
+                         vertex.color       = ifelse( igraph::V( netw )$name %in% tbl$Disease.Name, "#A52A2A", "#FFA500" ),
                          vertex.label.dist  = 0,      #puts the name labels slightly off the dots
                          vertex.frame.color = 'blue', #the color of the border of the dots
                          vertex.label.color = 'black',#the color of the name labels

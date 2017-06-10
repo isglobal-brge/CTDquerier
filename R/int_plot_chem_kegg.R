@@ -1,40 +1,38 @@
-int_plot_chem_kegg_heatmap <- function( x, subset.x, subset.y, filter.score, max.length = 30 ) {
+int_plot_chem_kegg_heatmap <- function( x, subset.chemical, subset.pathway,
+        filter.score, max.length = 30 ) {
     tbl <- psygenet2r::extract( x, index_name = "kegg pathways" )
 
-    if( !missing( subset.x ) ) {
-        tbl <- tbl[ tbl$ChemicalName %in% toupper( subset.x ), ]
+    if( !missing( subset.chemical ) ) {
+        tbl <- tbl[ tbl$ChemicalName %in% base::toupper( subset.chemical ), ]
     }
 
-    if( !missing( subset.y ) ) {
-        tbl <- tbl[ tbl$Pathway %in% subset.y, ]
+    if( !missing( subset.pathway ) ) {
+        tbl <- tbl[ base::toupper( tbl$Pathway ) %in%
+                        base::toupper( subset.pathway ), ]
     }
 
     if( !missing( filter.score ) ) {
         tbl <- tbl[ tbl$P.value <= filter.score, ]
     }
 
-
-    tbl$Pathway <- sapply( tbl$Pathway, function( name ) {
+    tbl$Pathway <- vapply( tbl$Pathway, function( name ) {
         if( nchar( name ) > max.length ) {
             paste0( substr( name, 1, 17 ), "..." )
         } else {
             name
         }
-    } )
-
-    tbl$ChemicalName <- sapply( tbl$ChemicalName, function( name ) {
+    }, FUN.VALUE = "character" )
+    tbl$ChemicalName <- vapply( tbl$ChemicalName, function( name ) {
         if( nchar( name ) > max.length ) {
             paste0( substr( name, 1, 17 ), "..." )
         } else {
             name
         }
-    } )
-
+    }, FUN.VALUE = "character" )
 
     categories <- c( 0,
         quantile( tbl$P.value, probs =  seq(0, 1, 0.33), na.rm = TRUE )[ -4 ],
         max( tbl$P.value ) )
-
 
     tbl <- data.frame( tbl )[ , c( "Pathway", "ChemicalName", "P.value" ) ]
     tbl$CScore <- cut( tbl$P.value,

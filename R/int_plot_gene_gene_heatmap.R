@@ -1,16 +1,16 @@
-int_plot_gene_gene_heatmap <- function( x, subset.x, subset.y ) {
+int_plot_gene_gene_heatmap <- function( x, subset.souce, subset.target ) {
     tbl <- psygenet2r::extract( x, index_name = "gene-gene interactions" )
     tbl <- data.frame( tbl )[ ,
         c( "Source.Gene.Symbol", "Target.Gene.Symbol", "GeneSymbol", "Assay",
            "Interaction.Type", "Throughput" ) ]
 
-    if( !missing( subset.x ) ) {
-        tbl <- tbl[ tbl$GeneSymbol %in% subset.x, ]
+    if( !missing( subset.souce ) ) {
+        tbl <- tbl[ tbl$GeneSymbol %in% subset.souce, ]
     }
 
     tbl <- tbl[ tbl$Source.Gene.Symbol %in% unique( tbl$GeneSymbol ), ]
-    if( !missing( subset.y ) ) {
-        tbl <- tbl[ tbl$Target.Gene.Symbol %in% subset.y, ]
+    if( !missing( subset.chemical ) ) {
+        tbl <- tbl[ tbl$Target.Gene.Symbol %in% subset.target, ]
     }
 
     ggplot2::ggplot( as.data.frame( tbl ),

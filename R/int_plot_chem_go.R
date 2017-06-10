@@ -1,44 +1,46 @@
-int_plot_chem_go_heatmap <- function( x, subset.x, subset.y, filter.score, main,
-        max.length = 30, ontology = c("Biological Process", "Cellular Component",
-                                      "Molecular Function" ) ) {
+int_plot_chem_go_heatmap <- function( x, subset.chemical, subset.go,
+        filter.score, main, max.length = 30, ontology = c("Biological Process",
+        "Cellular Component", "Molecular Function" ) ) {
+
     ontology <- match.arg( base::tolower( ontology ),
-                           base::tolower( c("Biological Process", "Cellular Component",
-                                            "Molecular Function" ) ) )
+        base::tolower( c("Biological Process", "Cellular Component",
+        "Molecular Function" ) ) )
 
     tbl <- psygenet2r::extract( x, index_name = "go terms" )
     tbl$Ontology <- base::tolower( tbl$Ontology )
     tbl <- tbl[ tbl$Ontology %in% ontology, ]
 
-    if( !missing( subset.x ) ) {
-        tbl <- tbl[ tbl$ChemicalName %in% toupper( subset.x ), ]
+    if( !missing( subset.chemical ) ) {
+        tbl <- tbl[ tbl$ChemicalName %in% toupper( subset.chemical ), ]
     }
 
-    if( !missing( subset.y ) ) {
-        tbl <- tbl[ tbl$Pathway %in% subset.y, ]
+    if( !missing( subset.go ) ) {
+        tbl <- tbl[ base::tolower( tbl$GO.Term.Name ) %in%
+                        bas::tolower( subset.go ), ]
     }
 
     if( !missing( filter.score ) ) {
         tbl <- tbl[ tbl$P.value <= filter.score, ]
     }
 
-    tbl$GO.Term.Name <- sapply( tbl$GO.Term.Name, function( name ) {
+    tbl$GO.Term.Name <- vapply( tbl$GO.Term.Name, function( name ) {
         if( nchar( name ) > max.length ) {
             paste0( substr( name, 1, 17 ), "..." )
         } else {
             name
         }
-    } )
-    tbl$ChemicalName <- sapply( tbl$ChemicalName, function( name ) {
+    }, FUN.VALUE = "character" )
+    tbl$ChemicalName <- vapply( tbl$ChemicalName, function( name ) {
         if( nchar( name ) > max.length ) {
             paste0( substr( name, 1, 17 ), "..." )
         } else {
             name
         }
-    } )
+    }, FUN.VALUE = "character" )
 
     categories <- c( 0,
-                     quantile( tbl$P.value, probs =  seq(0, 1, 0.33), na.rm = TRUE )[ -4 ],
-                     max( tbl$P.value ) )
+         quantile( tbl$P.value, probs =  seq(0, 1, 0.33), na.rm = TRUE )[ -4 ],
+         max( tbl$P.value ) )
     if( categories[2] == 0 ) {
         categories <- categories[-1]
         categories <- c( categories, 1 )

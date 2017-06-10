@@ -222,7 +222,7 @@ sum( gala_asthma$Reference.Count, na.rm = TRUE )
 Then we can check for the *Inference Score* of the association of each gene with a single diseases, in the case Asthma. We can obtain this score by plotting the *Inference Score* with GALA genes and sub-setting the diseases by Asthma:
 
 ```{r gala_diseases_asthma_evidence_plot}
-plot( gala, index_name = "disease", subset.y = "Asthma", filter.score = 20 ) +
+plot( gala, index_name = "disease", subset.disease = "Asthma", filter.score = 20 ) +
     ggtitle( "Evidence of the association between GALA genes and Asthma" )
 ```
 
@@ -274,7 +274,7 @@ So, GALA genes are *associated* with 1'829 unique chemicals according to *CTDabs
 kable( t( table( gala_chem$Reference.Count ) ) )
 ```
 
-The plot for this information corresponds to a heat-map. The arguments `subset.x` and `subset.y` are used to filter the elements in X-axis (genes) and Y-axis (chemicals). The argument `filter.score` allows to filter by `Reference.Count`'s value.
+The plot for this information corresponds to a heat-map. The arguments `subset.genes` and `subset.chemicals` are used to filter the elements in X-axis (genes) and Y-axis (chemicals). The argument `filter.score` allows to filter by `Reference.Count`'s value.
 
 ```{r, gala_chemicals_plot}
 plot( gala, index_name = "chemical", filter.score = 6 )
@@ -293,7 +293,7 @@ length( unique( ctd_asthma_chem$Chemical.Name ) )
 Hence, the short answer is 5'282. Then we can go for the `Inference.Score` or `Reference.Count` plot.
 
 ```{r ctd_asthma_plot}
-plot( asthma, index_name = "chemical", subset.x = "Asthma", filter.score = 30 ) +
+plot( asthma, index_name = "chemical", subset.disease = "Asthma", filter.score = 30 ) +
     ggtitle( "Evidence of the association between GALA genes and chemicals" )
 ```
 

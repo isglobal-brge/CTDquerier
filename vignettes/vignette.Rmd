@@ -75,7 +75,7 @@ args( query_ctd_gene )
 
 The argument `terms` is the one that must be filled with the list of genes of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for genes. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
 
-A tipical gene-query follows:
+A typical gene-query follows:
 
 ```{r ctd_genes}
 ctd_genes <- query_ctd_gene( 
@@ -109,9 +109,19 @@ library( psygenet2r )
 extract( ctd_genes , index_name = "diseases" )[ 1:2, 1:3 ]
 ```
 
+The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
+
+```{r ctd_gene_ext_tbl}
+colnames( extract( ctd_genes, index_name = "chemical interactions" ) )
+colnames( extract( ctd_genes, index_name = "diseases" ) )
+colnames( extract( ctd_genes, index_name = "gene-gene interactions" ) )
+colnames( extract( ctd_genes, index_name = "kegg pathways" ) )
+colnames( extract( ctd_genes, index_name = "go terms" ) )
+```
+
 ### Plotting Gene Created `CTDquery` Objects
 
-The generic `plot` function has the same mechanism that `extract`. Using the argument `index_name` we select the table to plot. Then, the arguments `subset.x` and `subset.y` allows to filter the X-axis and Y-axis. Depending the table to be plotted, the argument `field.score` can be used to select the field to plotted (that can takes `"Inference"` or `"Reference"` values). Then argument `filter.score` can be used to filter entries of the table. Finally, the argument `max.length` is in charge to reduce the characters of the labels.
+The generic `plot` function has the same mechanism that `extract`. Using the argument `index_name` we select the table to plot. Then, the arguments `subset.gene` and `subset.*` (being * chemicals, diseases, pathways and go) allows to filter the X-axis and Y-axis. Depending the table to be plotted, the argument `field.score` can be used to select the field to plotted (that can takes `"Inference"` or `"Reference"` values). Then argument `filter.score` can be used to filter entries of the table. Finally, the argument `max.length` is in charge to reduce the characters of the labels.
 
 The following plot shows the number of reference that cites the association between the APOE-like genes and chemicals.
 
@@ -139,7 +149,7 @@ plot( ctd_genes, index_name = "kegg pathways",
     representation = "network", main = "KEGG pathways related to APOE genes" )
 ```
 
-With idea to allow user to create clean networks, arguments `subset.x` and `subset.y` can be used to filter genes and KEGG pathways. For GO term we use the same structure:
+With idea to allow user to create clean networks, arguments `subset.gene` and `subset.pathway` can be used to filter genes and KEGG pathways. For GO term we use the same structure:
 
 ```{r ctd_gen_ntw_go}
 plot( ctd_genes, index_name = "go terms",
@@ -147,7 +157,7 @@ plot( ctd_genes, index_name = "go terms",
     ontology = "Molecular Function" )
 ```
 
-The argument `ontology` can take values `"Biological Process"`, `"Cellular Component"` and `"Molecular Function"`. One of them or any combination. This helps to filter the relation that will be plotted in the network. With the same idea, arguments `subset.x` and `subset.y` can be used to filter genes and GO terms.
+The argument `ontology` can take values `"Biological Process"`, `"Cellular Component"` and `"Molecular Function"`. One of them or any combination. This helps to filter the relation that will be plotted in the network. With the same idea, arguments `subset.gene` and `subset.go` can be used to filter genes and GO terms.
 
 ## ... by chemical
 
@@ -191,9 +201,18 @@ Example of how to extract one of this tables follows:
 extract( ctd_chem , index_name = "diseases" )[ 1:2, 1:6 ]
 ```
 
+The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
+
+```{r ctd_chem_ext_tbl}
+colnames( extract( ctd_chem, index_name = "gene interactions" ) )
+colnames( extract( ctd_chem, index_name = "diseases" ) )
+colnames( extract( ctd_chem, index_name = "kegg pathways" ) )
+colnames( extract( ctd_chem, index_name = "go terms" ) )
+```
+
 ### Plotting Chemical Created `CTDquery` Objects
 
-The generic `plot` function seen in the previous sections for *gene queries* also works with the *chemical queries*. The arguments that can be used are the same when ploting both types of queries.
+The generic `plot` function seen in the previous sections for *gene queries* also works with the *chemical queries*. The arguments that can be used are the same when plotting both types of queries.
 
 The following plot shows the inference score for each chemical-gene association according to *CTDbase*.
 
@@ -214,19 +233,19 @@ Consequently, a heat-map with the inference score for the associations between c
 plot( ctd_chem, index_name = "disease" )
 ```
 
-The association between KEGG pathways and chemicals can be seen as a heat-map. The heat-map shows the P-Value of the association between ecach pathway and each chemical.
+The association between KEGG pathways and chemicals can be seen as a heat-map. The heat-map shows the P-Value of the association between each pathway and each chemical.
 
 ```{r ctd_chem_htm_kegg}
 plot( ctd_chem, index_name = "kegg pathways", filter.score = 1e-40 )
 ```
 
-The argument `filter.score` can be used to filter arrocations by their P-Value. Only the associations with a -Value lower or equal to the value given to `filter.score` are keep. Then, the heat-map calculates the terciles of the distribution of P-Values to create the legend (that has alwas four categories).
+The argument `filter.score` can be used to filter associations by their P-Value. Only the associations with a -Value lower or equal to the value given to `filter.score` are keep. Then, the heat-map calculates the terciles of the distribution of P-Values to create the legend (that has always four categories).
 
-The heatmap for GO terms follows the same mechanic:
+The heat-map for GO terms follows the same mechanic:
 
 ```{r ctd_chem_htm_go, fig.height=8}
 plot( ctd_chem, index_name = "go terms",
-    representation = "network", filter.score = 1e-230 )
+    representation = "network", filter.score = 1e-210 )
 ```
 
 ## ... by disease
@@ -269,26 +288,36 @@ Now that the information about the diseases of interest was download from *CTDba
 extract( ctd_diseases , index_name = "gene interactions" )[ 1:2, 1:5 ]
 ```
 
-### Plotting Disease Created `CTDquery` Objects
+The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
 
-```{r ctd_dise_htm_gen, fig.height=8}
-library( gridExtra )
-library( ggplot2 )
-grid.arrange(
-    plot( ctd_diseases, index_name = "gene", filter.score = 60, 
-        subset.y = "Alzheimer Disease" ) + 
-        ggtitle( "Genes associated to Alzheimer" ) +
-        theme( legend.position = "top" ),
-    plot( ctd_diseases, index_name = "gene", filter.score = 35, 
-        subset.y = "Dementia" ) + 
-        ggtitle( "Genes associated to Dementia" ) +
-        theme( legend.position = "top" ),
-    ncol = 2, nrow = 1
-)
+```{r ctd_dise_ext_tbl}
+colnames( extract( ctd_diseases, index_name = "gene interactions" ) )
+colnames( extract( ctd_diseases, index_name = "chemical interactions" ) )
+colnames( extract( ctd_diseases, index_name = "kegg pathways" ) )
 ```
 
-chemical
-kegg
+### Plotting Disease Created `CTDquery` Objects
+
+As seen in the previous sections `CTDquerier` allows for basic visualization from disease-retrieved information from *CTDbase*. The function `plot` is also used on disease created `CTDquery` objects allowing to display the disease-gene interaction tables, the disease-chemical interaction table and the pathway related to disease table.
+
+Disease created `CTDquery` objects have a heat-map visualization of the disease interaction with chemicals. This plot allows to select the *CTDbase*'s inference score or the number of reference to highlight the associations.
+
+```{r ctd_dise_htm_gen, fig.height=8}
+plot( ctd_diseases, index_name = "gene", filter.score = 75 )
+```
+
+Then, the associations between diseases and chemicals can also be plotted. Usually this plot is a heat-map as previously seen for genes. Nevertheless the lot can result in a bar-plot. This happens when the argument `filter.core` that allows to filter the associations (selecting any of *CTDbase*'s inference score or number of reference for the association) is so string that only a single disease is kept.
+
+```{r ctd_dise_htm_chm}
+plot( ctd_diseases, index_name = "chemical", filter.score = 35 )
+```
+
+Finally a network for the KEGG pathways inferred for the diseases can also be obtained.
+
+```{r ctd_dise_ntw_kegg}
+plot( ctd_diseases, index_name = "kegg pathways", 
+    representation = "network", subset.disease = "Dementia" )
+```
 
 
 # Session Info.

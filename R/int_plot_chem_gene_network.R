@@ -1,13 +1,15 @@
-int_plot_chem_gene_network <- function( x, subset.x, subset.y, filter.score, main ) {
+int_plot_chem_gene_network <- function( x, subset.chemical, subset.gene,
+        filter.score, main ) {
+
     tbl <- psygenet2r::extract( x, index_name = "gene interactions" )
     tbl <- tbl[ tbl$Reference.Count >= filter.score, ]
 
-    if( !missing( subset.x ) ) {
-        tbl <- tbl[ tbl$Gene.Symbol %in% subset.x, ]
+    if( !missing( subset.chemical ) ) {
+        tbl <- tbl[ tbl$Chemical.Name %in% subset.chemical, ]
     }
 
-    if( !missing( subset.y ) ) {
-        tbl <- tbl[ tbl$Chemical.Name %in% subset.y, ]
+    if( !missing( subset.gene ) ) {
+        tbl <- tbl[ tbl$Gene.Symbol %in% subset.gene, ]
     }
 
     x <- tbl[ , c( "Chemical.Name", "Interaction.Actions" ) ]
@@ -22,7 +24,6 @@ int_plot_chem_gene_network <- function( x, subset.x, subset.y, filter.score, mai
     if( missing( main ) ) {
         main <- " "
     }
-
 
     node_color <- ifelse( igraph::V( netw )$name %in% y$E, "#FFA500", #"#A52A2A"
         ifelse( igraph::V( netw )$name %in% y$O, "#E6E6FA", "#556B2F" ) )
