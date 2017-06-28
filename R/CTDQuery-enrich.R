@@ -16,7 +16,7 @@ setMethod(
                 download_ctd_genes()
                 all_genes <- unique( load_ctd_gene()$GeneSymbol )
 
-                mtr <- matrix( c(
+                mtr <<- matrix( c(
                     length( intersect( this_gene, inthis_gene ) ),
                     sum( !this_gene %in% inthis_gene ),
                     length( inthis_gene ) - length( intersect( this_gene, inthis_gene ) ),
