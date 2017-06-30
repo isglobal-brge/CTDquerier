@@ -1,5 +1,5 @@
 ---
-title: "CTDquerier: Case study on Environmental Chemicals and Human Non-Communicable Diseases"
+title: "Case study on Environmental Chemicals and asthma-related genes"
 author:
 - name: Carles Hernandez-Ferrer
   affiliation: ISGlobal, Centre for Research in Environmental Epidemiology ( CREAL )
@@ -11,11 +11,11 @@ package: "`r pkg_ver( 'CTDquerier' )`"
 csl: biomed-central.csl
 bibliography: case_study.bib
 vignette: >
-  %\VignetteIndexEntry{CTDquerier: Case study on Environmental Chemicals and Human Non-Communicable Diseases}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+    %\VignetteIndexEntry{CTDquerier: Case study on Environmental Chemicals and Human Non-Communicable Diseases}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
 output: 
-  BiocStyle::html_document2:
+    BiocStyle::html_document2:
     toc_float: true
 ---
 
@@ -196,7 +196,7 @@ Note that here only genes having an *Inference Score* higher that 20 are plotted
 
 ## Which chemicals are associated with GALA genes according to *CTDbase*?
 
-The object `gala` has a total of {r nrow(gala@chemicals_interactions)} gene-chemical interaction registers. We can obtain this table using the `extract` method:
+The object `gala` has a total of `r nrow(gala@chemicals_interactions)` gene-chemical interaction registers. We can obtain this table using the `extract` method:
 
 ```{r gala_chemicals}
 gala_chem <- extract( gala, index_name = "chemical interactions" )
@@ -204,7 +204,7 @@ colnames( gala_chem )
 length( unique( gala_chem$Chemical.Name ) )
 ```
 
-This output is indicating that GALA genes are *associated* with {r length( unique( gala_chem$Chemical.Name ) )} unique chemicals according to *CTDabse*. The distribution of the number of *associations* (`Reference.Count` column) can be obtained by:
+This output is indicating that GALA genes are *associated* with `r length( unique( gala_chem$Chemical.Name ) )` unique chemicals according to *CTDabse*. The distribution of the number of *associations* (`Reference.Count` column) can be obtained by:
 
 ```{r, gala_chemicals_table, results="asis"}
 knitr::kable( t( table( gala_chem$Reference.Count ) ) )
@@ -213,10 +213,8 @@ knitr::kable( t( table( gala_chem$Reference.Count ) ) )
 This information can also be obtained in a heat-map plot. The arguments `subset.genes` and `subset.chemicals` are used to filter the elements in X-axis (genes) and Y-axis (chemicals). The argument `filter.score` allows to filter by minimum number of existing papers (variable `Reference.Count`) providing evidences about the association between chemicals and genes.
 
 ```{r, gala_chemicals_plot}
-plot( gala, index_name = "chemical", filter.score = 6 )
+plot( gala, index_name = "chemical interactions", filter.score = 6 )
 ```
-
-
 
 # Questions that can be answered from a given disease 
 
@@ -243,7 +241,7 @@ ctd_asthma <- extract( asthma, index_name = "gene interactions" )
 length( unique( ctd_asthma$Gene.Symbol ) )
 ```
 
-According to *CTDbase*, there are `r, length( unique( ctd_asthma$Gene.Symbol ) )}` genes associated with asthma. However the term `"Asthma"` may appear in different ways. Here we illustrate how to get the real number of genes associated with Asthma.
+According to *CTDbase*, there are `r length( unique( ctd_asthma$Gene.Symbol ) )` genes associated with asthma. However the term `"Asthma"` may appear in different ways. Here we illustrate how to get the real number of genes associated with Asthma.
 
 ```{r ctd_asthma_table, results="asis"}
 library(knitr)
@@ -252,7 +250,7 @@ colnames( tt ) <- c( "Disease", "Frequency" )
 kable( tt[ order( tt$Frequency, decreasing = TRUE ), ] )
 ```
 
-Hence, the *true* answer is {r tt[ order( tt$Frequency, decreasing = TRUE ), 2][1]} and not {`r, length( unique( ctd_asthma$Gene.Symbol ) )}`.
+Hence, the *true* answer is `r tt[ order( tt$Frequency, decreasing = TRUE ), 2][1]` and not `r, length( unique( ctd_asthma$Gene.Symbol ) )`.
 
 
 ## Which chemicals are associated with asthma according to *CTDbase*?
@@ -265,10 +263,10 @@ colnames( ctd_asthma_chem )
 length( unique( ctd_asthma_chem$Chemical.Name ) )
 ```
 
-Hence, the answer is {r length( unique( ctd_asthma_chem$Chemical.Name ) )}. Visualization can be perform trough `Inference.Score` or `Reference.Count` plot. Let us assume that we are interested in providing information about the chemicals that are associated with GALA genes having an score larger than 30. The plot can be created by:
+Hence, the answer is `r length( unique( ctd_asthma_chem$Chemical.Name ) )`. Visualization can be perform trough `Inference.Score` or `Reference.Count` plot. Let us assume that we are interested in providing information about the chemicals that are associated with GALA genes having an score larger than 30. The plot can be created by:
 
 ```{r ctd_asthma_plot}
-plot( asthma, index_name = "chemical", subset.disease = "Asthma", filter.score = 30 ) +
+plot( asthma, index_name = "chemical interactions", subset.disease = "Asthma", filter.score = 30 ) +
     ggtitle( "Evidence of the association between GALA genes and chemicals" )
 ```
 
@@ -284,7 +282,8 @@ The table `gala_chem` contains the relation between GALA genes and the chemicals
 intr_chem <- intersect( gala_chem$Chemical.Name, ctd_asthma_chem$Chemical.Name )
 length( intr_chem )
 ```
-So, there are {r length( intr_chem )} chemicals sharing associations with GALA genes and asthma. Next code can be used to quantify the overlap.
+
+So, there are `r length( intr_chem )` chemicals sharing associations with GALA genes and asthma. Next code can be used to quantify the overlap.
 
 ```{r intersect_gala_asthma_chem_2}
 length( intr_chem ) / nrow( gala_chem ) * 100
@@ -294,9 +293,10 @@ length( intr_chem ) / nrow( ctd_asthma_chem ) * 100
 p1 <- round(length( intr_chem ) / nrow( gala_chem ) * 100, 2)
 p2 <- round(length( intr_chem ) / nrow( ctd_asthma_chem ) * 100, 2)
 ```
-That is, the `{r p1}`% of the total number of associations of GALA genes with chemicals are shared with the observed associations of asthma with chemicals. 
 
-On the other hand, the {r p2}% of the chemicals associated with asthma are shared with the chemicals associated with GALA genes.
+That is, the `r p1`% of the total number of associations of GALA genes with chemicals are shared with the observed associations of asthma with chemicals. 
+
+On the other hand, the `r p2`% of the chemicals associated with asthma are shared with the chemicals associated with GALA genes.
 
 It can be really useful to have a `data.frame` with three columns: chemical names, and the number of references in the literature associated with GALA genes and asthma. This table can be retrieve by
 
@@ -333,7 +333,7 @@ Finally, one may be interested in providing statistical evidences about whether 
 
 ## Are the GALA genes significantly associated with asthma according to *CTDabse*?
 
-This can be answered by using the method `enrich`. This method performs a Fisher test of enrichment given two objects of class \code{CTDquery}.
+This can be answered by using the method `enrich`. This method performs a Fisher test of enrichment given two objects of class `CTDquery`.
 
 ```{r gala_enrich_asthma}
 enrich( gala, asthma )
@@ -343,7 +343,7 @@ The function `enrich` takes the genes in the `gala` object (e.g. target genes), 
 
 We can observe that our GALA genes are enriched in those genes that are described in the literature to be associated with asthma (p < 2.2e-16). 
 
-### Are the GALA genes significantly enriched in Air Pollutants chemicals according to *CTDabse*?
+## Are the GALA genes significantly enriched in Air Pollutants chemicals according to *CTDabse*?
 
 First of all we need to obtain the information about air pollutants from *CTDbase*. This is done by using the function `query_ctd_chem`.
 
