@@ -63,6 +63,19 @@ The function to query *CTDbase* relies on a set of function that download the sp
 
 : (\#tab:CTDquerier-vocabulary) Functions used to download and load specific vocabulary from *CTDbase*.
 
+The three main functions of `CTDquerier` () returns `CTDquery` objects. These objects can be used to plot the information available in *CTDbase* by using `plot`. Moreover, the informatin from *CTDbase* can be extracted as `data.frame`s using the method `extract`. Both `plot` and `extract` methods needs an argument `index_name` that indicates the table to be ploted or extarcted. Table \@ref(tab:CTDquerier-index) shows the relation between the possible options for `index_name` depeting of the query performed. Also the pssible representation of each table.
+
+| Accessor                 | Genes            | Chemicals        | Diseases |
+|:-------------------------|:-----------------|:-----------------|:---------|
+| `gene interactions`      |                  | heat-map/network | heat-map |
+| `chemical interactions`  | heat-map         |                  | heat-map |
+| `diseases`               | heat-map         | heat-map         |          |
+| `gene-gene interactions` | heat-map/network |                  |          |
+| `kegg pathways`          | network          | heat-map         | network  |
+| `go terms`               | network          | heat-map         |          |
+
+: (\#tab:CTDquerier-index) Relation of the accessors and representation of each table in a `CTDquery` object depending of the input.
+
 # Querying *CTDbase* ...
 
 ## ... by gene
@@ -126,7 +139,7 @@ The generic `plot` function has the same mechanism that `extract`. Using the arg
 The following plot shows the number of reference that cites the association between the APOE-like genes and chemicals.
 
 ```{r ctd_gene_hm_chem}
-plot( ctd_genes, index_name = "chemical", filter.score = 3 )
+plot( ctd_genes, index_name = "chemical interactions", filter.score = 3 )
 ```
 
 Then, next plot shows shows the inference score that associates the APOE-like genes with diseases according to *CTDbase*.
@@ -138,7 +151,7 @@ plot( ctd_genes, index_name = "disease", filter.score = 115 )
 The plot to explore the gene-gene interactions is based in a network representation. The genes from the original set are dark-coloured, while the other genes are light-coloured.
 
 ```{r ctd_gene_ntw_gene}
-plot( ctd_genes, index_name = "gene-gene interaction", 
+plot( ctd_genes, index_name = "gene-gene interactions", 
     representation = "network", main = "APOE-like gene-gene interactions" )
 ```
 
@@ -217,13 +230,13 @@ The generic `plot` function seen in the previous sections for *gene queries* als
 The following plot shows the inference score for each chemical-gene association according to *CTDbase*.
 
 ```{r ctd_chem_hm_gene}
-plot( ctd_chem, index_name = "gene", filter.score = 5 )
+plot( ctd_chem, index_name = "gene interactions", filter.score = 5 )
 ```
 
 This associations, or relations, can be further inspected in a network representation that includes the effect of the chemical on the altered genes.
 
 ```{r ctd_chem_ntw_gene}
-plot( ctd_chem, index_name = "gene", representation = "network",
+plot( ctd_chem, index_name = "gene interactions", representation = "network",
     filter.score = 3, main = "Gen-Chemical interaction for Zinc and Cadmium" )
 ```
 
@@ -303,13 +316,13 @@ As seen in the previous sections `CTDquerier` allows for basic visualization fro
 Disease created `CTDquery` objects have a heat-map visualization of the disease interaction with chemicals. This plot allows to select the *CTDbase*'s inference score or the number of reference to highlight the associations.
 
 ```{r ctd_dise_htm_gen, fig.height=8}
-plot( ctd_diseases, index_name = "gene", filter.score = 75 )
+plot( ctd_diseases, index_name = "gene interactions", filter.score = 75 )
 ```
 
 Then, the associations between diseases and chemicals can also be plotted. Usually this plot is a heat-map as previously seen for genes. Nevertheless the lot can result in a bar-plot. This happens when the argument `filter.core` that allows to filter the associations (selecting any of *CTDbase*'s inference score or number of reference for the association) is so string that only a single disease is kept.
 
 ```{r ctd_dise_htm_chm}
-plot( ctd_diseases, index_name = "chemical", filter.score = 35 )
+plot( ctd_diseases, index_name = "chemical interactions", filter.score = 35 )
 ```
 
 Finally a network for the KEGG pathways inferred for the diseases can also be obtained.
