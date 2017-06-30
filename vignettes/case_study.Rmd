@@ -177,7 +177,7 @@ Then, the mean of the *Inference Score* can be interpreted as the level of evide
 ```{r gala_diseases_asthma_evidence}
 mean( gala_asthma$Inference.Score, na.rm = TRUE )
 ```
-This is a value XXXXX
+This index provides evidences about the degree of similarity between CTD chemical–gene–disease networks and a similar scale-free random network. The higher the score, the more likely the inference network has atypical connectivity. In other words, this large score indicates that the network of GALA genes with asthma is real and not build by chance (http://ctdbase.org/help/chemDiseaseDetailHelp.jsp).
 
 We can also provide the total number of papers associating GALA genes with asthma by
 
@@ -294,7 +294,9 @@ length( intr_chem ) / nrow( ctd_asthma_chem ) * 100
 p1 <- round(length( intr_chem ) / nrow( gala_chem ) * 100, 2)
 p2 <- round(length( intr_chem ) / nrow( ctd_asthma_chem ) * 100, 2)
 ```
-That is, the {r p1}% of the total number of associations of GALA genes with chemicals are shared with the associations of asthma with chemicals. On the other hand, the {r p2}% of the chemicals associated with asthma are shared with the chemicals associated with GALA genes.
+That is, the `{r p1}`% of the total number of associations of GALA genes with chemicals are shared with the observed associations of asthma with chemicals. 
+
+On the other hand, the {r p2}% of the chemicals associated with asthma are shared with the chemicals associated with GALA genes.
 
 It can be really useful to have a `data.frame` with three columns: chemical names, and the number of references in the literature associated with GALA genes and asthma. This table can be retrieve by
 
@@ -355,7 +357,7 @@ Once we obtained all the information about air pollutants from *CTDbase* the enr
 enrich( gala, air )
 ```
 
-We observe that the chemicals associated with GALA genes are enriched in ....
+We observe that the chemicals associated with GALA genes are enriched in toxics belonging to Air Pollution group.
 
 # Session Info.
 
