@@ -35,13 +35,13 @@ setMethod(
                     } else {
                         stop( "No network representation for 'disease association'." )
                     }
-                } else if( index_name == "chemical" ) {
+                } else if( index_name == "chemical interactions" ) {
                     if( representation == "heatmap" ) {
                         int_plot_gene_chemical_heatmap( x, ... )
                     } else {
                         stop( "No network representation for 'disease association'." )
                     }
-                } else if( index_name == "gene-gene interaction" ) {
+                } else if( index_name == "gene-gene interactions" ) {
                     if( representation == "heatmap" ) {
                         warning( "Are you sure you dont what to use 'network' representation?" )
                         int_plot_gene_gene_heatmap( x, ... )
@@ -66,7 +66,7 @@ setMethod(
                     stop( "Invalid provided 'index_name' for 'GENE' query. ")
                 }
             } else if( x@type == "CHEMICAL" ) { ## GREEN
-                if( index_name == "gene" ) {
+                if( index_name == "gene interactions" ) {
                     if( representation == "heatmap" ) {
                         int_plot_chem_gene_heatmap( x, ... )
                     } else {
@@ -94,13 +94,13 @@ setMethod(
                     stop( "Invalid provided 'index_name' for 'CHEMICAL' query. ")
                 }
             } else if( x@type == "DISEASE" ) {
-                if( index_name == "gene" ) {
+                if( index_name == "gene interactions" ) {
                     if( representation == "heatmap" ) {
                         int_plot_dise_gene_heatmap( x, ... )
                     } else {
                         stop( "No network representation for 'gene association'." )
                     }
-                } else if( index_name == "chemical" ) {
+                } else if( index_name == "chemical interactions" ) {
                     if( representation == "heatmap" ) {
                         int_plot_disease_chemical_heatmap( x, ... )
                     } else {
