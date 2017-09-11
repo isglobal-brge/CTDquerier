@@ -15,7 +15,7 @@ vignette: >
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
-    BiocStyle::html_document2:
+    BiocStyle::pdf_document:
     toc_float: true
 ---
 
@@ -285,7 +285,7 @@ get_terms( ctd_diseases )
 
 ### Extract Tables
 
-Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `extract`. Method extract allows to access to different tables according to the origin of the \texttt{CTDquery} object. For a \textt{CTDquery} created from diseases the accessible tables are:
+Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `extract`. Method extract allows to access to different tables according to the origin of the \texttt{CTDquery} object. For a \texttt{CTDquery} created from diseases the accessible tables are:
 
 | Table                    | Available | Accessors                  |
 |:-------------------------|:---------:|:---------------------------|
