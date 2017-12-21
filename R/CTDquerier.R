@@ -23,4 +23,6 @@
 #' @importFrom stringr str_replace
 #' @importFrom stringdist stringdist
 #' @importFrom psygenet2r extract
+#' @importFrom methods new
+#' @importFrom stats fisher.test quantile
 NULL
