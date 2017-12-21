@@ -31,6 +31,9 @@ right plot.}
 
 \item{colorRight}{(default \code{"#20B2AA"}) Color for right plot bars.}
 }
+\value{
+A ggplo2 object.
+}
 \description{
 This functions taked a \code{data.frame} and returns a \code{gtable}
 with three plots. The left-leafes, the axis names and the right-leafes.

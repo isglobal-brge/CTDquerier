@@ -17,6 +17,7 @@
 #' right plot.
 #' @param colorLeft (default \code{"#FF7F50"}) Color for left plot bars.
 #' @param colorRight (default \code{"#20B2AA"}) Color for right plot bars.
+#' @return A ggplo2 object.
 #' @examples
 #' data <- data.frame(
 #'    labels = LETTERS[1:15],
