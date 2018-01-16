@@ -1,5 +1,5 @@
 int_plot_dise_kegg_network <- function( x, subset.disease, subset.pathway, main ) {
-    tbl <- psygenet2r::extract( x, index_name = "kegg pathways" )
+    tbl <- get_table( x, index_name = "kegg pathways" )
 
     if( !missing( subset.disease ) ) {
         tbl <- tbl[ tbl$Disease.Name %in% subset.disease, ]

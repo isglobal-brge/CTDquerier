@@ -1,5 +1,5 @@
 int_plot_gene_gene_heatmap <- function( x, subset.souce, subset.target ) {
-    tbl <- psygenet2r::extract( x, index_name = "gene-gene interactions" )
+    tbl <- get_table( x, index_name = "gene-gene interactions" )
     tbl <- data.frame( tbl )[ ,
         c( "Source.Gene.Symbol", "Target.Gene.Symbol", "GeneSymbol", "Assay",
            "Interaction.Type", "Throughput" ) ]

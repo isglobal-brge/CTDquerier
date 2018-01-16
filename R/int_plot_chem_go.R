@@ -6,7 +6,7 @@ int_plot_chem_go_heatmap <- function( x, subset.chemical, subset.go,
         base::tolower( c("Biological Process", "Cellular Component",
         "Molecular Function" ) ) )
 
-    tbl <- psygenet2r::extract( x, index_name = "go terms" )
+    tbl <- get_table( x, index_name = "go terms" )
     tbl$Ontology <- base::tolower( tbl$Ontology )
     tbl <- tbl[ tbl$Ontology %in% ontology, ]
 

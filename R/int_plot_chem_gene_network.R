@@ -1,7 +1,7 @@
 int_plot_chem_gene_network <- function( x, subset.chemical, subset.gene,
         filter.score, main ) {
 
-    tbl <- psygenet2r::extract( x, index_name = "gene interactions" )
+    tbl <- get_table( x, index_name = "gene interactions" )
     tbl <- tbl[ tbl$Reference.Count >= filter.score, ]
 
     if( !missing( subset.chemical ) ) {

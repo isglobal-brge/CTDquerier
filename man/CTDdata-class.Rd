@@ -6,14 +6,15 @@
 \alias{CTDdata}
 \alias{CTDdata-class}
 \alias{enrich,CTDdata-method}
-\alias{extract,CTDdata-method}
+\alias{get_table,CTDdata-method}
 \alias{get_terms,CTDdata-method}
 \alias{plot,CTDdata,ANY-method}
 \title{Class CTDdata}
 \usage{
-\S4method{enrich}{CTDdata}(x, y, ...)
+\S4method{enrich}{CTDdata}(x, y, universe, use = "curated", warnings = TRUE,
+  ...)
 
-\S4method{extract}{CTDdata}(object, index_name, ...)
+\S4method{get_table}{CTDdata}(object, index_name, ...)
 
 \S4method{get_terms}{CTDdata}(object)
 
@@ -24,6 +25,13 @@
 \item{x}{Object of class \code{CTDdata}.}
 
 \item{y}{NOT USED}
+
+\item{universe}{String vector of genes used as universe. If not provided,
+all genes in CTDbase are used.}
+
+\item{use}{Select if all or only curated relations are used.}
+
+\item{warnings}{Shows or hiddes warnings.}
 
 \item{...}{NOT USED}
 
@@ -56,29 +64,12 @@ Class resulting of \code{\link{query_ctd_gene}},
 to encapsulate all the information in \emph{CTDbase} for given set of genes,
 chemicals or diseases.
 }
-\details{
-Available tables are (\code{index_name}):
-\enumerate{
-  \item \code{"genes interactions"}: (Only for chemicals) Table with a relation
-  of the genes interacting with the given chemicals.
-  \item \code{"chemicals interactions"}: (Only for genes) Table with a relation
-  of the chemicals interacting with the given genes.
-  \item \code{"diseases"}: Table with a relation of the diseases associated with
-  given genes or chemicals.
-  \item \code{"gene-gene interactions"}: (Only for genes) Table with a relation
-  of the genes interacting with the given genes.
-  \item \code{"kegg pathways"}: Table with a relation of the KEGG pathways affected by the
-given chemicals or where the given genes play a role.
-  \item \code{"go terms"}: Table with a relatio of the GO terms afected by the given
-chemicals or where the given genes play a role.
-}
-}
 \section{Methods (by generic)}{
 \itemize{
 \item \code{enrich}: Method to perform enrichment analysis given two
 object of class \code{CTDdata}.
 
-\item \code{extract}: Method to obtain a specific inner table from an \code{CTDdata} object.
+\item \code{get_table}: Method to obtain a specific inner table from an \code{CTDdata} object.
 
 \item \code{get_terms}: Return a list with the terms found to create the object.
 
@@ -119,15 +110,11 @@ given chemicals or where the given genes play a role.}
 chemicals or where the given genes play a role.}
 }}
 
-\note{
-The pairs of \code{CTDdata} objects given to x and y must follow a
-specific pattern: gene-disease, gene-chemical or disease-chemical.
-}
 \seealso{
 \code{\link{query_ctd_gene}} to create a \code{CTDdata}
 from a set of genes, \code{\link{query_ctd_chem}} to create a
 \code{CTDdata} from a set of chemicals, \code{\link{query_ctd_dise}} to
 create a \code{CTDdata} from a set of diseases,
-\code{\link[psygenet2r]{extract}} to retrive encapsulated data and
+\code{\link{get_table}} to retrive encapsulated data and
 \code{plot} to get nice plots from stored data.
 }

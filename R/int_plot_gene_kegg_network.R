@@ -1,5 +1,5 @@
 int_plot_gene_kegg_network <- function( x, subset.gene, subset.pathway, main ) {
-    tbl <- psygenet2r::extract( x, index_name = "kegg pathways" )
+    tbl <- get_table( x, index_name = "kegg pathways" )
 
     if( !missing( subset.gene ) ) {
         tbl <- tbl[ tbl$GeneSymbol %in% subset.gene, ]

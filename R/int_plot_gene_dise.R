@@ -2,7 +2,7 @@ int_plot_gene_disease_heatmap <- function( x, subset.gene, subset.disease,
         field.score = "Inference", filter.score = 50, max.length = 30 ) {
     field.score <- match.arg( field.score, choices = c( "Inference", "Reference" ) )
     field.score <- ifelse( field.score == "Inference", "Inference.Score", "Reference.Count" )
-    tbl <- psygenet2r::extract( x, index_name = "diseases" )
+    tbl <- get_table( x, index_name = "diseases" )
 
     if( !missing( subset.gene ) ) {
         tbl <- tbl[ tbl$GeneSymbol %in% subset.gene, ]

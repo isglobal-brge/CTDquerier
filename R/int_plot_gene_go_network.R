@@ -5,7 +5,7 @@ int_plot_gene_go_network <- function( x, subset.x, subset.y, main,
         base::tolower( c("Biological Process", "Cellular Component",
                          "Molecular Function" ) ) )
 
-    tbl <- psygenet2r::extract( x, index_name = "go terms" )
+    tbl <- get_table( x, index_name = "go terms" )
     tbl$Ontology <- base::tolower( tbl$Ontology )
     tbl <- tbl[ tbl$Ontology %in% ontology, ]
 

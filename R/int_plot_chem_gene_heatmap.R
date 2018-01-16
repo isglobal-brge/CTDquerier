@@ -1,7 +1,7 @@
 int_plot_chem_gene_heatmap <- function( x, subset.chemical, subset.gene,
         filter.score = 2, max.length = 30 ) {
 
-    tbl <- psygenet2r::extract( x, index_name = "gene interactions" )
+    tbl <- get_table( x, index_name = "gene interactions" )
     tbl <- tbl[ tbl$Reference.Count >= filter.score,
                 c( "Chemical.Name", "Gene.Symbol", "Reference.Count" ) ]
 

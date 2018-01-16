@@ -33,7 +33,7 @@
 #' from a set of genes, \code{\link{query_ctd_chem}} to create a
 #' \code{CTDdata} from a set of chemicals, \code{\link{query_ctd_dise}} to
 #' create a \code{CTDdata} from a set of diseases,
-#' \code{\link[psygenet2r]{extract}} to retrive encapsulated data and
+#' \code{\link{get_table}} to retrive encapsulated data and
 #' \code{plot} to get nice plots from stored data.
 #' @return An object of class \code{CTDdata}
 setClass( "CTDdata",

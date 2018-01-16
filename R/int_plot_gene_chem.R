@@ -1,6 +1,6 @@
 int_plot_gene_chemical_heatmap <- function( x, subset.gene, subset.chemical,
         filter.score = 20, max.length = 30 ) {
-    tbl <- psygenet2r::extract( x, index_name = "chemical interactions" )
+    tbl <- get_table( x, index_name = "chemical interactions" )
 
     if( !missing( subset.gene ) ) {
         tbl <- tbl[ tbl$GeneSymbol %in% subset.gene, ]

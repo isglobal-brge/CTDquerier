@@ -1,6 +1,6 @@
 int_plot_chem_kegg_heatmap <- function( x, subset.chemical, subset.pathway,
         filter.score, max.length = 30 ) {
-    tbl <- psygenet2r::extract( x, index_name = "kegg pathways" )
+    tbl <- get_table( x, index_name = "kegg pathways" )
 
     if( !missing( subset.chemical ) ) {
         tbl <- tbl[ tbl$ChemicalName %in% base::toupper( subset.chemical ), ]

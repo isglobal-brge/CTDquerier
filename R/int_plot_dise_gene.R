@@ -3,7 +3,7 @@ int_plot_dise_gene_heatmap <- function( x, subset.disease, subset.gene,
     field.score <- match.arg( field.score, choices = c( "Inference", "Reference" ) )
     field.score <- ifelse( field.score == "Inference", "Inference.Score", "Reference.Count" )
 
-    tbl <- psygenet2r::extract( x, index_name = "gene interactions" )
+    tbl <- get_table( x, index_name = "gene interactions" )
     tbl <- tbl[ !is.na( tbl[ , field.score ] ), ]
     tbl <- tbl[ tbl[ , field.score ] >= filter.score, ]
 

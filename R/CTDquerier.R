@@ -7,7 +7,7 @@
 #' \code{\link{query_ctd_chem}} to query CTDbase given a set of chemicals. Both
 #' functions returns \code{\link{CTDdata}} objects. Raw downloaded information
 #' can be retrieved from \code{\link{CTDdata}} using method
-#' \code{\link[psygenet2r]{extract}}.
+#' \code{\link{get_table}}.
 #'
 #' @section Data Visualization:
 #' \code{\link{CTDdata}} objects offers basic visualization of the downloaded
@@ -22,7 +22,6 @@
 #' @importFrom RCurl getURL
 #' @importFrom stringr str_replace
 #' @importFrom stringdist stringdist
-#' @importFrom psygenet2r extract
 #' @importFrom methods new
 #' @importFrom stats fisher.test quantile
 NULL

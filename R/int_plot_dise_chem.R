@@ -2,7 +2,7 @@ int_plot_disease_chemical_heatmap <- function( x, subset.disease, subset.chemica
         field.score = "Inference", filter.score = 20, max.length = 30 ) {
     field.score <- match.arg( field.score, choices = c( "Inference", "Reference" ) )
     field.score <- ifelse( field.score == "Inference", "Inference.Score", "Reference.Count" )
-    tbl <- psygenet2r::extract( x, index_name = "chemical interactions" )
+    tbl <- get_table( x, index_name = "chemical interactions" )
     tbl <- tbl[ tbl$Reference.Count >= filter.score, ]
 
     if( !missing( subset.disease ) ) {

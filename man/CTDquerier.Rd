@@ -15,7 +15,7 @@ Package for CTDbase data query, data visualization and data analysis.
 \code{\link{query_ctd_chem}} to query CTDbase given a set of chemicals. Both
 functions returns \code{\link{CTDdata}} objects. Raw downloaded information
 can be retrieved from \code{\link{CTDdata}} using method
-\code{\link[psygenet2r]{extract}}.
+\code{\link{get_table}}.
 }
 
 \section{Data Visualization}{
