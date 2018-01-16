@@ -11,7 +11,7 @@ package: "`r pkg_ver( 'CTDquerier' )`"
 csl: biomed-central.csl
 bibliography: case_study.bib
 vignette: >
-    %\VignetteIndexEntry{CTDquerier: Case study on Environmental Chemicals and Human Non-Communicable Diseases}
+    %\VignetteIndexEntry{Case study on Environmental Chemicals and asthma-related genes}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
