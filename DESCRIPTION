@@ -1,6 +1,6 @@
 Package: CTDquerier
 Title: Package for CTDbase data query, visualization and downstream analysis.
-Version: 0.99.17
+Version: 0.99.18
 Authors@R: c( person("Carles", "Hernandez-Ferrer", email = "carles.hernandez@isglobal.org", role = c("aut", "cre")),
   person("Jaun R.", "Gonzalez", email = "juanr.gonzalez@isglobal.org", role = "aut"))
 Description: Package to retrieve and visualize data from the Comparative Toxicogenomics Database (http://ctdbase.org/). The downloaded data is formated as DataFrames for further downstream analyses.
