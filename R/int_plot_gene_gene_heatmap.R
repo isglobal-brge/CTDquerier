@@ -9,7 +9,7 @@ int_plot_gene_gene_heatmap <- function( x, subset.souce, subset.target ) {
     }
 
     tbl <- tbl[ tbl$Source.Gene.Symbol %in% unique( tbl$GeneSymbol ), ]
-    if( !missing( subset.chemical ) ) {
+    if( !missing( subset.souce ) ) {
         tbl <- tbl[ tbl$Target.Gene.Symbol %in% subset.target, ]
     }
 
