@@ -1,6 +1,6 @@
 Package: CTDquerier
 Title: Package for CTDbase data query, visualization and downstream analysis
-Version: 0.99.28
+Version: 0.99.29
 Authors@R: c( person("Carles", "Hernandez-Ferrer", email = "carles.hernandez@isglobal.org", role = c("aut", "cre")),
   person("Jaun R.", "Gonzalez", email = "juanr.gonzalez@isglobal.org", role = "aut"))
 Maintainer: Carles Hernandez-Ferrer <carles.hernandez@isglobal.org>
@@ -19,8 +19,7 @@ Imports: RCurl,
     grid,
     gridExtra,
     methods,
-    stats,
-    BiocFileCache
+    stats
 VignetteBuilder: knitr
 Suggests: BiocStyle, knitr
 RoxygenNote: 6.0.1
