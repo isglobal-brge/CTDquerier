@@ -3,16 +3,16 @@
 \docType{data}
 \name{gala}
 \alias{gala}
-\title{\code{CTDquery} for ilustrative purpouses}
-\format{An object of class \code{CTDquery} of length 1.}
+\title{\code{CTDdata} for ilustrative purpouses}
+\format{An object of class \code{CTDdata} of length 1.}
 \usage{
 data("gala")
 }
 \value{
-An \code{CTDquery} object.
+An \code{CTDdata} object.
 }
 \description{
-\code{CTDquery} with information of 258 genes downloaded from CTDbase.
+\code{CTDdata} with information of 258 genes downloaded from CTDbase.
  The object was created from from the genes obtained from  the scientific
  article entitleed Case-control admixture mapping in Latino populations
  enriches for known asthma-associated genes" (Table E1) by Torgerson et. al.

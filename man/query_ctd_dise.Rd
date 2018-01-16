@@ -19,7 +19,7 @@ to store the CTDbase disease vocabilary.}
 information of each step.}
 }
 \value{
-An object of class \code{\link{CTDquery}}.
+An object of class \code{\link{CTDdata}}.
 }
 \description{
 This function cheks for CTDbase disease vocabulary and query CTDbase

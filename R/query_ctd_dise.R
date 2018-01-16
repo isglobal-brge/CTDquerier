@@ -11,7 +11,7 @@
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
-#' @return An object of class \code{\link{CTDquery}}.
+#' @return An object of class \code{\link{CTDdata}}.
 #' @examples
 #' rst <- query_ctd_dise( terms = "Asthma", verbose = TRUE )
 #' @export query_ctd_dise
@@ -113,7 +113,7 @@ query_ctd_dise <- function( terms, filename = "CTD_diseases.tsv.gz", mode = "aut
   }
   rm( tmp, ii )
 
-  new( "CTDquery",
+  new( "CTDdata",
        type                   = "DISEASE",
        terms                  = S4Vectors::DataFrame( keep ),
        losts                  = disc,

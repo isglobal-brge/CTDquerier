@@ -11,7 +11,7 @@
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
-#' @return An object of class \code{\link{CTDquery}}.
+#' @return An object of class \code{\link{CTDdata}}.
 #' @examples
 #' rst <- query_ctd_gene( terms = c( "APP", "HMOX1A", "hmox1" ), verbose = TRUE )
 #' @export query_ctd_gene
@@ -162,7 +162,7 @@ query_ctd_gene <- function( terms, filename = "CTD_genes.tsv.gz", mode = "auto",
   }
   rm( tmp, ii )
 
-  new( "CTDquery",
+  new( "CTDdata",
     type                   = "GENE",
     terms                  = S4Vectors::DataFrame( keep ),
     losts                  = disc,

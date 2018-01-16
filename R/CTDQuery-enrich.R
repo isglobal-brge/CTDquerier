@@ -1,11 +1,11 @@
-#' @describeIn CTDquery MEthod to perform enrichment analysis given two
-#' object of class \code{CTDquery}.
-#' @note The pairs of \code{CTDquery} objects given to x and y must follow a
+#' @describeIn CTDdata Method to perform enrichment analysis given two
+#' object of class \code{CTDdata}.
+#' @note The pairs of \code{CTDdata} objects given to x and y must follow a
 #' specific pattern: gene-disease, gene-chemical or disease-chemical.
 #' @param ... NOT USED
 setMethod(
     f = "enrich",
-    signature = "CTDquery",
+    signature = "CTDdata",
     definition = function( x, y, ... ) {
         if( x@type == "GENE" ) {
             if( y@type == "DISEASE" | y@type == "CHEMICAL" ) {

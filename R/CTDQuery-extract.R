@@ -1,5 +1,5 @@
-#' @describeIn CTDquery Method to obtain a specific inner table from an \code{CTDquery} object.
-#' @param object Object of class \code{CTDquery}.
+#' @describeIn CTDdata Method to obtain a specific inner table from an \code{CTDdata} object.
+#' @param object Object of class \code{CTDdata}.
 #' @details Available tables are (\code{index_name}):
 #' \enumerate{
 #'   \item \code{"genes interactions"}: (Only for chemicals) Table with a relation
@@ -17,7 +17,7 @@
 #' }
 
 setMethod( "extract",
-  signature  = "CTDquery",
+  signature  = "CTDdata",
   definition = function( object, index_name, ... ) {
       index_name <- base::tolower( index_name )
     if( index_name == "gene interactions" ) {

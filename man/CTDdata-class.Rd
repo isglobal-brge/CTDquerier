@@ -2,32 +2,32 @@
 % Please edit documentation in R/00_AllClasses.R, R/CTDQuery-enrich.R,
 %   R/CTDQuery-extract.R, R/CTDQuery-get_terms.R, R/CTDQuery-plot.R
 \docType{class}
-\name{CTDquery}
-\alias{CTDquery}
-\alias{CTDquery-class}
-\alias{enrich,CTDquery-method}
-\alias{extract,CTDquery-method}
-\alias{get_terms,CTDquery-method}
-\alias{plot,CTDquery,ANY-method}
-\title{Class CTDquery}
+\name{CTDdata}
+\alias{CTDdata}
+\alias{CTDdata-class}
+\alias{enrich,CTDdata-method}
+\alias{extract,CTDdata-method}
+\alias{get_terms,CTDdata-method}
+\alias{plot,CTDdata,ANY-method}
+\title{Class CTDdata}
 \usage{
-\S4method{enrich}{CTDquery}(x, y, ...)
+\S4method{enrich}{CTDdata}(x, y, ...)
 
-\S4method{extract}{CTDquery}(object, index_name, ...)
+\S4method{extract}{CTDdata}(object, index_name, ...)
 
-\S4method{get_terms}{CTDquery}(object)
+\S4method{get_terms}{CTDdata}(object)
 
-\S4method{plot}{CTDquery,ANY}(x, y, index_name = "base",
+\S4method{plot}{CTDdata,ANY}(x, y, index_name = "base",
   representation = "heatmap", ...)
 }
 \arguments{
-\item{x}{Object of class \code{CTDquery}.}
+\item{x}{Object of class \code{CTDdata}.}
 
 \item{y}{NOT USED}
 
 \item{...}{NOT USED}
 
-\item{object}{Object of class \code{CTDquery}.}
+\item{object}{Object of class \code{CTDdata}.}
 
 \item{index_name}{Name of the plot to be draw. \code{"base"} shows a
 bar-plot indicating the number of terms lost&found at CTDbase. For
@@ -48,7 +48,7 @@ representation.}
 \item{representation}{Can take values \code{"heatmap"} or \code{"network"}.}
 }
 \value{
-An object of class \code{CTDquery}
+An object of class \code{CTDdata}
 }
 \description{
 Class resulting of \code{\link{query_ctd_gene}},
@@ -75,10 +75,10 @@ chemicals or where the given genes play a role.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{enrich}: MEthod to perform enrichment analysis given two
-object of class \code{CTDquery}.
+\item \code{enrich}: Method to perform enrichment analysis given two
+object of class \code{CTDdata}.
 
-\item \code{extract}: Method to obtain a specific inner table from an \code{CTDquery} object.
+\item \code{extract}: Method to obtain a specific inner table from an \code{CTDdata} object.
 
 \item \code{get_terms}: Return a list with the terms found to create the object.
 
@@ -120,14 +120,14 @@ chemicals or where the given genes play a role.}
 }}
 
 \note{
-The pairs of \code{CTDquery} objects given to x and y must follow a
+The pairs of \code{CTDdata} objects given to x and y must follow a
 specific pattern: gene-disease, gene-chemical or disease-chemical.
 }
 \seealso{
-\code{\link{query_ctd_gene}} to create a \code{CTDquery}
+\code{\link{query_ctd_gene}} to create a \code{CTDdata}
 from a set of genes, \code{\link{query_ctd_chem}} to create a
-\code{CTDquery} from a set of chemicals, \code{\link{query_ctd_dise}} to
-create a \code{CTDquery} from a set of diseases,
+\code{CTDdata} from a set of chemicals, \code{\link{query_ctd_dise}} to
+create a \code{CTDdata} from a set of diseases,
 \code{\link[psygenet2r]{extract}} to retrive encapsulated data and
 \code{plot} to get nice plots from stored data.
 }

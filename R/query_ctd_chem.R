@@ -12,7 +12,7 @@
 #' in \code{terms} argument and a possible match in CTDbase.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
-#' @return An object of class \code{\link{CTDquery}}.
+#' @return An object of class \code{\link{CTDdata}}.
 #' @examples
 #' rst <- query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE )
 #' @export query_ctd_chem
@@ -163,7 +163,7 @@ query_ctd_chem <- function( terms, filename = "CTD_chemicals.tsv.gz", mode = "au
     # //
   }
 
-  new( "CTDquery",
+  new( "CTDdata",
     type                   = "CHEMICAL",
     terms                  = S4Vectors::DataFrame( keep ),
     losts                  = disc,

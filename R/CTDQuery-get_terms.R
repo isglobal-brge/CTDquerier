@@ -1,7 +1,7 @@
-#' @describeIn CTDquery Return a list with the terms found to create the object.
+#' @describeIn CTDdata Return a list with the terms found to create the object.
 setMethod(
     f = "get_terms",
-    signature = "CTDquery",
+    signature = "CTDdata",
     definition = function(object) {
         return(list(
             "found" = object@terms[ , 1 ],

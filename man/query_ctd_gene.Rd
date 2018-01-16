@@ -19,7 +19,7 @@ to store the CTDbase gene vocabilary.}
 information of each step.}
 }
 \value{
-An object of class \code{\link{CTDquery}}.
+An object of class \code{\link{CTDdata}}.
 }
 \description{
 This function cheks for CTDbase gene vocabulary and query CTDbase

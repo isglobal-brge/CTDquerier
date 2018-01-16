@@ -1,7 +1,7 @@
 setMethod( "show",
-    signature  = "CTDquery",
+    signature  = "CTDdata",
     definition = function( object ) {
-        cat( "Object of class 'CTDquery'\n" )
+        cat( "Object of class 'CTDdata'\n" )
         cat( "--------------------------------\n" )
         cat( " . Type:", object@type, "\n" )
         cat( " . Length:", nrow( object@terms ), "\n")

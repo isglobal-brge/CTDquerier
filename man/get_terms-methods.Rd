@@ -7,7 +7,7 @@
 get_terms(object)
 }
 \arguments{
-\item{object}{Object of class \code{\link{CTDquery}}.}
+\item{object}{Object of class \code{\link{CTDdata}}.}
 }
 \value{
 A list with two accessors: \code{"used"} for the terms that
