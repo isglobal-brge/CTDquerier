@@ -23,7 +23,7 @@ get_ctd_url <- function( index, term = "", category = "" ) {
 
   url$disease_chemical          <- "http://ctdbase.org/detail.go?acc=TERM&view=chem&6578706f7274=1&type=CATEGORY&d-1332398-e=5"
   url$disease_gene              <- "http://ctdbase.org/detail.go?acc=TERM&view=gene&6578706f7274=1&type=CATEGORY&d-1332398-e=5"
-  url$disease_kegg                 <- "http://ctdbase.org/detail.go?acc=TERM&view=pathway&6578706f7274=1&type=CATEGORY&d-148988-e=5"
+  url$disease_kegg              <- "http://ctdbase.org/detail.go?acc=TERM&view=pathway&6578706f7274=1&type=CATEGORY&d-148988-e=5"
 
 
 
@@ -33,21 +33,21 @@ get_ctd_url <- function( index, term = "", category = "" ) {
   sel <- url[ index ][[ 1 ]]
 
   sel <- stringr::str_replace(
-    string      = sel,
-    pattern     = "CATEGORY",
-    replacement = category
+      string      = sel,
+      pattern     = "CATEGORY",
+      replacement = category
   )
 
   sel <- stringr::str_replace(
-    string      = sel,
-    pattern     = "TERM",
-    replacement = term
+      string      = sel,
+      pattern     = "TERM",
+      replacement = term
   )
 
   sel <- stringr::str_replace(
-    string      = sel,
-    pattern     = " ",
-    replacement = "+"
+      string      = sel,
+      pattern     = " ",
+      replacement = "+"
   )
 
   return( sel )
