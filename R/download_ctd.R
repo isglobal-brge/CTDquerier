@@ -27,26 +27,26 @@
 #' file.exists( "CTD_genes.tsv.gz" )
 #' @export download_ctd_genes
 download_ctd_genes <- function( filename = "CTD_genes.tsv.gz", mode = "auto", verbose = FALSE ) {
-  fileURL <- "http://ctdbase.org/reports/CTD_genes.tsv.gz"
+    fileURL <- "http://ctdbase.org/reports/CTD_genes.tsv.gz"
 
-  if( !file.exists( filename ) ) {
-    if( verbose ) {
-      message( "Downloading gene vocabilary from CTDbase ( '", filename, "' ).")
+    if( !file.exists( filename ) ) {
+        if( verbose ) {
+            message( "Downloading gene vocabilary from CTDbase ( '", filename, "' ).")
+        }
+        res <- tryCatch( utils::download.file(
+            url = fileURL,
+            destfile = filename,
+            method = mode ),
+            error = function(e) { 1 } )
+    } else {
+        res <- filename
     }
-    res <- tryCatch( utils::download.file(
-      url = fileURL,
-      destfile = filename,
-      method = mode ),
-    error = function(e) { 1 } )
-  } else {
-    res <- filename
-  }
 
-  if( res == 1 ) {
-    ""
-  } else {
-    filename
-  }
+    if( res == 1 ) {
+        ""
+    } else {
+        filename
+    }
 }
 
 #' Function to download checmicals available in CTDbase
@@ -79,26 +79,26 @@ download_ctd_genes <- function( filename = "CTD_genes.tsv.gz", mode = "auto", ve
 #' file.exists( "CTD_chemicals.tsv.gz" )
 #' @export download_ctd_chem
 download_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz", mode = "auto", verbose = FALSE ) {
-  fileURL <- "http://ctdbase.org/reports/CTD_chemicals.tsv.gz"
+    fileURL <- "http://ctdbase.org/reports/CTD_chemicals.tsv.gz"
 
-  if( !file.exists( filename ) ) {
-    if( verbose ) {
-      message( "Downloading chemical vocabilary from CTDbase ( '", filename, "' ).")
+    if( !file.exists( filename ) ) {
+        if( verbose ) {
+            message( "Downloading chemical vocabilary from CTDbase ( '", filename, "' ).")
+        }
+        res <- tryCatch( utils::download.file(
+            url = fileURL,
+            destfile = filename,
+            method = mode ),
+            error = function( e ) { 1 } )
+    } else {
+        res <- filename
     }
-    res <- tryCatch( utils::download.file(
-      url = fileURL,
-      destfile = filename,
-      method = mode ),
-    error = function( e ) { 1 } )
-  } else {
-    res <- filename
-  }
 
-  if( res == 1 ) {
-    ""
-  } else {
-    filename
-  }
+    if( res == 1 ) {
+        ""
+    } else {
+        filename
+    }
 }
 
 #' Function to download diseases available in CTDbase
@@ -130,24 +130,24 @@ download_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz", mode = "auto",
 #' file.exists( "CTD_diseases.tsv.gz" )
 #' @export download_ctd_dise
 download_ctd_dise <- function( filename = "CTD_diseases.tsv.gz", mode = "auto", verbose = FALSE ) {
-  fileURL <- "http://ctdbase.org/reports/CTD_diseases.tsv.gz"
+    fileURL <- "http://ctdbase.org/reports/CTD_diseases.tsv.gz"
 
-  if( !file.exists( filename ) ) {
-    if( verbose ) {
-      message( "Downloading disease vocabilary from CTDbase ( '", filename, "' ).")
+    if( !file.exists( filename ) ) {
+        if( verbose ) {
+            message( "Downloading disease vocabilary from CTDbase ( '", filename, "' ).")
+        }
+        res <- tryCatch( utils::download.file(
+            url = fileURL,
+            destfile = filename,
+            method = mode ),
+            error = function( e ) { 1 } )
+    } else {
+        res <- filename
     }
-    res <- tryCatch( utils::download.file(
-      url = fileURL,
-      destfile = filename,
-      method = mode ),
-      error = function( e ) { 1 } )
-  } else {
-    res <- filename
-  }
 
-  if( res == 1 ) {
-    ""
-  } else {
-    filename
-  }
+    if( res == 1 ) {
+        ""
+    } else {
+        filename
+    }
 }
