@@ -1,5 +1,8 @@
-download_url <- function( url ) {
+download_url <- function( url, verbose = TRUE ) {
   url.content <- RCurl::getURL( url = url )
+  if( length( grep( "Bad Gateway", url.content ) ) != 0 & verbose ) {
+      warning( "Comparative Toxicogenomics Database returned a 'Bad Gateway' error. This table could not be downloaded." )
+  }
 
   url.table = tryCatch({
     utils::read.delim( text = url.content, head = TRUE, sep = "\t", as.is = TRUE )
