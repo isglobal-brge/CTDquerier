@@ -22,12 +22,13 @@ output:
 
 # `CTDquerier` R package
 
-`CTDquerier` is an R package that allows R users to download basic data from *CTDbase* about genes, chemicals and diseases. First, the input provided by user is validated in *CTDbase* vocabulary. Second, the validated results are used to query *CTDbase* and those data are downloaed into your R session.  
+`CTDquerier` is an R package that allows R users to download basic data from *CTDbase* about genes, chemicals and diseases. First, the input provided by user is validated in *CTDbase* vocabulary files. Second, the validated results are used to query *CTDbase* and their data are downloaded into the R session.  
 
-The package can be installed using `devtools` from our GitHub repository by executing:
+The package can be installed using `biocLite` function from Biocondcutor by executing:
 
 ```{r eval=FALSE}
-devtools::install_github( "isglobal-brge/CTDquerier" )
+source("https://bioconductor.org/biocLite.R")
+biocLite("CTDquerier")
 ```
 
 # Case-Study aim
@@ -36,7 +37,7 @@ The case-study is based on the results obtained in the article entitled "Case-co
 
 The aim of this case study is to illustrate how `CTDquerier` can be used to provide further evidences about a given hypothesis or how to provide biological insights from genetic, toxicological or environmental epidemiological studies. In our case, we are using a real example where the authors are interested in providing a set of genes associated with asthma. 
 
-By using `CTDquerier` we will provide information about, among others, what is the level of evidence of the association between those genes and asthma or which chemicals are associated to this list of genes and asthma according to *CTDbase*. 
+By using `CTDquerier` we will provide information about, among others, what is the level of curated evidence, from *CTDbase*, of the association between those genes and asthma or which chemicals are relaqted to this list of genes and asthma according to *CTDbase*. 
 
 # Case-Study description
 
@@ -72,7 +73,7 @@ We have filtered 17 regions that had no genes. Now we will get the gene list by:
 ```{r gala_create_list}
 gala_genes <- trimws( unlist( strsplit( table_e1$Genes, "," ) ) )
 length( gala_genes )
-gala_genes[1:10]
+gala_genes[1:15]
 ```
 
 NOTE that each region can have more than one gene that is separated by `,`.
@@ -102,7 +103,7 @@ Now, let us illustrate the type of questions that can be addressed by using `CTD
 
 ## How many GALA genes are in *CTDbase*?
 
-Recall that our genes of interest are stored in the vector `gala_genes` (305 genes) and that the result obtained from querying *CTDbase* with those genes is stored in the object `gala` (258 terms). This means that 47 genes from the GALA study were not present in *CTDbase*. This information can be visually inspect by using the method `plot` of a `CTDquery` object.
+Recall that our genes of interest are stored in the vector `gala_genes` (305 genes) and that the result obtained from querying *CTDbase* with those genes is stored in the object `gala` (258 terms). This means that 47 genes from the GALA study were not present in *CTDbase*. This information can be visually inspect by using the method `plot` of a `CTDdata` object.
 
 ```{r gala_plot_query, message=FALSE}
 library( ggplot2 )
@@ -117,22 +118,21 @@ get_terms( gala )[[ "lost" ]]
 
 ## How many diseases are associated with GALA genes according to *CTDbase*?
 
-The call to `query_ctd_gene` done in previous section has downloaded "all the information available" in *CTDbase* of GALA genes. We can inspect the information available just printing our object of class `CTDquery`: 
+The call to `query_ctd_gene` done in previous section has downloaded "all the information available" in *CTDbase* of GALA genes. We can inspect the information available just printing our object of class `CTDdata`: 
 
 ```{r gala_show_2}
 gala
 ```
 
-The line starting by `#Diseases` indicates the number of relationships between a gene (or chemical) and diseases. For the GALA genes, there are a total of 218,761 associations between our genes of interest and diseases. The table with the associations between genes and diseases can be obtained using the method `extract` from `psygenet2r` R package.
+The line starting by `#Diseases` indicates the number of relationships between a gene (or chemical) and diseases. For the GALA genes, there are a total of 223,462 relations between our genes of interest and diseases. The table with the relations between genes and diseases can be obtained using the method `get_table`.
 
 ```{r gala_gda_all}
-library( psygenet2r )
-gala_all_diseases <- extract( gala, index_name = "diseases" )
+gala_all_diseases <- get_table( gala, index_name = "diseases" )
 colnames( gala_all_diseases )
 dim( gala_all_diseases )
 ```
 
-We observe that the table with the associations between gene and diseases has close to ~220K rows. 
+We observe that the table with the relations between gene and diseases has close to ~220K rows. This table provides with all the relations that link GALA genes with diseases, including the **curated** and the **inferred** ones.
 
 We can also check that the number of genes used to create this table are the correct ones:
 
@@ -157,7 +157,17 @@ Finally, the answer to our question of interest can be obtained by:
 ```{r gala_diseases_unique}
 length( unique( gala_all_diseases$Disease.Name ) )
 ```
-This is the number of unique diseases associated to the GALA genes
+
+This is the number of unique diseases associated to the GALA genes using all the relations. If we are interested in getting only the associations between the GALA genes and the diseases, understood as the **curated** relations:
+
+```{r gala_diseases_curated}
+gala_all_diseases_cu <- gala_all_diseases[ !is.na( gala_all_diseases$Direct.Evidence ), ]
+gala_all_diseases_cu <- gala_all_diseases_cu[ gala_all_diseases_cu$Direct.Evidence != "", ]
+dim( gala_all_diseases_cu )
+length( unique( gala_all_diseases_cu$Disease.Name ) )
+```
+
+So, in summary: There are 301 diseases linked to GALA genes, supported by 436 curated associations.
 
 ## What is the level of evidence of the association between GALA genes and asthma according to *CTDbase*?
 
@@ -170,16 +180,25 @@ gala_asthma <- gala_all_diseases[
 dim( gala_asthma )
 ```
 
-The subsetting resulted in a table with 209 entries. *CTDbase* has two ways to compute the level of evidence of the association between a gene and a disease. Both of them are contained in the table `gala_asthma`. They correspond to the columns `Inference.Score` and `Reference.Count`. The first contains the *CTDbase* inference-score of gene-disease association in base of a series of criterion defined by *CTDbase*'s developers while the second are just the number of bibliographical references enforcing the relation.
+The subsetting resulted in a table with 209 entries. The firts column to inspect is the `Direct.Evidene` that provides a clue of the relations that are **curated** and the ones that are **inferred**.
+
+```{r gala_diseases_asthma_direct}
+sum( gala_asthma$Direct.Evidence != "" & !is.na( gala_asthma$Direct.Evidence ) )
+```
+
+So, only two of the 214 relations are curated associatins. The other 212 (92 + 120) are inferred.
+
+for the ones that have no direct evidence, *CTDbase* informs about the level of evidence of the relation between a gene and a diseasewith the columns `Inference.Score` and `Reference.Count`. The first contains the *CTDbase* inference-score of gene-disease association in base of a series of criterion defined by *CTDbase*'s developers while the second are just the number of bibliographical references enforcing the relation.
 
 Then, the mean of the *Inference Score* can be interpreted as the level of evidence of the association between GALA genes and asthma according to *CTDbase*:
 
 ```{r gala_diseases_asthma_evidence}
 mean( gala_asthma$Inference.Score, na.rm = TRUE )
 ```
+
 This index provides evidences about the degree of similarity between CTD chemical–gene–disease networks and a similar scale-free random network. The higher the score, the more likely the inference network has atypical connectivity. In other words, this large score indicates that the network of GALA genes with asthma is real and not build by chance (http://ctdbase.org/help/chemDiseaseDetailHelp.jsp).
 
-We can also provide the total number of papers associating GALA genes with asthma by
+We can also provide the total number of papers relating GALA genes with asthma:
 
 ```{r gala_diseases_asthma_reference}
 sum( gala_asthma$Reference.Count, na.rm = TRUE )
@@ -196,10 +215,10 @@ Note that here only genes having an *Inference Score* higher that 20 are plotted
 
 ## Which chemicals are associated with GALA genes according to *CTDbase*?
 
-The object `gala` has a total of `r nrow(gala@chemicals_interactions)` gene-chemical interaction registers. We can obtain this table using the `extract` method:
+The object `gala` has a total of `r nrow(gala@chemicals_interactions)` gene-chemical interaction registers. We can obtain this table using the `get_table` method:
 
 ```{r gala_chemicals}
-gala_chem <- extract( gala, index_name = "chemical interactions" )
+gala_chem <- get_table( gala, index_name = "chemical interactions" )
 colnames( gala_chem )
 length( unique( gala_chem$Chemical.Name ) )
 ```
@@ -234,23 +253,29 @@ As we can see from the log obtained when `verbose` is set to `TRUE`, the informa
 asthma
 ```
 
-To know the exact number of genes associated with Asthma according to *CTDbase* we extract the proper table and count the unique genes that appear on it.
+To know the exact number of genes related to Asthma according to *CTDbase* we extract the proper table and count the unique genes that appear on it.
 
 ```{r ctd_asthma_n_genes}
-ctd_asthma <- extract( asthma, index_name = "gene interactions" )
+ctd_asthma <- get_table( asthma, index_name = "gene interactions" )
 length( unique( ctd_asthma$Gene.Symbol ) )
 ```
 
-According to *CTDbase*, there are `r length( unique( ctd_asthma$Gene.Symbol ) )` genes associated with asthma. However the term `"Asthma"` may appear in different ways. Here we illustrate how to get the real number of genes associated with Asthma.
+We can also look for teh curated associations between genes and Asthma:
+
+```{r ctd_asthma_n_genes_curated}
+sum( !is.na( ctd_asthma$Direct.Evidence ) & ctd_asthma$Direct.Evidence != "" )
+```
+
+According to *CTDbase*, there are `r length( unique( ctd_asthma$Gene.Symbol ) )` genes related to asthma and `r sum( !is.na( ctd_asthma$Direct.Evidence ) & ctd_asthma$Direct.Evidence != "" )` of them are curated associations. However the term `"Asthma"` may appear in different ways. Here we illustrate how to get the real number of genes related with Asthma.
 
 ```{r ctd_asthma_table, results="asis"}
-library(knitr)
+library( knitr )
 tt <- as.data.frame( table( ctd_asthma$Disease.Name ) )
 colnames( tt ) <- c( "Disease", "Frequency" )
 kable( tt[ order( tt$Frequency, decreasing = TRUE ), ] )
 ```
 
-Hence, the *true* answer is `r tt[ order( tt$Frequency, decreasing = TRUE ), 2][1]` and not `r, length( unique( ctd_asthma$Gene.Symbol ) )`.
+Hence, the *true* answer is `r tt[ order( tt$Frequency, decreasing = TRUE ), 2][1]` gene-diseases relations and not `r, length( unique( ctd_asthma$Gene.Symbol ) )`.
 
 
 ## Which chemicals are associated with asthma according to *CTDbase*?
@@ -258,12 +283,18 @@ Hence, the *true* answer is `r tt[ order( tt$Frequency, decreasing = TRUE ), 2][
 First, let us retrive the chemicals related to asthma from `asthma` object
 
 ```{r ctd_asthma_chem}
-ctd_asthma_chem <- extract( asthma, index_name = "chemical interactions" )
+ctd_asthma_chem <- get_table( asthma, index_name = "chemical interactions" )
 colnames( ctd_asthma_chem )
 length( unique( ctd_asthma_chem$Chemical.Name ) )
 ```
 
-Hence, the answer is `r length( unique( ctd_asthma_chem$Chemical.Name ) )`. Visualization can be perform trough `Inference.Score` or `Reference.Count` plot. Let us assume that we are interested in providing information about the chemicals that are associated with GALA genes having an score larger than 30. The plot can be created by:
+Hence, the answer is `r length( unique( ctd_asthma_chem$Chemical.Name ) )`. Now lets see how many of these relations are curated associations:
+
+```{r ctd_asthma_chem_cur}
+sum( !is.na( ctd_asthma_chem$Direct.Evidence ) & ctd_asthma_chem$Direct.Evidence != "" )
+```
+
+Visualization can be perform trough `Inference.Score` or `Reference.Count` plot (for both curated and inferred relations). Let us assume that we are interested in providing information about the chemicals that are associated with GALA genes having an score larger than 30. The plot can be created by:
 
 ```{r ctd_asthma_plot}
 plot( asthma, index_name = "chemical interactions", subset.disease = "Asthma", filter.score = 30 ) +
@@ -276,14 +307,14 @@ In some occassions the user may be interested in determining how chemicals, gene
 
 ## Which chemicals are associated to both GALA genes and asthma according to *CTDbase*?
 
-The table `gala_chem` contains the relation between GALA genes and the chemicals associated to these genes according to *CTDbase*. The table `ctd_asthma_chem` contains the chemicals associated to Asthma according to *CTDbase*. Therefore, to find the chemicals that are  related to both GALA genes and asthma, according to *CTDbase* we get the intersection of both tables. This can be performed by
+The table `gala_chem` contains the relation between GALA genes and the chemicals associated to these genes according to *CTDbase*. The table `ctd_asthma_chem` contains the chemicals related to Asthma according to *CTDbase*. Therefore, to find the chemicals that are  related to both GALA genes and asthma, according to *CTDbase* we get the intersection of both tables. This can be performed by
 
 ```{r intersect_gala_asthma_chem_1}
 intr_chem <- intersect( gala_chem$Chemical.Name, ctd_asthma_chem$Chemical.Name )
 length( intr_chem )
 ```
 
-So, there are `r length( intr_chem )` chemicals sharing associations with GALA genes and asthma. Next code can be used to quantify the overlap.
+So, there are `r length( intr_chem )` chemicals sharing related with GALA genes and asthma at the same time.  Next code can be used to quantify the overlap.
 
 ```{r intersect_gala_asthma_chem_2}
 length( intr_chem ) / nrow( gala_chem ) * 100
@@ -294,11 +325,19 @@ p1 <- round(length( intr_chem ) / nrow( gala_chem ) * 100, 2)
 p2 <- round(length( intr_chem ) / nrow( ctd_asthma_chem ) * 100, 2)
 ```
 
-That is, the `r p1`% of the total number of associations of GALA genes with chemicals are shared with the observed associations of asthma with chemicals. 
+That is, the `r p1`% of the total number of associations of GALA genes with chemicals are shared with the observed associations of asthma with chemicals. On the other hand, the `r p2`% of the chemicals associated with asthma are shared with the chemicals associated with GALA genes.
 
-On the other hand, the `r p2`% of the chemicals associated with asthma are shared with the chemicals associated with GALA genes.
+On the other and the curated chemical associations on both sides of GALA genes and Asthma can be found as:
 
-It can be really useful to have a `data.frame` with three columns: chemical names, and the number of references in the literature associated with GALA genes and asthma. This table can be retrieve by
+```{r intersect_gala_asthma_chem_cur_1}
+a <- ctd_asthma_chem$Chemical.Name[
+    !is.na( ctd_asthma_chem$Direct.Evidence ) & ctd_asthma_chem$Direct.Evidence != ""
+]
+intr_chem <- intersect(  gala_chem$Chemical.Name, a )
+length( intr_chem )
+```
+
+It can be really useful to have a `data.frame` with three columns: chemical names, and the number of references in the literature associated with GALA genes and asthma. This table can be retrieve by:
 
 ```{r intersect_gala_asthma_chem_plot_1}
 gala_chem_r <- gala_chem[ gala_chem$Chemical.Name %in% intr_chem, ]
@@ -315,7 +354,7 @@ colnames( dta ) <- c( "Chemical.Name", "Reference.Gala", "Reference.Asthma" )
 dta <- dta[ 
     order( dta$Reference.Gala, dta$Reference.Asthma, decreasing = TRUE ), 
 ]
-dta[1:3, ]
+dta[1:5, ]
 ```
 
 Having this `data.frame`, we can use the function `leaf_plot` to compare the number of references in the gene list and in asthma for the top 25 chemicals by:
@@ -331,17 +370,29 @@ leaf_plot( dta[1:25, ], label = "Chemical.Name",
 
 Finally, one may be interested in providing statistical evidences about whether a gene list is enriched in the genes that have been described in the literature to be associated with our disease of interest or in a given chemical that is relevant in to our health problem. 
 
-## Are the GALA genes significantly associated with asthma according to *CTDabse*?
+This can be answered by using the method `enrich`. This method performs a Fisher test of enrichment given two objects of class `CTDdata`. For this analysis we need to provide to method `enrich` with a gene universe. `CTDquerier` provides a gene universe obtained from HGNC (HUGO Gene Nomenclature Committee) at date 2018/01/10 ([https://www.genenames.org/cgi-bin/download](https://www.genenames.org/cgi-bin/download)). The universe can be loaded with:
 
-This can be answered by using the method `enrich`. This method performs a Fisher test of enrichment given two objects of class `CTDquery`.
-
-```{r gala_enrich_asthma}
-enrich( gala, asthma )
+```{r load_hugo}
+hgnc_universe <- read.delim( system.file( "extdata", "HGNC_Genes.tsv", package="CTDquerier" ),
+    sep = "\t", stringsAsFactor = FALSE )
 ```
 
-The function `enrich` takes the genes in the `gala` object (e.g. target genes), the genes in the `asthma` object (e.g. gene set/pathway) and all the genes in *CTDbase* (e.g. gene universe) and performs a Fisher test (see `fisher.test`).
+## Are the GALA genes significantly associated with asthma according to *CTDabse*?
 
-We can observe that our GALA genes are enriched in those genes that are described in the literature to be associated with asthma (p < 2.2e-16). 
+The `enrich` method allows to use all relations between genes and asthma or only the curated ones. By setting the argument `use` to `"all", all infered and curated relations are used to test for enrichment:
+
+```{r gala_enrich_asthma_all}
+enrich( gala, asthma, use = "all", universe = hgnc_universe$Approved.Symbol )
+```
+
+The function `enrich` takes the genes in the `gala` object (e.g. target genes), the genes in the `asthma` object (e.g. gene set/pathway) and performs a Fisher test (see `fisher.test`) using the provided gene universes. We can observe that our GALA genes are enriched in those genes that are described in the literature to be associated with asthma (p < 2.2e-16). 
+
+Alternatively, using only the curated associations we see no enrichment:
+
+```{r gala_enrich_asthma_curated}
+enrich( gala, asthma, 
+    universe = hgnc_universe$Approved.Symbol, use = "curated" )
+```
 
 ## Are the GALA genes significantly enriched in Air Pollutants chemicals according to *CTDabse*?
 
@@ -351,13 +402,13 @@ First of all we need to obtain the information about air pollutants from *CTDbas
 air <- query_ctd_chem( terms = "Air Pollutants" )
 air
 ```
-Once we obtained all the information about air pollutants from *CTDbase* the enrichment analysis can also be performed by using the method `enrich` by changing our gene set of interest.
+Once we obtained all the information about air pollutants from *CTDbase* the enrichment analysis can also be performed by using the method `enrich` by changing our gene set of interest. In this case our second set corresponds to the genes related to air pollutants.
 
 ```{r gala_enrich_air}
-enrich( gala, air )
+enrich( gala, air, universe = hgnc_universe$Approved.Symbol, use = "all" )
 ```
 
-We observe that the chemicals associated with GALA genes are enriched in toxics belonging to Air Pollution group.
+We observe that the chemicals associated with GALA genes are not enriched in toxics belonging to Air Pollution group.
 
 # Session Info.
 

@@ -11,7 +11,7 @@ package: "`r pkg_ver( 'CTDquerier' )`"
 csl: biomed-central.csl
 bibliography: case_study.bib
 vignette: >
-    %\VignetteIndexEntry{CTDquerier: Case study on Environmental Chemicals and Human Non-Communicable Diseases}
+    %\VignetteIndexEntry{CTDquerier: A package to retrieve CTDbase data for downstream analysis and data visualization}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
@@ -23,7 +23,7 @@ output:
 
 ## The Comparative Toxicogenomics Database
 
-The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a public resource for toxicogenomic information manually curated from the peer-reviewed scientific literature, providing key information about the interactions of environmental chemicals with gene products and their effect on human disease [@CTDbase2003][@CTDbase2017]. *CTDbase* if offered to public by using a web-based interface that includes basic and advanced query options to access data for sequences, references, and toxic agents, and a platform for analysing sequences.
+The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a public resource for toxicogenomic information manually curated from the peer-reviewed scientific literature, providing key information about the interactions of environmental chemicals with gene products and their effect on human disease [@CTDbase2003][@CTDbase2017]. *CTDbase* is offered to public by using a web-based interface that includes basic and advanced query options to access data for sequences, references, and toxic agents, and a platform for analysing sequences.
 
 ## `CTDquerier` R package
 
@@ -33,7 +33,8 @@ The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a pub
 
 
 ```{r eval=FALSE}
-devtools::install_github( "carleshf/CTDquerier" )
+source("https://bioconductor.org/biocLite.R")
+biocLite("CTDquerier")
 ```
 
 Once installed, `CTDquerier` should be loaded running the following command:
@@ -42,7 +43,7 @@ Once installed, `CTDquerier` should be loaded running the following command:
 library( CTDquerier )
 ```
 
-The main function of `CTDquerier` are three depending of the input: *genes*, *chemicals* or *diseases*. Tables \@ref(tab:CTDquerier-functions) indicates the proper function to be used to query *CTDbase* depending on the input.
+The main function of `CTDquerier` are three depending of the input: *genes*, *chemicals* or *diseases*. Table \@ref(tab:CTDquerier-functions) indicates the proper function to be used to query *CTDbase* depending on the input.
 
 | Input     | Function         |
 |:----------|:-----------------|
@@ -62,7 +63,7 @@ The function to query *CTDbase* relies on a set of function that download the sp
 
 : (\#tab:CTDquerier-vocabulary) Functions used to download and load specific vocabulary from *CTDbase*.
 
-The three main functions of `CTDquerier` () returns `CTDquery` objects. These objects can be used to plot the information available in *CTDbase* by using `plot`. Moreover, the informatin from *CTDbase* can be extracted as `data.frame`s using the method `extract`. Both `plot` and `extract` methods needs an argument `index_name` that indicates the table to be ploted or extarcted. Table \@ref(tab:CTDquerier-index) shows the relation between the possible options for `index_name` depeting of the query performed. Also the pssible representation of each table.
+The three main functions of `CTDquerier` returns `CTDdata` objects. These objects can be used to plot the information available in *CTDbase* by using `plot`. Moreover, the informatin from *CTDbase* can be extracted as `data.frame`s using the method `get_table`. Both `plot` and `extract` methods needs an argument `index_name` that indicates the table to be ploted or extarcted. Table \@ref(tab:CTDquerier-index) shows the relation between the possible options for `index_name` depeting of the query performed. Also the pssible representation of each table.
 
 | Accessor                 | Genes            | Chemicals        | Diseases |
 |:-------------------------|:-----------------|:-----------------|:---------|
@@ -73,7 +74,7 @@ The three main functions of `CTDquerier` () returns `CTDquery` objects. These ob
 | `kegg pathways`          | network          | heat-map         | network  |
 | `go terms`               | network          | heat-map         |          |
 
-: (\#tab:CTDquerier-index) Relation of the accessors and representation of each table in a `CTDquery` object depending of the input.
+: (\#tab:CTDquerier-index) Relation of the accessors and representation of each table in a `CTDdata` object depending of the input.
 
 # Querying *CTDbase* ...
 
@@ -103,7 +104,7 @@ get_terms( ctd_genes )
 
 ### Extract Tables
 
-Now that the information about the genes of interest was download from *CTDbase* we can access to it using the method `extract`, from `psygenet2r` R package. Method extract allows to access to different tables according to the origin of the \texttt{CTDquery} object. For a \texttt{CTDquery} created from genes the accessible tables are:
+Now that the information about the genes of interest was download from *CTDbase* we can access to it using the method `get_table`. Method extract allows to access to different tables according to the origin of the \texttt{CTDdata} object. For a \texttt{CTDdata} created from genes the accessible tables are:
 
 | Table                    | Available | Accessors                  |
 |:-------------------------|:---------:|:---------------------------|
@@ -117,23 +118,22 @@ Now that the information about the genes of interest was download from *CTDbase*
 Example of how to extract one of this tables follows:
 
 ```{r ctd_gene_ext_dise}
-library( psygenet2r )
-extract( ctd_genes , index_name = "diseases" )[ 1:2, 1:3 ]
+get_table( ctd_genes , index_name = "diseases" )[ 1:2, 1:3 ]
 ```
 
 The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
 
 ```{r ctd_gene_ext_tbl}
-colnames( extract( ctd_genes, index_name = "chemical interactions" ) )
-colnames( extract( ctd_genes, index_name = "diseases" ) )
-colnames( extract( ctd_genes, index_name = "gene-gene interactions" ) )
-colnames( extract( ctd_genes, index_name = "kegg pathways" ) )
-colnames( extract( ctd_genes, index_name = "go terms" ) )
+colnames( get_table( ctd_genes, index_name = "chemical interactions" ) )
+colnames( get_table( ctd_genes, index_name = "diseases" ) )
+colnames( get_table( ctd_genes, index_name = "gene-gene interactions" ) )
+colnames( get_table( ctd_genes, index_name = "kegg pathways" ) )
+colnames( get_table( ctd_genes, index_name = "go terms" ) )
 ```
 
-### Plotting Gene Created `CTDquery` Objects
+### Plotting Gene Created `CTDdata` Objects
 
-The generic `plot` function has the same mechanism that `extract`. Using the argument `index_name` we select the table to plot. Then, the arguments `subset.gene` and `subset.*` (being * chemicals, diseases, pathways and go) allows to filter the X-axis and Y-axis. Depending the table to be plotted, the argument `field.score` can be used to select the field to plotted (that can takes `"Inference"` or `"Reference"` values). Then argument `filter.score` can be used to filter entries of the table. Finally, the argument `max.length` is in charge to reduce the characters of the labels.
+The generic `plot` function has the same mechanism that `get_table`. Using the argument `index_name` we select the table to plot. Then, the arguments `subset.gene` and `subset.*` (being * chemicals, diseases, pathways and go) allows to filter the X-axis and Y-axis. Depending the table to be plotted, the argument `field.score` can be used to select the field to plotted (that can takes `"Inference"` or `"Reference"` values). Then argument `filter.score` can be used to filter entries of the table. Finally, the argument `max.length` is in charge to reduce the characters of the labels.
 
 The following plot shows the number of reference that cites the association between the APOE-like genes and chemicals.
 
@@ -196,7 +196,7 @@ get_terms( ctd_chem )
 
 ### Extract Tables
 
-Now that the information about the chemicals of interest was download from *CTDbase* we can access to it using the method `extract`. Method extract allows to access to different tables according to the origin of the \texttt{CTDquery} object. For a \texttt{CTDquery} created from chemicals the accessible tables are:
+Now that the information about the chemicals of interest was download from *CTDbase* we can access to it using the method `get_table`. Method extract allows to access to different tables according to the origin of the \texttt{CTDdata} object. For a \texttt{CTDdata} created from chemicals the accessible tables are:
 
 | Table                    | Available | Accessors                  |
 |:-------------------------|:---------:|:---------------------------|
@@ -210,19 +210,19 @@ Now that the information about the chemicals of interest was download from *CTDb
 Example of how to extract one of this tables follows:
 
 ```{r ctd_chem_ext_dise}
-extract( ctd_chem , index_name = "diseases" )[ 1:2, 1:6 ]
+get_table( ctd_chem , index_name = "diseases" )[ 1:2, 1:6 ]
 ```
 
 The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
 
 ```{r ctd_chem_ext_tbl}
-colnames( extract( ctd_chem, index_name = "gene interactions" ) )
-colnames( extract( ctd_chem, index_name = "diseases" ) )
-colnames( extract( ctd_chem, index_name = "kegg pathways" ) )
-colnames( extract( ctd_chem, index_name = "go terms" ) )
+colnames( get_table( ctd_chem, index_name = "gene interactions" ) )
+colnames( get_table( ctd_chem, index_name = "diseases" ) )
+colnames( get_table( ctd_chem, index_name = "kegg pathways" ) )
+colnames( get_table( ctd_chem, index_name = "go terms" ) )
 ```
 
-### Plotting Chemical Created `CTDquery` Objects
+### Plotting Chemical Created `CTDdata` Objects
 
 The generic `plot` function seen in the previous sections for *gene queries* also works with the *chemical queries*. The arguments that can be used are the same when plotting both types of queries.
 
@@ -285,7 +285,7 @@ get_terms( ctd_diseases )
 
 ### Extract Tables
 
-Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `extract`. Method extract allows to access to different tables according to the origin of the \texttt{CTDquery} object. For a \texttt{CTDquery} created from diseases the accessible tables are:
+Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `get_table`. Method extract allows to access to different tables according to the origin of the \texttt{CTDdata} object. For a \texttt{CTDdata} created from diseases the accessible tables are:
 
 | Table                    | Available | Accessors                  |
 |:-------------------------|:---------:|:---------------------------|
@@ -297,22 +297,22 @@ Now that the information about the diseases of interest was download from *CTDba
 | GO (Gene Ontology Terms) | NO        | `"go terms"`               |
 
 ```{r ctd_dise_ext_gene}
-extract( ctd_diseases , index_name = "gene interactions" )[ 1:2, 1:5 ]
+get_table( ctd_diseases , index_name = "gene interactions" )[ 1:2, 1:5 ]
 ```
 
 The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
 
 ```{r ctd_dise_ext_tbl}
-colnames( extract( ctd_diseases, index_name = "gene interactions" ) )
-colnames( extract( ctd_diseases, index_name = "chemical interactions" ) )
-colnames( extract( ctd_diseases, index_name = "kegg pathways" ) )
+colnames( get_table( ctd_diseases, index_name = "gene interactions" ) )
+colnames( get_table( ctd_diseases, index_name = "chemical interactions" ) )
+colnames( get_table( ctd_diseases, index_name = "kegg pathways" ) )
 ```
 
-### Plotting Disease Created `CTDquery` Objects
+### Plotting Disease Created `CTDdata` Objects
 
-As seen in the previous sections `CTDquerier` allows for basic visualization from disease-retrieved information from *CTDbase*. The function `plot` is also used on disease created `CTDquery` objects allowing to display the disease-gene interaction tables, the disease-chemical interaction table and the pathway related to disease table.
+As seen in the previous sections `CTDquerier` allows for basic visualization from disease-retrieved information from *CTDbase*. The function `plot` is also used on disease created `CTDdata` objects allowing to display the disease-gene interaction tables, the disease-chemical interaction table and the pathway related to disease table.
 
-Disease created `CTDquery` objects have a heat-map visualization of the disease interaction with chemicals. This plot allows to select the *CTDbase*'s inference score or the number of reference to highlight the associations.
+Disease created `CTDdata` objects have a heat-map visualization of the disease interaction with chemicals. This plot allows to select the *CTDbase*'s inference score or the number of reference to highlight the associations.
 
 ```{r ctd_dise_htm_gen, fig.height=8}
 plot( ctd_diseases, index_name = "gene interactions", filter.score = 75 )
