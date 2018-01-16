@@ -24,4 +24,5 @@
 #' @importFrom stringdist stringdist
 #' @importFrom methods new
 #' @importFrom stats fisher.test quantile
+#' @importFrom S4Vectors DataFrame tail head
 NULL
