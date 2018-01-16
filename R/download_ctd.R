@@ -1,3 +1,11 @@
+.get_cache <- function() {
+    path <- file.path(tempdir(), "tempCTDquerierCacheDir")
+    bfc <- BiocFileCache::BiocFileCache(path)
+    #bfc <- BiocFileCache::BiocFileCache()
+    return( bfc )
+}
+
+
 #' Function to download genes available in CTDbase
 #'
 #' This function download the "Gene vocabulary" file (\code{CTD_genes.tsv.gz})
