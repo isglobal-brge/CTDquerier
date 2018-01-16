@@ -1,14 +1,14 @@
-#' Class CTDquery
+#' Class CTDdata
 #'
 #' Class resulting of \code{\link{query_ctd_gene}},
 #' \code{\link{query_ctd_chem}} and \code{\link{query_ctd_dise}}. It is used
 #' to encapsulate all the information in \emph{CTDbase} for given set of genes,
 #' chemicals or diseases.
 #'
-#' @name CTDquery
-#' @aliases CTDquery-class
-#' @rdname CTDquery-class
-#' @exportClass CTDquery
+#' @name CTDdata
+#' @aliases CTDdata-class
+#' @rdname CTDdata-class
+#' @exportClass CTDdata
 #' @slot type Character saving \code{"GENE"}, \code{"CHEMICAL"} or
 #' \code{"DISEASE"} depending if it was created using
 #' \code{\link{query_ctd_gene}}, \code{\link{query_ctd_chem}} or
@@ -29,26 +29,26 @@
 #' given chemicals or where the given genes play a role.
 #' @slot go Table with a relatio of the GO terms afected by the given
 #' chemicals or where the given genes play a role.
-#' @seealso \code{\link{query_ctd_gene}} to create a \code{CTDquery}
+#' @seealso \code{\link{query_ctd_gene}} to create a \code{CTDdata}
 #' from a set of genes, \code{\link{query_ctd_chem}} to create a
-#' \code{CTDquery} from a set of chemicals, \code{\link{query_ctd_dise}} to
-#' create a \code{CTDquery} from a set of diseases,
+#' \code{CTDdata} from a set of chemicals, \code{\link{query_ctd_dise}} to
+#' create a \code{CTDdata} from a set of diseases,
 #' \code{\link[psygenet2r]{extract}} to retrive encapsulated data and
 #' \code{plot} to get nice plots from stored data.
-#' @return An object of class \code{CTDquery}
-setClass( "CTDquery",
-  representation =
-    representation(
-      # esentials
-      type                   = "character",
-      terms                  = "DataFrame",
-      losts                  = "character",
-      # CTDbase results
-      gene_interactions      = "DataFrame",
-      chemicals_interactions = "DataFrame",
-      diseases               = "DataFrame",
-      gene_gene_interactions = "DataFrame",
-      kegg                   = "DataFrame",
-      go                     = "DataFrame"
-    )
+#' @return An object of class \code{CTDdata}
+setClass( "CTDdata",
+    representation =
+        representation(
+            # esentials
+            type                   = "character",
+            terms                  = "DataFrame",
+            losts                  = "character",
+            # CTDbase results
+            gene_interactions      = "DataFrame",
+            chemicals_interactions = "DataFrame",
+            diseases               = "DataFrame",
+            gene_gene_interactions = "DataFrame",
+            kegg                   = "DataFrame",
+            go                     = "DataFrame"
+        )
 )
