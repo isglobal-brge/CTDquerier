@@ -4,11 +4,7 @@
 \alias{load_ctd_gene}
 \title{Function to load the \code{.tsv.gz} file for genes}
 \usage{
-load_ctd_gene(filename = "CTD_genes.tsv.gz")
-}
-\arguments{
-\item{filename}{(default "CTD_genes.tsv.gz") File with the genes
-downloaded from CTDbase.}
+load_ctd_gene()
 }
 \value{
 A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"

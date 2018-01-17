@@ -27,7 +27,7 @@ load_ctd_gene <- function( ) {
     if( nrow( BiocFileCache::bfcquery( bfc, "CTD_genes" ) ) != 1 ) {
         stop( "GENE vocabulary could not be loaded")
     } else {
-        filename <- BiocFileCache::bfcrpath( bfc, "CTD_genes" )[1, 1]
+        filename <- BiocFileCache::bfcrpath( bfc, "CTD_genes" )
         #filename <- BiocFileCache::bfcquery( bfc, "CTD_genes" )$rpath
     }
 

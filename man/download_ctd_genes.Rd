@@ -4,15 +4,9 @@
 \alias{download_ctd_genes}
 \title{Function to download genes available in CTDbase}
 \usage{
-download_ctd_genes(filename = "CTD_genes.tsv.gz", mode = "auto",
-  verbose = FALSE)
+download_ctd_genes(verbose = FALSE)
 }
 \arguments{
-\item{filename}{(default \code{"CTD_genes.tsv.gz"}) Name of the file in
-the local system.}
-
-\item{mode}{(default \code{"auto"}) Mode passed to \code{download.file}.}
-
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
 information of each step.}
 }
@@ -39,5 +33,4 @@ The field included in the file (\code{CTD_genes.tsv.gz}) are:
 }
 \examples{
 download_ctd_genes()
-file.exists( "CTD_genes.tsv.gz" )
 }

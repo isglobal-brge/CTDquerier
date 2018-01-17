@@ -4,16 +4,10 @@
 \alias{query_ctd_gene}
 \title{Function to query CTDbase using gene terminology ( Gene Symbol )}
 \usage{
-query_ctd_gene(terms, filename = "CTD_genes.tsv.gz", mode = "auto",
-  verbose = FALSE)
+query_ctd_gene(terms, verbose = FALSE)
 }
 \arguments{
 \item{terms}{Character vector with the genes used in the query.}
-
-\item{filename}{(default \code{"CTD_genes.tsv.gz"}) Name of the file
-to store the CTDbase gene vocabilary.}
-
-\item{mode}{(default \code{"auto"}) Mode passed to \code{download.file}.}
 
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
 information of each step.}
@@ -22,9 +16,9 @@ information of each step.}
 An object of class \code{\link{CTDdata}}.
 }
 \description{
-This function cheks for CTDbase gene vocabulary and query CTDbase
+This function checks for CTDbase gene vocabulary and query CTDbase
 for each one, downloading gene-gene interactions, chemicals
-interactions, associated desease, associated KEGG pathways and
+interactions, associated disease, associated KEGG pathways and
 associated GO terms.
 }
 \examples{
