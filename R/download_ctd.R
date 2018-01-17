@@ -1,10 +1,9 @@
 .get_cache <- function() {
-    path <- file.path(tempdir(), "tempCTDquerierCacheDir")
-    bfc <- BiocFileCache::BiocFileCache(path)
-    #bfc <- BiocFileCache::BiocFileCache()
+    #path <- file.path(tempdir(), "tempCTDquerierCacheDir")
+    #bfc <- BiocFileCache::BiocFileCache(path)
+    bfc <- BiocFileCache::BiocFileCache()
     return( bfc )
 }
-
 
 #' Function to download genes available in CTDbase
 #'
@@ -23,37 +22,20 @@
 #'  \item UniprotIDs ('|'-delimited list)
 #' }
 #'
-#' @param filename (default \code{"CTD_genes.tsv.gz"}) Name of the file in
-#' the local system.
-#' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
 #' @return Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
 #' @examples
 #' download_ctd_genes()
-#' file.exists( "CTD_genes.tsv.gz" )
 #' @export download_ctd_genes
-download_ctd_genes <- function( filename = "CTD_genes.tsv.gz", mode = "auto", verbose = FALSE ) {
+download_ctd_genes <- function( verbose = FALSE ) {
     fileURL <- "http://ctdbase.org/reports/CTD_genes.tsv.gz"
 
-    if( !file.exists( filename ) ) {
-        if( verbose ) {
-            message( "Downloading gene vocabilary from CTDbase ( '", filename, "' ).")
-        }
-        res <- tryCatch( utils::download.file(
-            url = fileURL,
-            destfile = filename,
-            method = mode ),
-            error = function(e) { 1 } )
-    } else {
-        res <- filename
-    }
-
-    if( res == 1 ) {
-        ""
-    } else {
-        filename
+    bfc <- .get_cache()
+    if( nrow( BiocFileCache::bfcquery(bfc, "CTD_genes") ) == 0 ) {
+        if( verbose ) message( "Downloading GENE vocabulary from CTDbase" )
+        BiocFileCache::bfcadd(bfc, "CTD_genes", fileURL )
     }
 }
 

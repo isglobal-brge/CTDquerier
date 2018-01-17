@@ -16,27 +16,36 @@
 #'  \item UniprotIDs ('|'-delimited list)
 #' }
 #'
-#' @param filename (default "CTD_genes.tsv.gz") File with the genes
-#' downloaded from CTDbase.
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
 #' download_ctd_genes()
 #' fdl <- load_ctd_gene()
 #' dim( fdl )
 #' @export load_ctd_gene
-load_ctd_gene <- function( filename = "CTD_genes.tsv.gz" ) {
-  tbl <- tryCatch( read.delim( filename, header = FALSE, comment.char = "#", sep = "\t", stringsAsFactors = FALSE ),
-    error = function( e ) 1 )
+load_ctd_gene <- function( ) {
+    bfc <- .get_cache()
+    if( nrow( BiocFileCache::bfcquery( bfc, "CTD_genes" ) ) != 1 ) {
+        stop( "GENE vocabulary could not be loaded")
+    } else {
+        filename <- BiocFileCache::bfcrpath( bfc, "CTD_genes" )[1, 1]
+        #filename <- BiocFileCache::bfcquery( bfc, "CTD_genes" )$rpath
+    }
 
-  if( class( tbl ) == "data.frame" ) {
-    colnames( tbl ) <-
-      c( "GeneSymbol", "GeneName", "GeneID", "AltGeneIDs", "Synonyms", "BioGRIDIDs", "PharmGKBIDs", "UniprotIDs" )
-    tbl <- tbl[ !is.na( tbl$GeneSymbol ), ]
-    tbl$GeneSymbol <- toupper( tbl$GeneSymbol )
-    tbl
-  } else {
-    data.frame()
-  }
+    tbl <- tryCatch( {
+        read.delim( filename, header = FALSE, comment.char = "#", sep = "\t",
+                    stringsAsFactors = FALSE )
+    }, error = function( e ) 1 )
+
+    if( class( tbl ) == "data.frame" ) {
+        colnames( tbl ) <-
+            c( "GeneSymbol", "GeneName", "GeneID", "AltGeneIDs", "Synonyms",
+               "BioGRIDIDs", "PharmGKBIDs", "UniprotIDs" )
+        tbl <- tbl[ !is.na( tbl$GeneSymbol ), ]
+        tbl$GeneSymbol <- toupper( tbl$GeneSymbol )
+        tbl
+    } else {
+        data.frame()
+    }
 }
 
 #' Function to load the \code{.tsv.gz} file for chemicals
