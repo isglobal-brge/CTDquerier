@@ -1,7 +1,9 @@
 .get_cache <- function() {
     #path <- file.path(tempdir(), "tempCTDquerierCacheDir")
-    #bfc <- BiocFileCache::BiocFileCache(path)
-    bfc <- BiocFileCache::BiocFileCache()
+    #bfc <- BiocFileCache::BiocFileCache( path )
+    cache <- rappdirs::user_cache_dir( appname = "CTDQuery" )
+    bfc <- BiocFileCache::BiocFileCache( cache )
+    return( bfc )
     return( bfc )
 }
 
