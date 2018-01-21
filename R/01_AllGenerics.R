@@ -36,7 +36,6 @@ setGeneric("get_terms", function(object)
 #' @param use (default: \code{"curated"}) It can take values \code{"curated"}
 #' or \code{"all"} to filter or not filter for curated the genes into
 #' the \code{CTDdata} objects.
-#' and \code{phyper} (with \code{lower.tail=TRUE}) respectively.
 #' @param warnings (default: \code{TRUE}).
 #' @param ... NOT USED
 #' @return A list with class \code{htest}. Check

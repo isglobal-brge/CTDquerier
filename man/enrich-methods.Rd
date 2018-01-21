@@ -16,8 +16,7 @@ as universe.}
 
 \item{use}{(default: \code{"curated"}) It can take values \code{"curated"}
 or \code{"all"} to filter or not filter for curated the genes into
-the \code{CTDdata} objects.
-and \code{phyper} (with \code{lower.tail=TRUE}) respectively.}
+the \code{CTDdata} objects.}
 
 \item{warnings}{(default: \code{TRUE}).}
 
