@@ -1,5 +1,5 @@
 ---
-title: "Case study on Environmental Chemicals and asthma-related genes"
+title: "Case study on environmental chemicals and asthma-related genes"
 author:
 - name: Carles Hernandez-Ferrer
   affiliation: ISGlobal, Centre for Research in Environmental Epidemiology ( CREAL )
@@ -22,7 +22,7 @@ output:
 
 # `CTDquerier` R package
 
-`CTDquerier` is an R package that allows R users to download basic data from *CTDbase* about genes, chemicals and diseases. First, the input provided by user is validated in *CTDbase* vocabulary files. Second, the validated results are used to query *CTDbase* and their data are downloaded into the R session.  
+`CTDquerier` is an R package that allows R users to download essential data from *CTDbase* about genes, chemicals and diseases. First, `CTDquerier` validates the user's input in *CTDbase* vocabulary files. Second, the validated results are used to query *CTDbase* and their data are downloaded into the R session.  
 
 The package can be installed using `biocLite` function from Biocondcutor by executing:
 
@@ -33,25 +33,25 @@ biocLite("CTDquerier")
 
 # Case-Study aim
 
-The case-study is based on the results obtained in the article entitled "Case-control admixture mapping in Latino populations enriches for known asthma-associated genes", from *Torgerson et. al.* [@Torgerson2012]. The genes from **Table E1** of that paper have been collected and used as starting point for this document. 
+The case-study is based on the results obtained in the article entitled "Case-control admixture mapping in Latino populations enriches for known asthma-associated genes", from *Torgerson et al.* [@Torgerson2012]. The genes from **Table E1** of that paper have been collected and used as starting point for this document. 
 
-The aim of this case study is to illustrate how `CTDquerier` can be used to provide further evidences about a given hypothesis or how to provide biological insights from genetic, toxicological or environmental epidemiological studies. In our case, we are using a real example where the authors are interested in providing a set of genes associated with asthma. 
+This case study aims to illustrate how `CTDquerier` can be used to provide further evidence about a given hypothesis or how to provide biological insights from genetic, toxicological or environmental epidemiological studies. In our case, we are using a real example where the authors are interested in providing a set of genes associated with asthma. 
 
-By using `CTDquerier` we will provide information about, among others, what is the level of curated evidence, from *CTDbase*, of the association between those genes and asthma or which chemicals are relaqted to this list of genes and asthma according to *CTDbase*. 
+By using `CTDquerier` we will provide information about, among others, what is the level of curated evidence, from *CTDbase*, of the association between those genes and asthma or which chemicals are related to this list of genes and asthma according to *CTDbase*. 
 
 # Case-Study description
 
 Asthma is a common long term inflammatory disease of the airways of the lungs. It is characterized by variable and recurring symptoms, reversible airflow obstruction, and bronchospasm. Symptoms include episodes of wheezing, coughing, chest tightness, and shortness of breath. Asthma is thought to be caused by a combination of genetic and environmental factors. Environmental factors include exposure to air pollution and allergens. Diagnosis is usually based on the pattern of symptoms, response to therapy over time, and spirometry. Asthma is classified according to the frequency of symptoms, forced expiratory volume in one second, and peak expiratory flow rate. It may also be classified as atopic or non-atopic where atopy refers to a predisposition toward developing a type 1 hypersensitivity reaction.
 
-The Genetics of Asthma in Latino Americans (GALA) study [@Price2009] includes subjects with asthma and their biological parents recruited from schools, clinics, and hospitals at 4 sites: San Francisco Bay Area, New York City, Puerto Rico, and Mexico City. Patients were contacted to participate in the study if approved by their primary physician.  On the basis of interviews and questionnaire data, subjects were included in the study if they were between the ages of 8 and 40 years with physician-diagnosed mild to moderate-to-severe asthma and had experienced 2 or more symptoms in the previous 2 years at the time of recruitment (including wheezing, coughing, and/or shortness of breath) and if both parents and 4 sets of grandparents self-identified as being of either Puerto Rican or Mexican ethnicity. 
+The Genetics of Asthma in Latino Americans (GALA) study [@Price2009] includes subjects with asthma and their biological parents recruited from schools, clinics, and hospitals at four sites: San Francisco Bay Area, New York City, Puerto Rico, and Mexico City. Patients were contacted to participate in the study if approved by their primary physician.  On the basis of interviews and questionnaire data, subjects were included in the study if they were between the ages of 8 and 40 years with physician-diagnosed mild to moderate-to-severe asthma and had experienced 2 or more symptoms in the previous 2 years at the time of recruitment (including wheezing, coughing, and/or shortness of breath) and if both parents and 4 sets of grandparents self-identified as being of either Puerto Rican or Mexican ethnicity. 
 
 After quality control [@Torgerson2012], the total number of SNPs included in the study was 729,685, and the total number of subjects was 529 children with asthma (253 Mexican and 276 Puerto Rican subjects) and 347 control subjects (158 Mexican and 189 Puerto Rican subjects). 
 
-The authors aim to identify novel asthma-related genes in Latino populations by using case-control admixture mapping. By comparing local ancestry between cases and control subjects the authors identified 62 admixture mapping peaks (29 in Puerto Ricans and 33 in Mexicans). They also observed a significant enrichment of previously identified asthma-associated genes within the 62 admixture mapping peaks (P = .0051). The information about all the genes in those candidate regions are provided in **Table E1** of the paper [@Torgerson2012].
+The authors aim to identify novel asthma-related genes in Latino populations by using case-control admixture mapping. By comparing local ancestry between cases and control subjects, the authors identified 62 admixture mapping peaks (29 in Puerto Ricans and 33 in Mexicans). They also observed a significant enrichment of previously identified asthma-associated genes within the 62 admixture mapping peaks (P = .0051). **Table E1** provides the information about all the genes in those candidate regions from the paper [@Torgerson2012].
 
 # Getting data (GALA genes) 
 
-The **Table E1** from the GALA Study [@Torgerson2012] was downloaded and converted into a `.csv` file. This table is included in the package and can be loaded into R by:
+The **Table E1** from the GALA Study [@Torgerson2012] was downloaded and converted into a `.csv` file. This table is included in the package and can be loaded into `R` by:
 
 ```{r gala_read_csv}
 table_e1_csv <- system.file(
@@ -61,14 +61,14 @@ table_e1_csv <- system.file(
 table_e1 <- read.csv( table_e1_csv, stringsAsFactors = FALSE )
 ```
 
-The genes of interest can be retrieve from the colum *Genes* of this table. Let us start by removing regions without annotated genes. 
+The column *Genes* of the table has the genes of interest. Let us start by removing regions without annotated genes. 
 
 ```{r gala_remove_na_file}
 dim( table_e1 )
 table_e1 <- table_e1[ table_e1$Genes != "NA ", ]
 dim( table_e1 )
 ```
-We have filtered 17 regions that had no genes. Now we will get the gene list by: 
+We have filtered 17 regions that had no genes. Now we will get the gene list: 
 
 ```{r gala_create_list}
 gala_genes <- trimws( unlist( strsplit( table_e1$Genes, "," ) ) )
@@ -76,13 +76,13 @@ length( gala_genes )
 gala_genes[1:15]
 ```
 
-NOTE that each region can have more than one gene that is separated by `,`.
+**NOTE**: Each region can have several genes separated by `,`.
 
-We end up with a total of 305 candidate genes related to asthma as proposed by *Torgerson et. al.* [@Torgerson2012]. Let us call to this list `GALA genes`.
+We end up with a total of 305 candidate genes related to asthma as proposed by *Torgerson et al.* [@Torgerson2012]. Let us call to this list `GALA genes`.
 
 # Querying GALA genes in *CTDbase*
 
-Any type of enrichment analysis of a given list of genes should start by querying *CTDabse*. This can be done by using the function `query_ctd_gene`. The function validates the list of genes into *CTDbase gene-vocabulary*. Then the function performs a different query per gene and download the associated information into your computer. In our example this is performed by:
+Any enrichment analysis of a given list of genes should start by querying *CTDabse*. The function `query_ctd_gene` is in charge to do it. First, it validates the list of genes into *CTDbase gene-vocabulary*. Second, it performs a different query per gene and downloads the associated information into your computer.
 
 ```{r load_ctdquerier, message=FALSE}
 library( CTDquerier )
@@ -90,7 +90,7 @@ library( CTDquerier )
 ```{r gale_query, eval=FALSE}
 gala <- query_ctd_gene( terms = gala_genes, verbose = TRUE )
 ```
-Since this process can be high time-consuming, `CTDquerier` package already contains the result of the query encapsulated in an object that can be loaded into your R session with:
+Since this process can be high time-consuming, `CTDquerier` package already contains the result of the query encapsulated in an object called `gala`. We load this object into `R` using the function `data`.
 
 ```{r gala_data}
 data( gala, package = "CTDquerier" )
@@ -99,11 +99,11 @@ gala
 
 # Questions that can be answered from a gene list 
 
-Now, let us illustrate the type of questions that can be addressed by using `CTDquerier` when the user wants to provide biological insights from a gene list. In our case, we are interested in providing existing literature evidences (annotated in *CTDbase*) that our GALA genes are enriched in chemical or genetic processes realted to asthma.
+Let us illustrate the type of questions that can be addressed by using `CTDquerier` when the user wants to provide biological insights from a gene list. In our case, we are interested in providing existing literature evidence (annotated in *CTDbase*) that our GALA genes are enriched in chemical or genetic processes related to asthma.
 
 ## How many GALA genes are in *CTDbase*?
 
-Recall that our genes of interest are stored in the vector `gala_genes` (305 genes) and that the result obtained from querying *CTDbase* with those genes is stored in the object `gala` (258 terms). This means that 47 genes from the GALA study were not present in *CTDbase*. This information can be visually inspect by using the method `plot` of a `CTDdata` object.
+Recall that `gala_genes` has our genes of interest  (305 genes) and that the result obtained from querying *CTDbase* with those genes is in the object `gala` (258 terms). There is a difference of 47 genes, meaning that the missing 47 genes are not present in *CTDbase*. We can plot these numbers using the method `plot` of a `CTDdata` object.
 
 ```{r gala_plot_query, message=FALSE}
 library( ggplot2 )
@@ -118,13 +118,13 @@ get_terms( gala )[[ "lost" ]]
 
 ## How many diseases are associated with GALA genes according to *CTDbase*?
 
-The call to `query_ctd_gene` done in previous section has downloaded "all the information available" in *CTDbase* of GALA genes. We can inspect the information available just printing our object of class `CTDdata`: 
+The call to `query_ctd_gene` done in the previous section has downloaded "all the information available" in *CTDbase* of GALA genes. We can inspect the information available just printing our object of class `CTDdata`: 
 
 ```{r gala_show_2}
 gala
 ```
 
-The line starting by `#Diseases` indicates the number of relationships between a gene (or chemical) and diseases. For the GALA genes, there are a total of 223,462 relations between our genes of interest and diseases. The table with the relations between genes and diseases can be obtained using the method `get_table`.
+The line starting with `#Diseases` indicates the number of relationships between a gene (or chemical) and diseases. For the GALA genes, there are a total of 223,462 relations between our genes of interest and diseases. The table with the relations between genes and diseases can be obtained using the method `get_table`.
 
 ```{r gala_gda_all}
 gala_all_diseases <- get_table( gala, index_name = "diseases" )
@@ -132,7 +132,7 @@ colnames( gala_all_diseases )
 dim( gala_all_diseases )
 ```
 
-We observe that the table with the relations between gene and diseases has close to ~220K rows. This table provides with all the relations that link GALA genes with diseases, including the **curated** and the **inferred** ones.
+We observe that the table with the relations between gene and diseases has close to ~220K rows. This table provides with all the connections that link GALA genes with diseases, including the **curated** and the **inferred** ones.
 
 We can also check that the number of genes used to create this table are the correct ones:
 
@@ -144,7 +144,7 @@ sum( !get_terms( gala )[[ "found" ]] %in%
     unique( gala_all_diseases$GeneSymbol ) )
 ```
 
-We can also check the name of the genes that do not contributed to create the table of associations between genes and diseases:
+We can also check the name of the genes that do not contribute to creating the table of associations between genes and diseases:
 
 ```{r gala_diseases_no_genes}
 get_terms( gala )[[ "found" ]][ 
@@ -171,7 +171,7 @@ So, in summary: There are 301 diseases linked to GALA genes, supported by 436 cu
 
 ## What is the level of evidence of the association between GALA genes and asthma according to *CTDbase*?
 
-In order to answer this question we first need to get `"Asthma"` in the column containing disease information in the table of associations between genes and diseases that we have previously created. This can be performed by executing:
+To answer this question, we first need to get `"Asthma"` in the column containing disease information in the table of associations between genes and diseases that we have previously created.
 
 ```{r gala_diseases_asthma}
 gala_asthma <- gala_all_diseases[ 
@@ -180,15 +180,15 @@ gala_asthma <- gala_all_diseases[
 dim( gala_asthma )
 ```
 
-The subsetting resulted in a table with 209 entries. The firts column to inspect is the `Direct.Evidene` that provides a clue of the relations that are **curated** and the ones that are **inferred**.
+The subsetting resulted in a table with 209 entries. The first column to inspect is the `Direct.Evidence` that provides a clue of the relations that are **curated** and the ones that are **inferred**.
 
 ```{r gala_diseases_asthma_direct}
 sum( gala_asthma$Direct.Evidence != "" & !is.na( gala_asthma$Direct.Evidence ) )
 ```
 
-So, only two of the 214 relations are curated associatins. The other 212 (92 + 120) are inferred.
+So, only two of the 214 relations are curated associations. The other 212 (92 + 120) are inferred links.
 
-for the ones that have no direct evidence, *CTDbase* informs about the level of evidence of the relation between a gene and a diseasewith the columns `Inference.Score` and `Reference.Count`. The first contains the *CTDbase* inference-score of gene-disease association in base of a series of criterion defined by *CTDbase*'s developers while the second are just the number of bibliographical references enforcing the relation.
+For the ones that have no direct evidence, *CTDbase* informs about the level of evidence of the relation between a gene and a disease with the columns `Inference.Score` and `Reference.Count`. The first contains the *CTDbase* inference-score of gene-disease association in the base of a series of criterion defined by *CTDbase*'s developers while the second indicates the number of bibliographical references enforcing the links.
 
 Then, the mean of the *Inference Score* can be interpreted as the level of evidence of the association between GALA genes and asthma according to *CTDbase*:
 
@@ -196,7 +196,7 @@ Then, the mean of the *Inference Score* can be interpreted as the level of evide
 mean( gala_asthma$Inference.Score, na.rm = TRUE )
 ```
 
-This index provides evidences about the degree of similarity between CTD chemical–gene–disease networks and a similar scale-free random network. The higher the score, the more likely the inference network has atypical connectivity. In other words, this large score indicates that the network of GALA genes with asthma is real and not build by chance (http://ctdbase.org/help/chemDiseaseDetailHelp.jsp).
+This index provides evidence about the degree of similarity between CTD chemical-gene-disease networks and a similar scale-free random network. The higher the score, the more likely the inference network has atypical connectivity. In other words, this large score indicates that the network of GALA genes with asthma is real and not build by chance (http://ctdbase.org/help/chemDiseaseDetailHelp.jsp).
 
 We can also provide the total number of papers relating GALA genes with asthma:
 
@@ -211,7 +211,7 @@ plot( gala, index_name = "disease", subset.disease = "Asthma", filter.score = 20
     ggtitle( "Evidence of the association between GALA genes and Asthma" )
 ```
 
-Note that here only genes having an *Inference Score* higher that 20 are plotted (argument `filter.score`)
+Note that here only genes having a *Inference Score* higher than 20 are plotted (argument `filter.score`)
 
 ## Which chemicals are associated with GALA genes according to *CTDbase*?
 
@@ -229,15 +229,15 @@ This output is indicating that GALA genes are *associated* with `r length( uniqu
 knitr::kable( t( table( gala_chem$Reference.Count ) ) )
 ```
 
-This information can also be obtained in a heat-map plot. The arguments `subset.genes` and `subset.chemicals` are used to filter the elements in X-axis (genes) and Y-axis (chemicals). The argument `filter.score` allows to filter by minimum number of existing papers (variable `Reference.Count`) providing evidences about the association between chemicals and genes.
+This information can also be obtained in a heat-map plot. The arguments `subset.genes` and `subset.chemicals` are used to filter the elements in X-axis (genes) and Y-axis (chemicals). The argument `filter.score` allows filtering by a minimum number of present papers (variable `Reference.Count`) providing evidence about the association between chemicals and genes.
 
 ```{r, gala_chemicals_plot}
 plot( gala, index_name = "chemical interactions", filter.score = 6 )
 ```
 
-# Questions that can be answered from a given disease 
+# Questions that can be answered by a given disease 
 
-In that case we are interested in knowing genes or chemicals that have been associated with our disease (or group of diseases) of interest
+In that case, we are interested in knowing the gene-associations and chemicals-associations to our disease (or group of disorders) of interest
 
 ## Which genes are associated with asthma according to *CTDbase*?
 
@@ -280,7 +280,7 @@ Hence, the *true* answer is `r tt[ order( tt$Frequency, decreasing = TRUE ), 2][
 
 ## Which chemicals are associated with asthma according to *CTDbase*?
 
-First, let us retrive the chemicals related to asthma from `asthma` object
+First, let us retrieve the chemicals related to asthma from `asthma` object.
 
 ```{r ctd_asthma_chem}
 ctd_asthma_chem <- get_table( asthma, index_name = "chemical interactions" )
@@ -294,7 +294,7 @@ Hence, the answer is `r length( unique( ctd_asthma_chem$Chemical.Name ) )`. Now 
 sum( !is.na( ctd_asthma_chem$Direct.Evidence ) & ctd_asthma_chem$Direct.Evidence != "" )
 ```
 
-Visualization can be perform trough `Inference.Score` or `Reference.Count` plot (for both curated and inferred relations). Let us assume that we are interested in providing information about the chemicals that are associated with GALA genes having an score larger than 30. The plot can be created by:
+We can plot the `Inference.Score` or the `Reference.Count` (for both curated and inferred relations). Let us assume that we are interested in providing information about the chemicals associated to GALA genes having a score larger than 30.
 
 ```{r ctd_asthma_plot}
 plot( asthma, index_name = "chemical interactions", subset.disease = "Asthma", filter.score = 30 ) +
@@ -303,18 +303,18 @@ plot( asthma, index_name = "chemical interactions", subset.disease = "Asthma", f
 
 # Questions relating the triad: chemicals, genes and disease of interest
 
-In some occassions the user may be interested in determining how chemicals, genes and a given disease have been associated in the literature. 
+In some occasions, the user may be interested in determining how chemicals, genes and a given disease are linked in the literature. 
 
-## Which chemicals are associated to both GALA genes and asthma according to *CTDbase*?
+## Which chemicals are associated with both GALA genes and asthma according to *CTDbase*?
 
-The table `gala_chem` contains the relation between GALA genes and the chemicals associated to these genes according to *CTDbase*. The table `ctd_asthma_chem` contains the chemicals related to Asthma according to *CTDbase*. Therefore, to find the chemicals that are  related to both GALA genes and asthma, according to *CTDbase* we get the intersection of both tables. This can be performed by
+The table `gala_chem` contains the relation between GALA genes and the chemicals associated with these genes according to *CTDbase*. The table `ctd_asthma_chem` contains the chemicals related to Asthma according to *CTDbase*. Therefore, to find the chemicals that are linked to both GALA genes and asthma, according to *CTDbase* we get the intersection of both tables. This can be performed by
 
 ```{r intersect_gala_asthma_chem_1}
 intr_chem <- intersect( gala_chem$Chemical.Name, ctd_asthma_chem$Chemical.Name )
 length( intr_chem )
 ```
 
-So, there are `r length( intr_chem )` chemicals sharing related with GALA genes and asthma at the same time.  Next code can be used to quantify the overlap.
+There are `r length( intr_chem )` chemicals sharing related to GALA genes and asthma at the same time.  Next code can be used to quantify the overlap.
 
 ```{r intersect_gala_asthma_chem_2}
 length( intr_chem ) / nrow( gala_chem ) * 100
@@ -325,9 +325,9 @@ p1 <- round(length( intr_chem ) / nrow( gala_chem ) * 100, 2)
 p2 <- round(length( intr_chem ) / nrow( ctd_asthma_chem ) * 100, 2)
 ```
 
-That is, the `r p1`% of the total number of associations of GALA genes with chemicals are shared with the observed associations of asthma with chemicals. On the other hand, the `r p2`% of the chemicals associated with asthma are shared with the chemicals associated with GALA genes.
+That is, the `r p1`% of the total number of associations of GALA genes with chemicals are shared with the observed associations of asthma with chemicals. On the other hand, the `r p2`% of the chemicals associated with asthma are shared with the substances associated with GALA genes.
 
-On the other and the curated chemical associations on both sides of GALA genes and Asthma can be found as:
+On the other and we count the curated chemical associations on both sides of GALA genes with:
 
 ```{r intersect_gala_asthma_chem_cur_1}
 a <- ctd_asthma_chem$Chemical.Name[
@@ -337,7 +337,7 @@ intr_chem <- intersect(  gala_chem$Chemical.Name, a )
 length( intr_chem )
 ```
 
-It can be really useful to have a `data.frame` with three columns: chemical names, and the number of references in the literature associated with GALA genes and asthma. This table can be retrieve by:
+It can be really useful to have a `data.frame` with three columns: chemical names, and the number of references in the literature associated with GALA genes and asthma. We bould this table with:
 
 ```{r intersect_gala_asthma_chem_plot_1}
 gala_chem_r <- gala_chem[ gala_chem$Chemical.Name %in% intr_chem, ]
@@ -368,9 +368,9 @@ leaf_plot( dta[1:25, ], label = "Chemical.Name",
 
 # Questions related to enrichment analysis
 
-Finally, one may be interested in providing statistical evidences about whether a gene list is enriched in the genes that have been described in the literature to be associated with our disease of interest or in a given chemical that is relevant in to our health problem. 
+Finally, one may be interested in providing statistical evidence about the enrichment of a gene list and the set of genes that have been described in the literature to be associated with a disease of interest or in a given chemical that is relevant into our health problem. 
 
-This can be answered by using the method `enrich`. This method performs a Fisher test of enrichment given two objects of class `CTDdata`. For this analysis we need to provide to method `enrich` with a gene universe. `CTDquerier` provides a gene universe obtained from HGNC (HUGO Gene Nomenclature Committee) at date 2018/01/10 ([https://www.genenames.org/cgi-bin/download](https://www.genenames.org/cgi-bin/download)). The universe can be loaded with:
+This can be answered by using the method `enrich`. This method performs a Fisher test of enrichment given two objects of class `CTDdata` at gene level. For this analysis we need to provide to method `enrich` with a gene universe. `CTDquerier` provides a gene universe obtained from HGNC (HUGO Gene Nomenclature Committee) at date 2018/01/10 ([https://www.genenames.org/cgi-bin/download](https://www.genenames.org/cgi-bin/download)). The universe can be loaded with:
 
 ```{r load_hugo}
 hgnc_universe <- read.delim( system.file( "extdata", "HGNC_Genes.tsv", package="CTDquerier" ),
@@ -379,36 +379,41 @@ hgnc_universe <- read.delim( system.file( "extdata", "HGNC_Genes.tsv", package="
 
 ## Are the GALA genes significantly associated with asthma according to *CTDabse*?
 
-The `enrich` method allows to use all relations between genes and asthma or only the curated ones. By setting the argument `use` to `"all", all infered and curated relations are used to test for enrichment:
+The `enrich` method allows using all relations between genes and asthma or only the curated ones. By setting the argument `use` to `"all"`, all inferred and curated relations are used to test for enrichment:
 
 ```{r gala_enrich_asthma_all}
-enrich( gala, asthma, use = "all", universe = hgnc_universe$Approved.Symbol )
+enrich( gala, asthma, 
+    universe = hgnc_universe$Approved.Symbol,
+    use = "all" )
 ```
 
-The function `enrich` takes the genes in the `gala` object (e.g. target genes), the genes in the `asthma` object (e.g. gene set/pathway) and performs a Fisher test (see `fisher.test`) using the provided gene universes. We can observe that our GALA genes are enriched in those genes that are described in the literature to be associated with asthma (p < 2.2e-16). 
+The function `enrich` takes the genes in the `gala` object (e.g. target genes), the genes in the `asthma` object (e.g. gene set/pathway) and performs a Fisher test (see `fisher.test`) with the HGNC gene universes. We can observe an enrichment of our GALA genes with asthma (p < 2.2e-16). 
 
 Alternatively, using only the curated associations we see no enrichment:
 
 ```{r gala_enrich_asthma_curated}
 enrich( gala, asthma, 
-    universe = hgnc_universe$Approved.Symbol, use = "curated" )
+    universe = hgnc_universe$Approved.Symbol, 
+    use = "curated" )
 ```
 
 ## Are the GALA genes significantly enriched in Air Pollutants chemicals according to *CTDabse*?
 
-First of all we need to obtain the information about air pollutants from *CTDbase*. This is done by using the function `query_ctd_chem`.
+First of all, we need to obtain the information about air pollutants from *CTDbase*. The function `query_ctd_chem` deals with it:
 
 ```{r air_ctd}
 air <- query_ctd_chem( terms = "Air Pollutants" )
 air
 ```
-Once we obtained all the information about air pollutants from *CTDbase* the enrichment analysis can also be performed by using the method `enrich` by changing our gene set of interest. In this case our second set corresponds to the genes related to air pollutants.
+Once we obtained all the information about air pollutants from *CTDbase* the enrichment analysis is performed by using the method `enrich`. In this case, our second set corresponds to the genes related to air pollutants.
 
 ```{r gala_enrich_air}
-enrich( gala, air, universe = hgnc_universe$Approved.Symbol, use = "all" )
+enrich( gala, air, 
+    universe = hgnc_universe$Approved.Symbol, 
+    use = "all" )
 ```
 
-We observe that the chemicals associated with GALA genes are not enriched in toxics belonging to Air Pollution group.
+We observe no enrichment between the genes associated with Air Pollutants and GALA genes.
 
 # Session Info.
 

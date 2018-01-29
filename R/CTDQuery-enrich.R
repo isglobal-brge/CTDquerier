@@ -25,7 +25,15 @@ setMethod(
         } else {
             tbl <- get_table( x, index_name = "gene interactions" )
             if( use == "curated" ) {
-                x <- unique( tbl[tbl$Direct.Evidence != "", "Gene.Symbol" ] )
+                if( !"Direct.Evidence" %in% colnames( tbl ) ) {
+                    if( warnings ) {
+                        warning( "Using 'CTDdata' (x) from chemical query. ",
+                                 "No curated assocations can be extracted." )
+                    }
+                    x <- unique( tbl$Gene.Symbol )
+                } else {
+                    x <- unique(tbl[tbl$Direct.Evidence != "", "Gene.Symbol"])
+                }
             } else {
                 x <- unique( tbl$Gene.Symbol )
             }
@@ -38,7 +46,7 @@ setMethod(
             if( use == "curated" ) {
                 if( !"Direct.Evidence" %in% colnames( tbl ) ) {
                     if( warnings ) {
-                        warning( "Using 'CTDdata' from chemical query. ",
+                        warning( "Using 'CTDdata' (y) from chemical query. ",
                             "No curated assocations can be extracted." )
                     }
                     y <- unique( tbl$Gene.Symbol )
