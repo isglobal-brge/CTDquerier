@@ -6,26 +6,17 @@
 #' associated GO terms.
 #'
 #' @param terms Character vector with the diseases used in the query.
-#' @param filename (default \code{"CTD_diseases.tsv.gz"}) Name of the file
-#' to store the CTDbase disease vocabilary.
-#' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
 #' @return An object of class \code{\link{CTDdata}}.
 #' @examples
 #' rst <- query_ctd_dise( terms = "Asthma", verbose = TRUE )
 #' @export query_ctd_dise
-query_ctd_dise <- function( terms, filename = "CTD_diseases.tsv.gz", mode = "auto", verbose = FALSE ) {
+query_ctd_dise <- function( terms, verbose = FALSE ) {
   ## SETUP
-  rst <- download_ctd_dise( filename, mode, verbose )
-  if( rst == "" ) {
-    stop( "CTDquerier was not ablte to download '", filename, "' from CTDbase." )
-  }
-
-  if( verbose ) {
-    message( "Loading disease vocabulary." )
-  }
-  tbl <- load_ctd_dise( filename )
+  download_ctd_dise( verbose )
+  if( verbose ) message( "Loading disease vocabulary." )
+  tbl <- load_ctd_dise( verbose )
   ## //
 
   ## VALIDATE INPUT DISEASES
@@ -46,13 +37,10 @@ query_ctd_dise <- function( terms, filename = "CTD_diseases.tsv.gz", mode = "aut
   }
   ## //
 
-
-
-
   disease_gene_interactions <- prepare_ctd_disease( "disease_gene_interactions" )
   disease_kegg <- prepare_ctd_disease( "disease_kegg" )
   disease_chemical_interaction <- prepare_ctd_disease( "disease_chemical_interaction" )
-  for( ii in 1:nrow( keep ) ) {
+  for( ii in seq( nrow( keep ) ) ) {
     if( verbose ) {
       message( "Staring query for disease '", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }

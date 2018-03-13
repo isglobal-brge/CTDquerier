@@ -4,16 +4,10 @@
 \alias{query_ctd_dise}
 \title{Function to query CTDbase using disease terminology}
 \usage{
-query_ctd_dise(terms, filename = "CTD_diseases.tsv.gz", mode = "auto",
-  verbose = FALSE)
+query_ctd_dise(terms, verbose = FALSE)
 }
 \arguments{
 \item{terms}{Character vector with the diseases used in the query.}
-
-\item{filename}{(default \code{"CTD_diseases.tsv.gz"}) Name of the file
-to store the CTDbase disease vocabilary.}
-
-\item{mode}{(default \code{"auto"}) Mode passed to \code{download.file}.}
 
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
 information of each step.}

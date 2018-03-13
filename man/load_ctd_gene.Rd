@@ -4,7 +4,11 @@
 \alias{load_ctd_gene}
 \title{Function to load the \code{.tsv.gz} file for genes}
 \usage{
-load_ctd_gene()
+load_ctd_gene(verbose = FALSE)
+}
+\arguments{
+\item{verbose}{(default \code{FALSE}) If set to \code{TRUE} messages and
+warnings are raised.}
 }
 \value{
 A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"

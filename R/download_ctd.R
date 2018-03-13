@@ -1,11 +1,17 @@
-.get_cache <- function() {
+.get_cache <- function( verbose = FALSE ) {
     #path <- file.path(tempdir(), "tempCTDquerierCacheDir")
     #bfc <- BiocFileCache::BiocFileCache( path )
-    cache <- rappdirs::user_cache_dir( appname = "CTDQuery",
-        appauthor = "isglobal" )
-    warning( cache )
-    bfc <- BiocFileCache::BiocFileCache( cache )
-    return( bfc )
+    if( verbose ) {
+        cache <- rappdirs::user_cache_dir( appname = "CTDQuery",
+            appauthor = "isglobal" )
+        bfc <- BiocFileCache::BiocFileCache( cache )
+    } else {
+        suppressMessages( suppressWarnings({
+            cache <- rappdirs::user_cache_dir( appname = "CTDQuery",
+                                               appauthor = "isglobal" )
+            bfc <- BiocFileCache::BiocFileCache( cache )
+        } ) )
+    }
     return( bfc )
 }
 
@@ -35,8 +41,8 @@
 #' @export download_ctd_genes
 download_ctd_genes <- function( verbose = FALSE ) {
     fileURL <- "http://ctdbase.org/reports/CTD_genes.tsv.gz"
+    bfc <- .get_cache( verbose )
 
-    bfc <- .get_cache()
     if( nrow( BiocFileCache::bfcquery(bfc, "CTD_genes") ) == 0 ) {
         if( verbose ) message( "Downloading GENE vocabulary from CTDbase" )
         BiocFileCache::bfcadd(bfc, "CTD_genes", fileURL )
@@ -72,26 +78,13 @@ download_ctd_genes <- function( verbose = FALSE ) {
 #' download_ctd_chem()
 #' file.exists( "CTD_chemicals.tsv.gz" )
 #' @export download_ctd_chem
-download_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz", mode = "auto", verbose = FALSE ) {
+download_ctd_chem <- function( verbose = FALSE ) {
     fileURL <- "http://ctdbase.org/reports/CTD_chemicals.tsv.gz"
+    bfc <- .get_cache( verbose )
 
-    if( !file.exists( filename ) ) {
-        if( verbose ) {
-            message( "Downloading chemical vocabilary from CTDbase ( '", filename, "' ).")
-        }
-        res <- tryCatch( utils::download.file(
-            url = fileURL,
-            destfile = filename,
-            method = mode ),
-            error = function( e ) { 1 } )
-    } else {
-        res <- filename
-    }
-
-    if( res == 1 ) {
-        ""
-    } else {
-        filename
+    if( nrow( BiocFileCache::bfcquery(bfc, "CTD_chemicals") ) == 0 ) {
+        if( verbose ) message( "Downloading CHEMICAL vocabulary from CTDbase" )
+        BiocFileCache::bfcadd(bfc, "CTD_chemicals", fileURL )
     }
 }
 
@@ -123,25 +116,12 @@ download_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz", mode = "auto",
 #' download_ctd_dise()
 #' file.exists( "CTD_diseases.tsv.gz" )
 #' @export download_ctd_dise
-download_ctd_dise <- function( filename = "CTD_diseases.tsv.gz", mode = "auto", verbose = FALSE ) {
+download_ctd_dise <- function( verbose = FALSE ) {
     fileURL <- "http://ctdbase.org/reports/CTD_diseases.tsv.gz"
+    bfc <- .get_cache( verbose )
 
-    if( !file.exists( filename ) ) {
-        if( verbose ) {
-            message( "Downloading disease vocabilary from CTDbase ( '", filename, "' ).")
-        }
-        res <- tryCatch( utils::download.file(
-            url = fileURL,
-            destfile = filename,
-            method = mode ),
-            error = function( e ) { 1 } )
-    } else {
-        res <- filename
-    }
-
-    if( res == 1 ) {
-        ""
-    } else {
-        filename
+    if( nrow( BiocFileCache::bfcquery(bfc, "CTD_diseases") ) == 0 ) {
+        if( verbose ) message( "Downloading DISEASE vocabulary from CTDbase" )
+        BiocFileCache::bfcadd(bfc, "CTD_diseases", fileURL )
     }
 }

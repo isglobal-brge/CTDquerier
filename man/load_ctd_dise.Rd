@@ -4,7 +4,7 @@
 \alias{load_ctd_dise}
 \title{Function to load the \code{.tsv.gz} file for disease}
 \usage{
-load_ctd_dise(filename = "CTD_diseases.tsv.gz")
+load_ctd_dise(filename = "CTD_diseases.tsv.gz", verbose = FALSE)
 }
 \arguments{
 \item{filename}{(default "CTD_diseases.tsv.gz") File with the

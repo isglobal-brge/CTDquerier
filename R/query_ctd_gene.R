@@ -16,7 +16,7 @@ query_ctd_gene <- function( terms, verbose = FALSE ) {
     ## SETUP
     download_ctd_genes( verbose )
     if( verbose ) message( "Loading gene vocabulary." )
-    tbl <- load_ctd_gene( )
+    tbl <- load_ctd_gene( verbose )
     ## //
 
     ## VALIDATE INPUT GENES

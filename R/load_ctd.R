@@ -16,23 +16,20 @@
 #'  \item UniprotIDs ('|'-delimited list)
 #' }
 #'
+#' @param verbose (default \code{FALSE}) If set to \code{TRUE} messages and
+#' warnings are raised.
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
 #' download_ctd_genes()
 #' fdl <- load_ctd_gene()
 #' dim( fdl )
 #' @export load_ctd_gene
-load_ctd_gene <- function( ) {
-    bfc <- .get_cache()
+load_ctd_gene <- function( verbose = FALSE ) {
+    bfc <- .get_cache( verbose )
     if( nrow( BiocFileCache::bfcquery( bfc, "CTD_genes" ) ) != 1 ) {
-        stop( "GENE vocabulary could not be loaded")
+        stop( "GENE vocabulary could not be loaded." )
     } else {
-        filename <- BiocFileCache::bfcquery( bfc, "CTD_genes" )$rpath
-        message( "1", filename )
-        warning( "1", filename )
         filename <- BiocFileCache::bfcrpath( bfc, "CTD_genes" )
-        message( "1", filename )
-        warning( "1", filename )
     }
 
     tbl <- tryCatch( {
@@ -67,28 +64,38 @@ load_ctd_gene <- function( ) {
 #'  \item DrugBankIDs ('|'-delimited list)
 #'  }
 #'
-#' @param filename (default "CTD_chemicals.tsv.gz") File with the
-#' chemicals downloaded from CTDbase.
+#' @param verbose (default \code{FALSE}) If set to \code{TRUE} messages and
+#' warnings are raised.
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
 #' download_ctd_chem()
 #' fdl <- load_ctd_chem()
 #' dim( fdl )
 #' @export load_ctd_chem
-load_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz" ) {
-  tbl <- tryCatch( read.delim( filename, header = FALSE, comment.char = "#", sep = "\t", stringsAsFactors = FALSE ),
-                   error = function( e ) 1 )
+load_ctd_chem <- function( verbose = FALSE ) {
+    bfc <- .get_cache( verbose )
+    if( nrow( BiocFileCache::bfcquery( bfc, "CTD_chemicals" ) ) != 1 ) {
+        stop( "CHEMICAL vocabulary could not be loaded." )
+    } else {
+        filename <- BiocFileCache::bfcrpath( bfc, "CTD_chemicals" )
+    }
 
-  if( class( tbl ) == "data.frame" ) {
-    colnames( tbl ) <-
-      c( "ChemicalName", "ChemicalID", "CasRN", "Definition", "ParentIDs", "TreeNumbers", "ParentTreeNumbers", "Synonyms", "DrugBankIDs" )
-    tbl <- tbl[ !is.na( tbl$ChemicalName ), ]
-    tbl$ChemicalName <- toupper( tbl$ChemicalName )
-    tbl$Synonyms <- toupper( tbl$Synonyms )
-    tbl
-  } else {
-    data.frame()
-  }
+    tbl <- tryCatch( {
+        read.delim( filename, header = FALSE, comment.char = "#", sep = "\t",
+                    stringsAsFactors = FALSE )
+    }, error = function( e ) 1 )
+
+    if( class( tbl ) == "data.frame" ) {
+        colnames( tbl ) <-
+          c( "ChemicalName", "ChemicalID", "CasRN", "Definition", "ParentIDs",
+             "TreeNumbers", "ParentTreeNumbers", "Synonyms", "DrugBankIDs" )
+        tbl <- tbl[ !is.na( tbl$ChemicalName ), ]
+        tbl$ChemicalName <- toupper( tbl$ChemicalName )
+        tbl$Synonyms <- toupper( tbl$Synonyms )
+        tbl
+    } else {
+        data.frame()
+    }
 }
 
 
@@ -107,17 +114,26 @@ load_ctd_chem <- function( filename = "CTD_chemicals.tsv.gz" ) {
 #'  \item SlimMappings (MEDIC-Slim mappings; '|'-delimited list)
 #'  }
 #'
-#' @param filename (default "CTD_diseases.tsv.gz") File with the
-#' chemicals downloaded from CTDbase.
+#' @param verbose (default \code{FALSE}) If set to \code{TRUE} messages and
+#' warnings are raised.
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
 #' download_ctd_dise()
 #' fdl <- load_ctd_dise()
 #' dim( fdl )
 #' @export load_ctd_dise
-load_ctd_dise <- function( filename = "CTD_diseases.tsv.gz" ) {
-  tbl <- tryCatch( read.delim( filename, header = FALSE, comment.char = "#", sep = "\t", stringsAsFactors = FALSE ),
-                   error = function( e ) 1 )
+load_ctd_dise <- function( verbose = FALSE ) {
+    bfc <- .get_cache( verbose )
+    if( nrow( BiocFileCache::bfcquery( bfc, "CTD_diseases" ) ) != 1 ) {
+        stop( "DISEASE vocabulary could not be loaded." )
+    } else {
+        filename <- BiocFileCache::bfcrpath( bfc, "CTD_diseases" )
+    }
+
+    tbl <- tryCatch( {
+        read.delim( filename, header = FALSE, comment.char = "#", sep = "\t",
+                    stringsAsFactors = FALSE )
+    }, error = function( e ) 1 )
 
   if( class( tbl ) == "data.frame" ) {
     colnames( tbl ) <-

@@ -5,9 +5,6 @@
 #' diseases, associated KEGG pathways and associated GO terms.
 #'
 #' @param terms Character vector with the chemicals used in the query.
-#' @param filename (default \code{"CTD_chemicals.tsv.gz"}) Name of the file
-#' to store the CTDbase chemicals vocabilary.
-#' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param max.distance (default \code{10}) Maximum distance allowed between a given element
 #' in \code{terms} argument and a possible match in CTDbase.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
@@ -16,17 +13,11 @@
 #' @examples
 #' rst <- query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE )
 #' @export query_ctd_chem
-query_ctd_chem <- function( terms, filename = "CTD_chemicals.tsv.gz", mode = "auto", max.distance = 10, verbose = FALSE ) {
+query_ctd_chem <- function( terms, max.distance = 10, verbose = FALSE ) {
   ## SETUP
-  rst <- download_ctd_chem( filename, mode, verbose )
-  if( rst == "" ) {
-    stop( "CTDquerier was not ablte to download '", filename, "' from CTDbase." )
-  }
-
-  if( verbose ) {
-    message( "Loading chemical vocabulary." )
-  }
-  tbl <- load_ctd_chem( filename )
+  download_ctd_chem( verbose )
+  if( verbose ) message( "Loading chemical vocabulary." )
+  tbl <- load_ctd_chem( verbose )
   ## //
 
   ## VALIDATE INPUT CHEMICALS
