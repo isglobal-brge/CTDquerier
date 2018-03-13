@@ -22,8 +22,20 @@ int_plot_gene_chemical_heatmap <- function( x, subset.gene, subset.chemical,
     }, FUN.VALUE = "character" )
     tbl <- data.frame( tbl )[ , c( "Chemical.Name", "GeneSymbol", "Reference.Count" ) ]
     chemicals <- unique( tbl$Chemical.Name )
-
     tbl$Reference.Count <- as.numeric( tbl$Reference.Count )
+    tbl <- do.call( rbind, lapply( unique( tbl$GeneSymbol ), function( gn ) {
+        sub <- tbl[ tbl$GeneSymbol == gn, ]
+        new <- data.frame( "GeneSymbol" = gn,
+                           "Chemical.Name" = unique( sub$Chemical.Name ),
+                           "Reference.Count" = 0,
+                           stringsAsFactors = FALSE
+        )
+        new$Reference.Count <- sapply( new$Chemical.Name, function( ch ) {
+            max( sub[ sub$Chemical.Name == ch, "Reference.Count" ] )
+        } )
+        new
+    } ) )
+
     if( length( chemicals ) > 1 ) {
         ggplot2::ggplot( data.frame( tbl ),
             ggplot2::aes_string( x = "GeneSymbol", y = "Chemical.Name" ) ) +
