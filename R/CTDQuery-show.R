@@ -34,8 +34,6 @@ setMethod( "show",
                 table( object@diseases[ , "Direct.Evidence" ] != "" ) )
             cat( " . Diseases:", length( unique( object@diseases$Disease.ID )),
                  "(", xx[2,2], "/", nrow( object@diseases ), ")\n" )
-            cat( " . Diseases:", length( unique( object@diseases$Disease.ID )),
-                 "(", nrow( object@diseases ), ")\n" )
             cat( " . Chemical-gene interactions:",
                  nrow( unique(
                      object@gene_interactions[ ,

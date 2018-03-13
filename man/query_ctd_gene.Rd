@@ -9,8 +9,8 @@ query_ctd_gene(terms, verbose = FALSE)
 \arguments{
 \item{terms}{Character vector with the genes used in the query.}
 
-\item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
-information of each step.}
+\item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows
+relevant information of each step.}
 }
 \value{
 An object of class \code{\link{CTDdata}}.

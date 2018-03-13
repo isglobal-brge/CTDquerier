@@ -2,20 +2,8 @@
 #' that can be used to query CTDbase.
 #' @param x Object of class \code{CTDdata}.
 #' @param y NOT USED
-#' @param index_name Name of the plot to be draw. \code{"base"} shows a
-#' bar-plot indicating the number of terms lost&found at CTDbase. For
-#' \emph{gene} queries \code{index_name} can take values \code{"disease"},
-#' \code{"chemical"}, \code{"gene-gene interaction"}, \code{"kegg pathways"}
-#' and \code{"go terms"}. The first two have only \code{"heatmap"}
-#' representation, the last to have only \code{"network"} representation, and
-#' \code{"gene-gene interaction"} has both. For \emph{chemical} queries
-#' \code{index_name} can take values \code{"gene"}, \code{"disease"},
-#' \code{"kegg pathways"} and \code{"go terms"}. The first has both
-#' \code{"heatmap"} and \code{"network"} representation, while the last only
-#' \code{"network"}. The otehr three have only \code{"heatmap"} representation.
-#' For \emph{disease} queries \code{index_name} can take values \code{"gene"},
-#' \code{"chemical"} and \code{"kegg pathways"}. The first two have
-#' \code{"heatmap"} representation while the last \code{"network"}
+#' @param index_name Name of the plot to be draw. See \code{\link{CTDdata}}'s
+#' detail section for more information (\code{?`CTDdata-class`}).
 #' representation.
 #' @param representation Can take values \code{"heatmap"} or \code{"network"}.
 #' @export

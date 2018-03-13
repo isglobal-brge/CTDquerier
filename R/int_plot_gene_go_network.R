@@ -1,4 +1,4 @@
-int_plot_gene_go_network <- function( x, subset.x, subset.y, main,
+int_plot_gene_go_network <- function( x, subset.gene, subset.pathway, main,
         ontology = c("Biological Process", "Cellular Component",
                      "Molecular Function" ) ) {
     ontology <- match.arg( base::tolower( ontology ),
@@ -9,12 +9,12 @@ int_plot_gene_go_network <- function( x, subset.x, subset.y, main,
     tbl$Ontology <- base::tolower( tbl$Ontology )
     tbl <- tbl[ tbl$Ontology %in% ontology, ]
 
-    if( !missing( subset.x ) ) {
-        tbl <- tbl[ tbl$GeneSymbol %in% subset.x, ]
+    if( !missing( subset.gene ) ) {
+        tbl <- tbl[ tbl$GeneSymbol %in% subset.gene, ]
     }
 
-    if( !missing( subset.y ) ) {
-        tbl <- tbl[ tbl$Pathway %in% subset.y, ]
+    if( !missing( subset.pathway ) ) {
+        tbl <- tbl[ tbl$Pathway %in% subset.pathway, ]
     }
 
     edges <- tbl[ , c( "GO.Term.Name", "GeneSymbol" ) ]

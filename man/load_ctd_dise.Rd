@@ -4,11 +4,11 @@
 \alias{load_ctd_dise}
 \title{Function to load the \code{.tsv.gz} file for disease}
 \usage{
-load_ctd_dise(filename = "CTD_diseases.tsv.gz", verbose = FALSE)
+load_ctd_dise(verbose = FALSE)
 }
 \arguments{
-\item{filename}{(default "CTD_diseases.tsv.gz") File with the
-chemicals downloaded from CTDbase.}
+\item{verbose}{(default \code{FALSE}) If set to \code{TRUE} messages and
+warnings are raised.}
 }
 \value{
 A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"

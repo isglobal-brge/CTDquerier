@@ -4,16 +4,10 @@
 \alias{query_ctd_chem}
 \title{Function to query CTDbase using chemical terminology ( Chemical Name )}
 \usage{
-query_ctd_chem(terms, filename = "CTD_chemicals.tsv.gz", mode = "auto",
-  max.distance = 10, verbose = FALSE)
+query_ctd_chem(terms, max.distance = 10, verbose = FALSE)
 }
 \arguments{
 \item{terms}{Character vector with the chemicals used in the query.}
-
-\item{filename}{(default \code{"CTD_chemicals.tsv.gz"}) Name of the file
-to store the CTDbase chemicals vocabilary.}
-
-\item{mode}{(default \code{"auto"}) Mode passed to \code{download.file}.}
 
 \item{max.distance}{(default \code{10}) Maximum distance allowed between a given element
 in \code{terms} argument and a possible match in CTDbase.}
@@ -25,8 +19,8 @@ information of each step.}
 An object of class \code{\link{CTDdata}}.
 }
 \description{
-This function cheks for CTDbase gene vocabulary and query CTDbase
-for each one, downloading chemica-genes interactions, associated
+This function checks for CTDbase gene vocabulary and query CTDbase
+for each one, downloading chemical-genes interactions, associated
 diseases, associated KEGG pathways and associated GO terms.
 }
 \examples{

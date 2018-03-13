@@ -5,6 +5,119 @@
 #' to encapsulate all the information in \emph{CTDbase} for given set of genes,
 #' chemicals or diseases.
 #'
+#' @details
+#' \code{CTDdata} objects provides with a summarized representation of the
+#' downloaded data obtained from the standard \code{show} method. For instance,
+#' a \code{CTDdata} created using \code{query_ctd_chem} shows: \cr\cr
+#' \code{Object of class 'CTDdata'} \cr
+#' \code{-------------------------} \cr
+#' \code{ . Type: CHEMICAL } \cr
+#' \code{ . Creation (timestamp): 2018-03-13 13:11:50 } \cr
+#' \code{ . Length: 2 } \cr
+#' \code{ . Items: IRON, ..., AIR POLLUTANTS } \cr
+#' \code{ . Diseases: 1755 ( 203 / 3322 ) } \cr
+#' \code{ . Chemical-gene interactions: 2070 ( 2799 ) } \cr
+#' \code{ . KEGG pathways: 637 ( 637 ) } \cr
+#' \code{ . GO terms: 3641 ( 3641 ) } \cr\cr
+#' The information shows corresponds to:
+#' \itemize{
+#'   \item Type: Indicates the source (chemical, gene or disease) used
+#'   to create the object.
+#'   \item Creation: Shows the time-stamp from the creation time.
+#'   \item Length: Shows the number of terms used to create the object.
+#'   \item Items: Shows some of the terms used to create the object.
+#'   \item Diseases: Corresponds to the unique number of
+#'   diseases obtained in the query. In parenthesis: number of curated
+#'   chemical-diseases and total number of chemical-diseases association.
+#'   \item Chemical-gene interactions: Indicates the unique number of
+#'   chemical-gene interactions. In parenthesis the total number of
+#'   chemical-gene interactions.
+#'   \item KEGG pathways: Shows the unique number of KEGG pathway versus
+#'   chemical associations. In parenthesis the total number of associations.
+#'   \item GO terms: Shows the unique number of GO terms versus
+#'   chemical associations. In parenthesis the total number of associations.
+#' }\cr
+#' \code{CTDdata} objects allows many types of representation according to the
+#' different sources (chemical, gene or disease). The used method is
+#' \code{plot}, matching the argument \code{x} with a \code{CTDdata} object. The
+#' argument \code{index_name} indicates the type of plot to be draw. The
+#' default value of \code{index_name} is \code{"base"}.
+#' \itemize{
+#'    \item \code{"base"}: shows a bar-plot indicating the number of lost &
+#'    found terms for the given object.
+#' }
+#' For \emph{gene} queries, \code{index_name} can take values:
+#' \itemize{
+#'    \item \code{"disease"}: (argument \code{representation} must be
+#'    \code{"heatmap"}) shows shows the inference score that associates the
+#'    given genes with diseases according to CTDbase.
+#'    \item \code{"chemical interactions"}: (argument \code{representation}
+#'    must be \code{"heatmap"}) shows the number of reference that cites the
+#'    association between the given genes and chemicals.
+#'    \item \code{"gene-gene interaction"}: (argument \code{representation}
+#'    can be \code{"network"} and \code{"heatmap"}) in the network
+#'    representation teh original genes are dark-colored while the other genes
+#'    are light-colored. Both plots allows to to explore the gene-gene
+#'    interactions.
+#'    \item \code{"kegg pathways"}: (argument \code{representation} must be
+#'    \code{"network"}) shows the linked between genes and KEGG pathways.
+#'    \item \code{"go terms"}: (argument \code{representation} must be
+#'    \code{"network"}) shows the links between genes and GO terms.
+#' }
+#' For \emph{chemical} queries, \code{index_name} can take values:
+#' \itemize{
+#'    \item \code{"gene interactions"}: (argument \code{representation}
+#'    can be \code{"network"} and \code{"heatmap"}) shows the gene-chemical
+#'    interactions. Network representation includes the "mechanism" of the
+#'    interactions.
+#'    \item \code{"disease"}: (argument \code{representation}
+#'    can be \code{"network"} and \code{"heatmap"}) shows the inference
+#'    score of the link between chemicals and diseases.
+#'    \item \code{"kegg pathways"}: (argument \code{representation} must be
+#'    \code{"network"}) shows the P-Value of relation between KEGG pathways
+#'    and chemicals.
+#'    \item \code{"go terms"}: (argument \code{representation} must be
+#'    \code{"network"}) shows the P-Value of relation between GO terms and
+#'    chemicals.
+#' }
+#' For \emph{disease} queries, \code{index_name} can take values:
+#' \itemize{
+#'    \item \code{"gene"}: (argument \code{representation} must be
+#'    \code{"heatmap"}) shows the number of references linking a set of genes
+#'    with a set of diseases.
+#'    \item \code{"chemical"}: (argument \code{representation} must be
+#'    \code{"heatmap"}): shows the inference-score linking diseases with
+#'    chemicals.
+#'    \item \code{"kegg pathways"}: (argument \code{representation} must be
+#'    \code{"network"}) shows the pathways linked to a set of diseases.
+#' }
+#' The other arguments of \code{plot} functions follows:
+#' \itemize{
+#'    \item \code{subset.chemical}: filters the chemicals to be include into
+#'    the plot.
+#'    \item \code{subset.gene}: filters the genes to be include into
+#'    the plot.
+#'    \item \code{subset.pathway}: filters the KEGG pathways or GO terms
+#'    included into the plot.
+#'    \item \code{subset.source}: filters the origin in gene-gene interaction
+#'    network.
+#'    \item \code{subset.target}: filters the end in gene-gene interaction
+#'    network.
+#'    \item \code{field.score}: can take values \code{"Inference"} or
+#'    \code{"Reference"} depending of the used source and representation.
+#'    \item \code{filter.score}: allows to filter the relations to be included
+#'    into the plot in base of the set of \code{field.score}.
+#'    \item \code{max.length}: indicates the maximum number of characters of
+#'    the names of each "item" in the plot.
+#'    \item \code{ontology}: for the KEGG pathways, allows to filter the
+#'    pathways in base of their ontology. By default:
+#'    \code{c("Biological Process", "Cellular Component",
+#'    "Molecular Function" )}.
+#'    \item \code{main}: title to be displayed in network representations.
+#'    For heatmap representations use: \code{ + ggtitle("TITLE")}.
+#'
+#' }
+#'
 #' @name CTDdata
 #' @aliases CTDdata-class
 #' @rdname CTDdata-class
@@ -37,19 +150,19 @@
 #' \code{plot} to get nice plots from stored data.
 #' @return An object of class \code{CTDdata}
 setClass( "CTDdata",
-    representation =
-        representation(
-            # esentials
-            timestamp              = "character",
-            type                   = "character",
-            terms                  = "DataFrame",
-            losts                  = "character",
-            # CTDbase results
-            gene_interactions      = "DataFrame",
-            chemicals_interactions = "DataFrame",
-            diseases               = "DataFrame",
-            gene_gene_interactions = "DataFrame",
-            kegg                   = "DataFrame",
-            go                     = "DataFrame"
-        )
+          representation =
+              representation(
+                  # esentials
+                  timestamp              = "character",
+                  type                   = "character",
+                  terms                  = "DataFrame",
+                  losts                  = "character",
+                  # CTDbase results
+                  gene_interactions      = "DataFrame",
+                  chemicals_interactions = "DataFrame",
+                  diseases               = "DataFrame",
+                  gene_gene_interactions = "DataFrame",
+                  kegg                   = "DataFrame",
+                  go                     = "DataFrame"
+              )
 )
