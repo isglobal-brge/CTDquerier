@@ -162,7 +162,6 @@ The other arguments of \code{plot} functions follows:
    "Molecular Function" )}.
    \item \code{main}: title to be displayed in network representations.
    For heatmap representations use: \code{ + ggtitle("TITLE")}.
-
 }
 }
 \section{Methods (by generic)}{

@@ -115,7 +115,6 @@
 #'    "Molecular Function" )}.
 #'    \item \code{main}: title to be displayed in network representations.
 #'    For heatmap representations use: \code{ + ggtitle("TITLE")}.
-#'
 #' }
 #'
 #' @name CTDdata
