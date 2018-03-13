@@ -165,6 +165,7 @@ query_ctd_chem <- function( terms, filename = "CTD_chemicals.tsv.gz", mode = "au
 
   new( "CTDdata",
     type                   = "CHEMICAL",
+    timestamp              = as.character( Sys.time() ),
     terms                  = S4Vectors::DataFrame( keep ),
     losts                  = disc,
     gene_interactions      = chem_gene_interactions,

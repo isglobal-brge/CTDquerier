@@ -40,6 +40,7 @@ setClass( "CTDdata",
     representation =
         representation(
             # esentials
+            timestamp              = "character",
             type                   = "character",
             terms                  = "DataFrame",
             losts                  = "character",

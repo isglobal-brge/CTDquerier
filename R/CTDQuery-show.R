@@ -4,6 +4,7 @@ setMethod( "show",
         cat( "Object of class 'CTDdata'\n" )
         cat( "-------------------------\n" )
         cat( " . Type:", object@type, "\n" )
+        cat( " . Creation (timestamp):", object@timestamp, "\n" )
         cat( " . Length:", nrow( object@terms ), "\n")
         if( nrow( object@terms ) == 1 ) {
             it <- object@terms[ 1, 1 ]

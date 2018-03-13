@@ -115,6 +115,7 @@ query_ctd_dise <- function( terms, filename = "CTD_diseases.tsv.gz", mode = "aut
 
   new( "CTDdata",
        type                   = "DISEASE",
+       timestamp              = as.character( Sys.time() ),
        terms                  = S4Vectors::DataFrame( keep ),
        losts                  = disc,
        gene_interactions      = disease_gene_interactions,

@@ -159,6 +159,7 @@ query_ctd_gene <- function( terms, verbose = FALSE ) {
 
     new( "CTDdata",
          type                   = "GENE",
+         timestamp              = as.character( Sys.time() ),
          terms                  = S4Vectors::DataFrame( keep ),
          losts                  = disc[ disc != "NA" ],
          gene_interactions      = S4Vectors::DataFrame(),
