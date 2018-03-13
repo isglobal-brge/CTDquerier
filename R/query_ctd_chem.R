@@ -1,7 +1,7 @@
 #' Function to query CTDbase using chemical terminology ( Chemical Name )
 #'
-#' This function cheks for CTDbase gene vocabulary and query CTDbase
-#' for each one, downloading chemica-genes interactions, associated
+#' This function checks for CTDbase gene vocabulary and query CTDbase
+#' for each one, downloading chemical-genes interactions, associated
 #' diseases, associated KEGG pathways and associated GO terms.
 #'
 #' @param terms Character vector with the chemicals used in the query.

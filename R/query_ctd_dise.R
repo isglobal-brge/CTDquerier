@@ -1,8 +1,8 @@
 #' Function to query CTDbase using disease terminology
 #'
-#' This function cheks for CTDbase disease vocabulary and query CTDbase
+#' This function checks for CTDbase disease vocabulary and query CTDbase
 #' for each one, downloading disease-gene interactions, chemicals
-#' interactions, associated desease, associated KEGG pathways and
+#' interactions, associated diseases, associated KEGG pathways and
 #' associated GO terms.
 #'
 #' @param terms Character vector with the diseases used in the query.

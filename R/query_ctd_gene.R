@@ -6,8 +6,8 @@
 #' associated GO terms.
 #'
 #' @param terms Character vector with the genes used in the query.
-#' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
-#' information of each step.
+#' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows
+#' relevant information of each step.
 #' @return An object of class \code{\link{CTDdata}}.
 #' @examples
 #' rst <- query_ctd_gene( terms = c( "APP", "HMOX1A", "hmox1" ), verbose = TRUE )
