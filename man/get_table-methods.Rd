@@ -33,7 +33,7 @@ Available tables are (\code{index_name}):
   a relation of the genes interacting with the given genes.
   \item \code{"kegg pathways"}: Table with a relation of the KEGG pathways
   affected by the given chemicals or where the given genes play a role.
-  \item \code{"go terms"}: Table with a relatio of the GO terms afected by
+  \item \code{"go terms"}: Table with a relation of the GO terms affected by
   the given chemicals or where the given genes play a role.
 }
 }

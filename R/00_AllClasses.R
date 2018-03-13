@@ -27,13 +27,13 @@
 #'   of the genes interacting with the given genes.
 #' @slot kegg Table with a relation of the KEGG pathways affected by the
 #' given chemicals or where the given genes play a role.
-#' @slot go Table with a relatio of the GO terms afected by the given
+#' @slot go Table with a relation of the GO terms affected by the given
 #' chemicals or where the given genes play a role.
 #' @seealso \code{\link{query_ctd_gene}} to create a \code{CTDdata}
 #' from a set of genes, \code{\link{query_ctd_chem}} to create a
 #' \code{CTDdata} from a set of chemicals, \code{\link{query_ctd_dise}} to
 #' create a \code{CTDdata} from a set of diseases,
-#' \code{\link{get_table}} to retrive encapsulated data and
+#' \code{\link{get_table}} to retrieve encapsulated data and
 #' \code{plot} to get nice plots from stored data.
 #' @return An object of class \code{CTDdata}
 setClass( "CTDdata",

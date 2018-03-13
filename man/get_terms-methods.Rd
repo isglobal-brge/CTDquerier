@@ -11,8 +11,8 @@ get_terms(object)
 }
 \value{
 A list with two accessors: \code{"used"} for the terms that
-exsist in CTDbase, and \code{"lost"} with the terms that do not
-existi in CTDbase.
+exists in CTDbase, and \code{"lost"} with the terms that do not
+exists in CTDbase.
 }
 \description{
 Getter to obtain the terms used to perform a query into CTDbase

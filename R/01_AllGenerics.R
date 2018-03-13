@@ -5,8 +5,8 @@
 #' @aliases get_terms
 #' @param object Object of class \code{\link{CTDdata}}.
 #' @return A list with two accessors: \code{"used"} for the terms that
-#' exsist in CTDbase, and \code{"lost"} with the terms that do not
-#' existi in CTDbase.
+#' exists in CTDbase, and \code{"lost"} with the terms that do not
+#' exists in CTDbase.
 #' @examples
 #' data("gala")
 #' get_terms(gala)[["lost"]]
@@ -69,7 +69,7 @@ setGeneric("enrich", function(x, y, universe, use = "curated",
 #'   a relation of the genes interacting with the given genes.
 #'   \item \code{"kegg pathways"}: Table with a relation of the KEGG pathways
 #'   affected by the given chemicals or where the given genes play a role.
-#'   \item \code{"go terms"}: Table with a relatio of the GO terms afected by
+#'   \item \code{"go terms"}: Table with a relation of the GO terms affected by
 #'   the given chemicals or where the given genes play a role.
 #' }
 #' @return A \code{DataFrame} containing the raw result from CTDdata.
