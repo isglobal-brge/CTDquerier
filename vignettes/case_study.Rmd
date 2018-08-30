@@ -27,8 +27,9 @@ output:
 The package can be installed using `biocLite` function from Biocondcutor by executing:
 
 ```{r eval=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("CTDquerier")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CTDquerier")
 ```
 
 # Case-Study aim

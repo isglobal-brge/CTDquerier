@@ -33,8 +33,9 @@ The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a pub
 
 
 ```{r eval=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("CTDquerier")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("CTDquerier")
 ```
 
 Once installed, `CTDquerier` should be loaded running the following command:
