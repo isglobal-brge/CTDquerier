@@ -4,10 +4,14 @@
 \alias{query_ctd_dise}
 \title{Function to query CTDbase using disease terminology}
 \usage{
-query_ctd_dise(terms, verbose = FALSE)
+query_ctd_dise(terms, ask = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{terms}{Character vector with the diseases used in the query.}
+
+\item{ask}{(default \code{TRUE}) If \code{TRUE} it asks the the persistent
+location must be used to save the vocabulary if it was not downloaded
+previously.}
 
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
 information of each step.}

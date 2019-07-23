@@ -4,11 +4,14 @@
 \alias{download_ctd_dise}
 \title{Function to download diseases available in CTDbase}
 \usage{
-download_ctd_dise(verbose = FALSE)
+download_ctd_dise(verbose = FALSE, ask = TRUE)
 }
 \arguments{
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
 information of each step.}
+
+\item{ask}{(default \code{TRUE}) If \code{TRUE} it asks the the persistent
+location must be used.}
 
 \item{filename}{(default \code{"CTD_diseases.tsv.gz"}) Name of the file in
 the local system.}

@@ -4,11 +4,14 @@
 \alias{download_ctd_genes}
 \title{Function to download genes available in CTDbase}
 \usage{
-download_ctd_genes(verbose = FALSE)
+download_ctd_genes(verbose = FALSE, ask = TRUE)
 }
 \arguments{
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
 information of each step.}
+
+\item{ask}{(default \code{TRUE}) If \code{TRUE} it asks the the persistent
+location must be used.}
 }
 \value{
 Passed name into \code{filename} argument if it could be download

@@ -4,10 +4,14 @@
 \alias{query_ctd_gene}
 \title{Function to query CTDbase using gene terminology ( Gene Symbol )}
 \usage{
-query_ctd_gene(terms, verbose = FALSE)
+query_ctd_gene(terms, ask = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{terms}{Character vector with the genes used in the query.}
+
+\item{ask}{(default \code{TRUE}) If \code{TRUE} it asks the the persistent
+location must be used to save the vocabulary if it was not downloaded
+previously.}
 
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows
 relevant information of each step.}

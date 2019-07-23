@@ -34,8 +34,6 @@ The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a pub
 
 `CTDquerier` is an R package that allows to R users to download basic data from *CTDbase* about genes, chemicals and diseases. Once the user's input is validated allows to query *CTDbase* to download the information of the given input from the other modules.
 
-
-
 # Quering The Comparative Toxicogenomics Database
 
 *CTDbase* offers a public web-based interface that includes basic and advanced query options to access data for sequences, references, and toxic agents, and a platform for analysis sequences.
@@ -110,7 +108,7 @@ The `CTDquerier` allows to download the associated information to a single or a 
 
 ```{r ctdquerier_xkr4}
 library( CTDquerier )
-xkr4 <- query_ctd_gene( terms = "XKR4", verbose = TRUE )
+xkr4 <- query_ctd_gene( terms = "XKR4", ask = FALSE, verbose = TRUE )
 xkr4
 ```
 

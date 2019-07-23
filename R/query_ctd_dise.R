@@ -6,15 +6,18 @@
 #' associated GO terms.
 #'
 #' @param terms Character vector with the diseases used in the query.
+#' @param ask (default \code{TRUE}) If \code{TRUE} it asks the the persistent
+#' location must be used to save the vocabulary if it was not downloaded
+#' previously.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
 #' @return An object of class \code{\link{CTDdata}}.
 #' @examples
 #' rst <- query_ctd_dise( terms = "Asthma", verbose = TRUE )
 #' @export query_ctd_dise
-query_ctd_dise <- function( terms, verbose = FALSE ) {
+query_ctd_dise <- function( terms, ask = TRUE, verbose = FALSE ) {
   ## SETUP
-  download_ctd_dise( verbose )
+  download_ctd_dise( verbose, ask )
   if( verbose ) message( "Loading disease vocabulary." )
   tbl <- load_ctd_dise( verbose )
   ## //

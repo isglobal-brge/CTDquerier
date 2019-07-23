@@ -33,8 +33,10 @@ The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a pub
 
 
 ```{r eval=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("CTDquerier")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("CTDquerier")
 ```
 
 Once installed, `CTDquerier` should be loaded running the following command:
@@ -92,7 +94,10 @@ A typical gene-query follows:
 
 ```{r ctd_genes}
 ctd_genes <- query_ctd_gene( 
-    terms = c( "APOE", "APOEB", "APOE2", "APOE3" , "APOE4", "APOA1", "APOA5" ) )
+    terms = c( "APOE", "APOEB", "APOE2", "APOE3" , "APOE4", "APOA1", "APOA5" ),
+    ask = FALSE,
+    verbose = FALSE
+)
 ctd_genes
 ```
 
@@ -184,7 +189,11 @@ The argument `terms` is the one that must be filled with the list of chemicals o
 A typical chemical-query follows:
 
 ```{r ctd_chem}
-ctd_chem <- query_ctd_chem( terms = c( "Zinc", "Cadmium" ) )
+ctd_chem <- query_ctd_chem( 
+  terms = c( "Zinc", "Cadmium" ),
+  ask = FALSE,
+  verbose = FALSE
+)
 ctd_chem
 ```
 
@@ -273,7 +282,11 @@ The argument `terms` is the one that must be filled with the list of diseases of
 A typical gene-query follows:
 
 ```{r ctd_dise}
-ctd_diseases <- query_ctd_dise( terms = c( "Dementia", "Alzheimer" ) )
+ctd_diseases <- query_ctd_dise( 
+  terms = c( "Dementia", "Alzheimer" ),
+  ask = FALSE,
+  verbose = FALSE
+)
 ctd_diseases
 ```
 

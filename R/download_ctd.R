@@ -1,10 +1,10 @@
-.get_cache <- function( verbose = FALSE ) {
+.get_cache <- function( verbose = FALSE, ask = TRUE ) {
     #path <- file.path(tempdir(), "tempCTDquerierCacheDir")
     #bfc <- BiocFileCache::BiocFileCache( path )
     if( verbose ) {
         cache <- rappdirs::user_cache_dir( appname = "CTDQuery",
             appauthor = "isglobal" )
-        bfc <- BiocFileCache::BiocFileCache( cache )
+        bfc <- BiocFileCache::BiocFileCache( cache, ask = ask )
     } else {
         suppressMessages( suppressWarnings({
             cache <- rappdirs::user_cache_dir( appname = "CTDQuery",
@@ -34,14 +34,16 @@
 #'
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
+#' @param ask (default \code{TRUE}) If \code{TRUE} it asks the the persistent
+#' location must be used.
 #' @return Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
 #' @examples
 #' download_ctd_genes()
 #' @export download_ctd_genes
-download_ctd_genes <- function( verbose = FALSE ) {
+download_ctd_genes <- function( verbose = FALSE, ask = TRUE ) {
     fileURL <- "http://ctdbase.org/reports/CTD_genes.tsv.gz"
-    bfc <- .get_cache( verbose )
+    bfc <- .get_cache( verbose, ask )
 
     if( nrow( BiocFileCache::bfcquery(bfc, "CTD_genes") ) == 0 ) {
         if( verbose ) message( "Downloading GENE vocabulary from CTDbase" )
@@ -72,15 +74,17 @@ download_ctd_genes <- function( verbose = FALSE ) {
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
+#' @param ask (default \code{TRUE}) If \code{TRUE} it asks the the persistent
+#' location must be used.
 #' @return Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
 #' @examples
 #' download_ctd_chem()
 #' file.exists( "CTD_chemicals.tsv.gz" )
 #' @export download_ctd_chem
-download_ctd_chem <- function( verbose = FALSE ) {
+download_ctd_chem <- function( verbose = FALSE, ask = TRUE ) {
     fileURL <- "http://ctdbase.org/reports/CTD_chemicals.tsv.gz"
-    bfc <- .get_cache( verbose )
+    bfc <- .get_cache( verbose, ask )
 
     if( nrow( BiocFileCache::bfcquery(bfc, "CTD_chemicals") ) == 0 ) {
         if( verbose ) message( "Downloading CHEMICAL vocabulary from CTDbase" )
@@ -111,14 +115,16 @@ download_ctd_chem <- function( verbose = FALSE ) {
 #' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
+#' @param ask (default \code{TRUE}) If \code{TRUE} it asks the the persistent
+#' location must be used.
 #' @return Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
 #' download_ctd_dise()
 #' file.exists( "CTD_diseases.tsv.gz" )
 #' @export download_ctd_dise
-download_ctd_dise <- function( verbose = FALSE ) {
+download_ctd_dise <- function( verbose = FALSE, ask = TRUE ) {
     fileURL <- "http://ctdbase.org/reports/CTD_diseases.tsv.gz"
-    bfc <- .get_cache( verbose )
+    bfc <- .get_cache( verbose, ask )
 
     if( nrow( BiocFileCache::bfcquery(bfc, "CTD_diseases") ) == 0 ) {
         if( verbose ) message( "Downloading DISEASE vocabulary from CTDbase" )

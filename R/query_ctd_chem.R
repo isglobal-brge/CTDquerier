@@ -7,15 +7,18 @@
 #' @param terms Character vector with the chemicals used in the query.
 #' @param max.distance (default \code{10}) Maximum distance allowed between a given element
 #' in \code{terms} argument and a possible match in CTDbase.
+#' @param ask (default \code{TRUE}) If \code{TRUE} it asks the the persistent
+#' location must be used to save the vocabulary if it was not downloaded
+#' previously.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
 #' @return An object of class \code{\link{CTDdata}}.
 #' @examples
 #' rst <- query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE )
 #' @export query_ctd_chem
-query_ctd_chem <- function( terms, max.distance = 10, verbose = FALSE ) {
+query_ctd_chem <- function( terms, max.distance = 10, ask = TRUE, verbose = FALSE ) {
   ## SETUP
-  download_ctd_chem( verbose )
+  download_ctd_chem( verbose, ask )
   if( verbose ) message( "Loading chemical vocabulary." )
   tbl <- load_ctd_chem( verbose )
   ## //

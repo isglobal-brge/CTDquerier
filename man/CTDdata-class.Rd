@@ -11,8 +11,8 @@
 \alias{plot,CTDdata,ANY-method}
 \title{Class CTDdata}
 \usage{
-\S4method{enrich}{CTDdata}(x, y, universe, use = "curated", warnings = TRUE,
-  ...)
+\S4method{enrich}{CTDdata}(x, y, universe, use = "curated",
+  warnings = TRUE, ...)
 
 \S4method{get_table}{CTDdata}(object, index_name, ...)
 

@@ -4,13 +4,17 @@
 \alias{query_ctd_chem}
 \title{Function to query CTDbase using chemical terminology ( Chemical Name )}
 \usage{
-query_ctd_chem(terms, max.distance = 10, verbose = FALSE)
+query_ctd_chem(terms, max.distance = 10, ask = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{terms}{Character vector with the chemicals used in the query.}
 
 \item{max.distance}{(default \code{10}) Maximum distance allowed between a given element
 in \code{terms} argument and a possible match in CTDbase.}
+
+\item{ask}{(default \code{TRUE}) If \code{TRUE} it asks the the persistent
+location must be used to save the vocabulary if it was not downloaded
+previously.}
 
 \item{verbose}{(default \code{FALSE}) If set to \code{TRUE} is shows relevant
 information of each step.}
