@@ -24,13 +24,14 @@ output:
 
 `CTDquerier` is an R package that allows R users to download essential data from *CTDbase* about genes, chemicals and diseases. First, `CTDquerier` validates the user's input in *CTDbase* vocabulary files. Second, the validated results are used to query *CTDbase* and their data are downloaded into the R session.  
 
-The package can be installed using `biocLite` function from Biocondcutor by executing:
+The package can be installed using:
 
 ```{r eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+if ( !requireNamespace( "BiocManager", quietly = TRUE ) ) { 
+    install.packages( "BiocManager" )
+}
 
-BiocManager::install("CTDquerier")
+BiocManager::install( "CTDquerier" )
 ```
 
 # Case-Study aim
