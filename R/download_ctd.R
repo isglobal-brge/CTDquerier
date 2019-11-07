@@ -47,7 +47,16 @@ download_ctd_genes <- function( verbose = FALSE, ask = TRUE ) {
 
     if( nrow( BiocFileCache::bfcquery(bfc, "CTD_genes") ) == 0 ) {
         if( verbose ) message( "Downloading GENE vocabulary from CTDbase" )
-        BiocFileCache::bfcadd(bfc, "CTD_genes", fileURL )
+        rst <- tryCatch({
+            BiocFileCache::bfcadd(bfc, "CTD_genes", fileURL )
+            TRUE
+        }, error=function(e) {
+            warning( "\nGENE vocabulary could not be downloaded from CTDbase" )
+            FALSE
+        })
+        return(rst)
+    } else {
+        return(TRUE)
     }
 }
 
@@ -88,7 +97,16 @@ download_ctd_chem <- function( verbose = FALSE, ask = TRUE ) {
 
     if( nrow( BiocFileCache::bfcquery(bfc, "CTD_chemicals") ) == 0 ) {
         if( verbose ) message( "Downloading CHEMICAL vocabulary from CTDbase" )
-        BiocFileCache::bfcadd(bfc, "CTD_chemicals", fileURL )
+        rst <- tryCatch({
+            BiocFileCache::bfcadd(bfc, "CTD_chemicals", fileURL )
+            TRUE
+        }, error = function(e) {
+            warning( "\nCHEMICAL vocabulary could not be downloaded from CTDbase" )
+            FALSE
+        })
+        return(rst)
+    } else {
+        return(TRUE)
     }
 }
 
@@ -128,6 +146,15 @@ download_ctd_dise <- function( verbose = FALSE, ask = TRUE ) {
 
     if( nrow( BiocFileCache::bfcquery(bfc, "CTD_diseases") ) == 0 ) {
         if( verbose ) message( "Downloading DISEASE vocabulary from CTDbase" )
-        BiocFileCache::bfcadd(bfc, "CTD_diseases", fileURL )
+        rst <- tryCatch({
+            BiocFileCache::bfcadd(bfc, "CTD_diseases", fileURL )
+            TRUE
+        }, error = function(e) {
+            warning( "\nDISEASE vocabulary could not be downloaded from CTDbase" )
+            FALSE
+        })
+        return(rst)
+    } else {
+        return(TRUE)
     }
 }

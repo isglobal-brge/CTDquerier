@@ -274,11 +274,17 @@ According to *CTDbase*, there are `r length( unique( ctd_asthma$Gene.Symbol ) )`
 ```{r ctd_asthma_table, results="asis"}
 library( knitr )
 tt <- as.data.frame( table( ctd_asthma$Disease.Name ) )
-colnames( tt ) <- c( "Disease", "Frequency" )
-kable( tt[ order( tt$Frequency, decreasing = TRUE ), ] )
+if( nrow( tt ) > 0 ) {
+  colnames( tt ) <- c( "Disease", "Frequency" )
+  kable( tt[ order( tt$Frequency, decreasing = TRUE ), ] )
+  
+  x <- tt[ order( tt$Frequency, decreasing = TRUE ), 2][1] # For text
+} else {
+  x <- NA # For text
+}
 ```
 
-Hence, the *true* answer is `r tt[ order( tt$Frequency, decreasing = TRUE ), 2][1]` gene-diseases relations and not `r, length( unique( ctd_asthma$Gene.Symbol ) )`.
+Hence, the *true* answer is `r x` gene-diseases relations and not `r, length( unique( ctd_asthma$Gene.Symbol ) )`.
 
 
 ## Which chemicals are associated with asthma according to *CTDbase*?
@@ -300,8 +306,8 @@ sum( !is.na( ctd_asthma_chem$Direct.Evidence ) & ctd_asthma_chem$Direct.Evidence
 We can plot the `Inference.Score` or the `Reference.Count` (for both curated and inferred relations). Let us assume that we are interested in providing information about the chemicals associated to GALA genes having a score larger than 30.
 
 ```{r ctd_asthma_plot}
-plot( asthma, index_name = "chemical interactions", subset.disease = "Asthma", filter.score = 30 ) +
-    ggtitle( "Evidence of the association between GALA genes and chemicals" )
+plot( asthma, index_name = "chemical interactions", subset.disease = "Asthma", filter.score = 30 ) #+
+    #ggtitle( "Evidence of the association between GALA genes and chemicals" )
 ```
 
 # Questions relating the triad: chemicals, genes and disease of interest
@@ -348,25 +354,29 @@ gala_chem_r <- gala_chem_r[ !duplicated( gala_chem_r$Chemical.Name ), ]
 ctd_asthma_chem_r <- ctd_asthma_chem[ ctd_asthma_chem$Chemical.Name %in% intr_chem, ]
 ctd_asthma_chem_r <- ctd_asthma_chem_r[ !duplicated( ctd_asthma_chem_r$Chemical.Name ), ]
 
-dta <- merge(
-    gala_chem_r[ , c( "Chemical.Name", "Reference.Count" ) ],
-    ctd_asthma_chem_r[ , c( "Chemical.Name", "Reference.Count" ) ],
-    by = "Chemical.Name"
-)
-colnames( dta ) <- c( "Chemical.Name", "Reference.Gala", "Reference.Asthma" )
-dta <- dta[ 
-    order( dta$Reference.Gala, dta$Reference.Asthma, decreasing = TRUE ), 
-]
-dta[1:5, ]
+if( nrow( gala_chem_r ) > 0 &  nrow( ctd_asthma_chem_r ) > 0 ) {
+  dta <- merge(
+      gala_chem_r[ , c( "Chemical.Name", "Reference.Count" ) ],
+      ctd_asthma_chem_r[ , c( "Chemical.Name", "Reference.Count" ) ],
+      by = "Chemical.Name"
+  )
+  colnames( dta ) <- c( "Chemical.Name", "Reference.Gala", "Reference.Asthma" )
+  dta <- dta[ 
+      order( dta$Reference.Gala, dta$Reference.Asthma, decreasing = TRUE ), 
+  ]
+  dta[1:5, ]
+}
 ```
 
 Having this `data.frame`, we can use the function `leaf_plot` to compare the number of references in the gene list and in asthma for the top 25 chemicals by:
 
 ```{r intersect_gala_asthma_chem_plot_2, fig.width=15}
-leaf_plot( dta[1:25, ], label = "Chemical.Name", 
-    valueLeft = "Reference.Gala", valueRight = "Reference.Asthma",
-    titleLeft = "GALA", titleRight = "Asthma"
-)
+if( nrow( gala_chem_r ) > 0 &  nrow( ctd_asthma_chem_r ) > 0 ) {
+  leaf_plot( dta[1:25, ], label = "Chemical.Name", 
+      valueLeft = "Reference.Gala", valueRight = "Reference.Asthma",
+      titleLeft = "GALA", titleRight = "Asthma"
+  )
+}
 ```
 
 # Questions related to enrichment analysis

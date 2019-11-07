@@ -152,7 +152,9 @@ In the results from `CTDquerier` there is a single entry for the disease instead
 
 ```{r}
 tbl <- get_table( xkr4, index_name = "diseases" )
-tbl[ tbl$Disease.ID == "MESH:D015746", "Inference.Network" ]
+if( nrow( tbl ) > 0 ) {
+  tbl[ tbl$Disease.ID == "MESH:D015746", "Inference.Network" ]
+}
 ```
 
 # Session Info.

@@ -3,9 +3,16 @@ setMethod(
     f = "get_terms",
     signature = "CTDdata",
     definition = function(object) {
-        return(list(
-            "found" = object@terms[ , 1 ],
-            "lost" = object@losts
-        ))
+        if( nrow( object@terms ) > 0 ) {
+            return(list(
+                "found" = object@terms[ , 1 ],
+                "lost" = object@losts
+            ))
+        } else {
+            return(list(
+                "found" = NA,
+                "lost" = object@losts
+            ))
+        }
     }
 )

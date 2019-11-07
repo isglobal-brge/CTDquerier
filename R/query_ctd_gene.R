@@ -17,7 +17,9 @@
 #' @export query_ctd_gene
 query_ctd_gene <- function( terms, ask = TRUE, verbose = FALSE ) {
     ## SETUP
-    download_ctd_genes( verbose )
+    if( !download_ctd_genes( verbose, ask ) ) {
+        return( create_empty_data( terms ) )
+    }
     if( verbose ) message( "Loading gene vocabulary." )
     tbl <- load_ctd_gene( verbose )
     ## //

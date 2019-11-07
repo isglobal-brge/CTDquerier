@@ -17,7 +17,9 @@
 #' @export query_ctd_dise
 query_ctd_dise <- function( terms, ask = TRUE, verbose = FALSE ) {
   ## SETUP
-  download_ctd_dise( verbose, ask )
+  if( !download_ctd_dise( verbose, ask ) ) {
+    return( create_empty_data( terms ) )
+  }
   if( verbose ) message( "Loading disease vocabulary." )
   tbl <- load_ctd_dise( verbose )
   ## //

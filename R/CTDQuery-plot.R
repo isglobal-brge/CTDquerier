@@ -12,6 +12,10 @@ setMethod(
     signature = "CTDdata",
     definition = function( x, y, index_name = "base", representation = "heatmap", ... ) {
         index_name <- base::tolower( index_name )
+        if( x@type == "VOID" ) {
+            warning( "No data was provided" )
+            return(invisible())
+        }
 
         if( index_name == "base" ) {
             in_plot_base( x )

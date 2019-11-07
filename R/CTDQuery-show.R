@@ -6,14 +6,18 @@ setMethod( "show",
         cat( " . Type:", object@type, "\n" )
         cat( " . Creation (timestamp):", object@timestamp, "\n" )
         cat( " . Length:", nrow( object@terms ), "\n")
-        if( nrow( object@terms ) == 1 ) {
+        if( nrow( object@terms ) == 0 ) {
+            it <- ' - '
+        } else if( nrow( object@terms ) == 1 ) {
             it <- object@terms[ 1, 1 ]
         } else {
             it <- paste0( object@terms[ 1,  1 ], ", ..., " ,
                           object@terms[ nrow( object@terms ), 1 ] )
         }
         cat( " . Items:", it, "\n" )
-        if( object@type == "GENE" ) {
+        if( object@type == "VOID" ) {
+            cat( " . Lost:", length(object@losts), "\n" )
+        } else if( object@type == "GENE" ) {
             xx <- as.data.frame(
                 table( !is.na( object@diseases[ , "Direct.Evidence" ] ) ) )
             cat( " . Diseases:", length( unique( object@diseases$Disease.ID )),
@@ -57,19 +61,22 @@ setMethod( "show",
                  "(", xx[2,2], "/", nrow(object@chemicals_interactions),")\n")
             xx <- "Disease.ID"
         }
-        if( nrow( object@kegg ) > 0 ) {
-            cat( " . KEGG pathways:",
-                 nrow( unique( object@kegg[ , c( "Pathway.ID", xx ) ] ) ),
-                 "(", nrow( object@kegg ), ")\n" )
-        } else {
-            cat( " . KEGG pathways: 0 (-)\n" )
-        }
-        if( nrow( object@go ) > 0 ) {
-            cat( " . GO terms:",
-                 nrow( unique( object@go[, c( "GO.Term.ID", xx ) ] ) ),
-                 "(", nrow( object@go ), ")\n" )
-        } else {
-            cat( " . GO terms: 0 (-)\n" )
+
+        if( object@type != "VOID" ) {
+            if( nrow( object@kegg ) > 0 ) {
+                cat( " . KEGG pathways:",
+                     nrow( unique( object@kegg[ , c( "Pathway.ID", xx ) ] ) ),
+                     "(", nrow( object@kegg ), ")\n" )
+            } else {
+                cat( " . KEGG pathways: 0 (-)\n" )
+            }
+            if( nrow( object@go ) > 0 ) {
+                cat( " . GO terms:",
+                     nrow( unique( object@go[, c( "GO.Term.ID", xx ) ] ) ),
+                     "(", nrow( object@go ), ")\n" )
+            } else {
+                cat( " . GO terms: 0 (-)\n" )
+            }
         }
     }
 )

@@ -18,7 +18,9 @@
 #' @export query_ctd_chem
 query_ctd_chem <- function( terms, max.distance = 10, ask = TRUE, verbose = FALSE ) {
   ## SETUP
-  download_ctd_chem( verbose, ask )
+  if( !download_ctd_chem( verbose, ask ) ) {
+    return( create_empty_data( terms ) )
+  }
   if( verbose ) message( "Loading chemical vocabulary." )
   tbl <- load_ctd_chem( verbose )
   ## //

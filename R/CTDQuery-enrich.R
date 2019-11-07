@@ -11,6 +11,14 @@ setMethod(
     definition = function( x, y, universe, use = "curated",
                            warnings = TRUE, ... ) {
         use <- match.arg( tolower( use ), choices = c( "all", "curated" ) )
+        if( x@type == "VOID" ) {
+            warning( "No data was provided (argument 'x')" )
+            return(invisible())
+        }
+        if( y@type == "VOID" ) {
+            warning( "No data was provided (argument 'y')" )
+            return(invisible())
+        }
 
         if( missing( universe ) ) {
             universe <- get( "universe_gene" )
