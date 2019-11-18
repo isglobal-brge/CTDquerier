@@ -1,6 +1,6 @@
 Package: CTDquerier
 Title: Package for CTDbase data query, visualization and downstream analysis
-Version: 1.7.0
+Version: 1.7.1
 Authors@R: c( person("Carles", "Hernandez-Ferrer", email = "carles.hernandez@isglobal.org", role = c("aut", "cre")),
   person("Jaun R.", "Gonzalez", email = "juanr.gonzalez@isglobal.org", role = "aut"))
 Maintainer: Carles Hernandez-Ferrer <carles.hernandez@isglobal.org>
@@ -28,3 +28,4 @@ RoxygenNote: 6.1.1
 biocViews: Software, BiomedicalInformatics, Infrastructure,
         DataImport, DataRepresentation, GeneSetEnrichment, 
         NetworkEnrichment, Pathways, Network, GO, KEGG
+PackageStatus: Deprecated
