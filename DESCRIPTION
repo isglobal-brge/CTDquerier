@@ -3,28 +3,20 @@ Title: Package for CTDbase data query, visualization and downstream analysis
 Version: 1.4.3
 Authors@R: c( person("Carles", "Hernandez-Ferrer", email = "carles.hernandez@isglobal.org", role = c("aut", "cre")),
   person("Jaun R.", "Gonzalez", email = "juanr.gonzalez@isglobal.org", role = "aut"))
-Maintainer: Carles Hernandez-Ferrer <carles.hernandez@isglobal.org>
-Description: Package to retrieve and visualize data from the Comparative Toxicogenomics Database (http://ctdbase.org/). The downloaded data is formated as DataFrames for further downstream analyses.
-Depends: R (>= 3.4.0)
+Maintainer: Jaun R. Gonzalez <juanr.gonzalez@isglobal.org>
+Description: Package to query and visualize data from the Comparative Toxicogenomics Database (http://ctdbase.org/).
+Depends: R (>= 4.0.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: RCurl,
-    stringr,
-    S4Vectors,
-    stringdist,
-    ggplot2,
-    igraph,
-    utils,
-    grid,
-    gridExtra,
-    methods,
-    stats,
-    BiocFileCache,
-    rappdirs
+Imports: 
+    R6,
+    data.table,
+    readr,
+    stringdist
 VignetteBuilder: knitr
 Suggests: BiocStyle, knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 biocViews: Software, BiomedicalInformatics, Infrastructure,
         DataImport, DataRepresentation, GeneSetEnrichment, 
         NetworkEnrichment, Pathways, Network, GO, KEGG

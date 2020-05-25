@@ -1,5 +1,5 @@
 ---
-title: "CTDquerier: A package to retrieve CTDbase data for downstream analysis and data visualization"
+title: "CTDquerier: A package for downstream analysis and data visualization with CTDbase data"
 author:
 - name: Carles Hernandez-Ferrer
   affiliation: ISGlobal, Centre for Research in Environmental Epidemiology ( CREAL )
@@ -11,13 +11,17 @@ package: "`r pkg_ver( 'CTDquerier' )`"
 csl: biomed-central.csl
 bibliography: case_study.bib
 vignette: >
-    %\VignetteIndexEntry{CTDquerier: A package to retrieve CTDbase data for downstream analysis and data visualization}
+    %\VignetteIndexEntry{CTDquerier: A package for downstream analysis and data visualization with CTDbase data}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output: 
     BiocStyle::html_document:
     toc_float: true
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 # Introduction
 
@@ -27,337 +31,154 @@ The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a pub
 
 ## `CTDquerier` R package
 
-`CTDquerier` is an R package that allows to R users to download basic data from *CTDbase* about genes, chemicals and diseases. Once the user's input is validated allows to query *CTDbase* to download the information of the given input from the other modules.
+`CTDquerier` is an R package that allows to R users to incorporate basic data from *CTDbase* about genes, chemicals and diseases into their analyses. First it loads *CTDbase* files into R, then it allows to validate user's input and then to extract relationships between the diferent sets of data.
 
 `CTDquerier` can be installed using `devtools`. To install `CTDquerier` run the following command in an R session:
 
-
-```{r eval=FALSE}
-if ( !requireNamespace( "BiocManager", quietly = TRUE ) )
-    install.packages("BiocManager")
-
-BiocManager::install("CTDquerier")
+```{r, eval=FALSE}
+devtools::install_github(
+  "https://github.com/isglobal-brge/CTDquerier", 
+  repo = "devel"
+)
 ```
 
 Once installed, `CTDquerier` should be loaded running the following command:
 
-```{r message=FALSE}
-library( CTDquerier )
+```{r}
+library(CTDQuerier)
 ```
 
-The main function of `CTDquerier` are three depending of the input: *genes*, *chemicals* or *diseases*. Table \@ref(tab:CTDquerier-functions) indicates the proper function to be used to query *CTDbase* depending on the input.
 
-| Input     | Function         |
-|:----------|:-----------------|
-| Genes     | `query_ctd_gene` |
-| Chemicals | `query_ctd_chem` |
-| Diseases  | `query_ctd_dise` |
+The classes from `CTDquerier` can be classified in three groups according to their "function" in the _data-workflow_:
 
-: (\#tab:CTDquerier-functions) Main functions of `CTDquerier`, designed to accept a specific input.
+1. Data loading:
 
-The function to query *CTDbase* relies on a set of function that download the specific vocabulary of each input. Table \@ref(tab:CTDquerier-vocabulary) shows the different functions that are used to download the specific vocabulary and to load it into R. This process is transparent to user since it is encapsulated into each one of the query functions.
+| Input     | Class           | Description                        |
+|:----------|:----------------|:-----------------------------------|
+| Genes     | `ctdVocabulary` | It loads vocabulary files.         |
+| Diseases  | `ctdVocabulary` | It loads vocabulary files.         |
+| Chemicals | `ctdVocabulary` | It loads vocabulary files.         |
+| Pathways  | `ctdVocabulary` | It loads vocabulary files.         |
+| `list`    | `ctdStorage`    | It loads database (storage) files. |
 
-| Input     | Load Function   | Download Function    |
-|:----------|:----------------|:---------------------|
-| Genes     | `load_ctd_gene` | `download_ctd_genes` |
-| Chemicals | `load_ctd_chem` | `download_ctd_chem`  |
-| Diseases  | `load_ctd_dise` | `download_ctd_dise`  |
+2. Data querying:
 
-: (\#tab:CTDquerier-vocabulary) Functions used to download and load specific vocabulary from *CTDbase*.
+| Input     | Class           | Method/Function | Description                                                           |
+|:----------|:----------------|:----------------|:----------------------------------------------------------------------|
+| Genes     | `ctdVocabulary` | `search_term`   | Searches a single or multiple gene terms from a specific source.      |
+| Diseases  | `ctdVocabulary` | `search_term`   | Searches a single or multiple disease terms from a specific source.   |
+| Chemicals | `ctdVocabulary` | `search_term`   | Searches a single or multiple chemical terms from a specific source.  |
+| Pathways  | `ctdVocabulary` | `search_term`   | Searches a single or multiple pathway terms from a specific source.   |
+| Genes     | `ctdVocabulary` | `validate_term` | Validates a single or multiple gene terms from a specific source.     |
+| Diseases  | `ctdVocabulary` | `validate_term` | Validates a single or multiple disease terms from a specific source.  |
+| Chemicals | `ctdVocabulary` | `validate_term` | Validates a single or multiple chemical terms from a specific source. |
+| Pathways  | `ctdVocabulary` | `validate_term` | Validates a single or multiple pathway terms from a specific source.  |
+|   | `...` | It loads and stored network files. |
 
-The three main functions of `CTDquerier` returns `CTDdata` objects. These objects can be used to plot the information available in *CTDbase* by using `plot`. Moreover, the informatin from *CTDbase* can be extracted as `data.frame`s using the method `get_table`. Both `plot` and `extract` methods needs an argument `index_name` that indicates the table to be ploted or extarcted. Table \@ref(tab:CTDquerier-index) shows the relation between the possible options for `index_name` depeting of the query performed. Also the pssible representation of each table.
+3. Data visualization:
 
-| Accessor                 | Genes            | Chemicals        | Diseases |
-|:-------------------------|:-----------------|:-----------------|:---------|
-| `gene interactions`      |                  | heat-map/network | heat-map |
-| `chemical interactions`  | heat-map         |                  | heat-map |
-| `diseases`               | heat-map         | heat-map         |          |
-| `gene-gene interactions` | heat-map/network |                  |          |
-| `kegg pathways`          | network          | heat-map         | network  |
-| `go terms`               | network          | heat-map         |          |
+| Input     | Class           | Method          | Description                                                  |
+|:----------|:----------------|:----------------|:-------------------------------------------------------------|
+| ... | `...` | `...` | ... |
 
-: (\#tab:CTDquerier-index) Relation of the accessors and representation of each table in a `CTDdata` object depending of the input.
 
-# Querying *CTDbase* ...
+# Using *CTDbase* in R
 
-## ... by gene
+## Loading vocabulary
 
-To query *CTDbase* for a given gene or set of genes, we use the function `query_ctd_gene`:
-
-```{r args_query_gene}
-args( query_ctd_gene )
+```{r, echo=FALSE}
+ctd_file <- function(file) {
+  return(paste0("/Users/chernandez/Downloads/ctdbase/", file))
+}
 ```
 
-The argument `terms` is the one that must be filled with the list of genes of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for genes. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
+The first step to use `CTDquerier` is to load the vocabulary files. 
 
-A typical gene-query follows:
+To do so, download them from [http://ctdbase.org/downloads/](http://ctdbase.org/downloads/). They are tagged as _[13. Chemical vocabulary](http://ctdbase.org/downloads/#allchems)_, _[14. Disease vocabulary (MEDIC)](http://ctdbase.org/downloads/#alldiseases)_, _[15. Gene vocabulary](http://ctdbase.org/downloads/#allgenes)_, and _[16. Pathway vocabulary](http://ctdbase.org/downloads/#allpathways)_. Once on the disk, they are loaded using the class `ctdVocabulary`:
 
-```{r ctd_genes}
-ctd_genes <- query_ctd_gene( 
-    terms = c( "APOE", "APOEB", "APOE2", "APOE3" , "APOE4", "APOA1", "APOA5" ),
-    ask = FALSE,
-    verbose = FALSE
+```{r}
+genVocabulary <- ctdVocabulary$new(ctd_file("CTD_genes.csv.gz"), "gene")
+disVocabulary <- ctdVocabulary$new(ctd_file("CTD_diseases.csv.gz"), "disease")
+chemVocabulary <- ctdVocabulary$new(ctd_file("CTD_chemicals.csv.gz"), "chemical")
+pathVocabulary <- ctdVocabulary$new(ctd_file("CTD_pathways.csv.gz"), "pathway")
+```
+
+The previous piece of code showed the function `ctd_file`. This is auxiliary function that creates a path to a given file and it will be used along the _vignnette_ in order to make the paths shorter. It's implementation is:
+
+```{r, eval=FALSE}
+ctd_file <- function(file) {
+  return(paste0("/path/to/ctdbase/files/", file))
+}
+```
+
+## Loading storage
+
+In order to perform queries to _CTDbase_, `CTDquerier` needs the _"database files"_. Download them from [http://ctdbase.org/downloads/](http://ctdbase.org/downloads/). They are:
+
+ 1. Chemical–gene interactions
+ 2. Chemical–gene interaction types
+ 3. Chemical–disease associations
+ 4. Chemical–GO enriched associations
+ 5. Chemical–pathway enriched associations
+ 6. Gene–disease associations
+ 7. Gene–pathway associations
+ 8. Disease–pathway associations
+ 9. Chemical–phenotype interactions
+
+These files are given to `CTDquerier` as `list` of vectors, pointing to their location in disk:
+
+```{r}
+fileList <- list(
+  c("Chemical–gene interactions", ctd_file("CTD_chem_gene_ixns.csv.gz")),
+  c("Chemical–gene interaction types", ctd_file("CTD_chem_gene_ixn_types.csv")),
+  c("Chemical–disease associations", ctd_file("CTD_chemicals_diseases.csv.gz")),
+  c("Chemical–GO enriched associations", ctd_file("CTD_chem_go_enriched.csv.gz")),
+  c("Chemical–pathway enriched associations", ctd_file("CTD_chem_pathways_enriched.csv.gz")),
+  c("Gene–disease associations", ctd_file("CTD_genes_diseases.csv.gz")),
+  c("Gene–pathway associations", ctd_file("CTD_genes_pathways.csv.gz")),
+  c("Disease–pathway associations", ctd_file("CTD_diseases_pathways.csv.gz")),
+  c("Chemical–phenotype interactions", ctd_file("CTD_pheno_term_ixns.csv.gz"))
 )
-ctd_genes
 ```
 
-As can be seen, `query_ctd_gene` informs about the number of terms used in the query and the number of terms lost in the process. To know the exact terms that were found in *CTDbase* and the ones that were lost, we use the method `get_terms`.
+Having the list of files, the method `load_storage` of `ctdStorage` will load them and prepare them to our use.
+
+```{r}
+fileStorage <- ctdStorage$new(fileList)
+```
+
+## Searching and validatign terms
+
+With the vocabulary in the R session we can now validate the terms to query _CTDbase_. The function `search_term` provides with a searching tool when we don't know if the terms we want to query are in  _CTDbase_. This function returns a table with the given terms and all the terms in a `ctdVocabulary` object, joint with a distance measurement.
+
+For instance, we want to find which is the right terminology for "Autism" (are general spectrum disorder) in _CTDbase_:
+
+```{r}
+tmp <- disVocabulary$search_term("autism spectrum")
+head(tmp)
+```
+Another case is to look for environmental contaminants like "air pollution", that in _CTDbase_ appears as "air pollutants":
+
+```{r}
+tmp <- chemVocabulary$search_term("air pollution")
+head(tmp)
+```
+Once we know the right term(s) to use we validate them:
+
+```{r, eval=FALSE}
+geneValid <- genVocabulary$validate_term(
+  terms = c( "APOE", "APOEB", "APOE2", "APOE3" , "APOE4", "APOA1", "APOA5" )
+)
+geneValid
+```
+
+The method `get_terms` (from any `ctdTerm` object) allows to list the valid and invalid terms:
 
 ```{r ctd_get_genes}
-get_terms( ctd_genes )
-```
-
-### Extract Tables
-
-Now that the information about the genes of interest was download from *CTDbase* we can access to it using the method `get_table`. Method extract allows to access to different tables according to the origin of the \texttt{CTDdata} object. For a \texttt{CTDdata} created from genes the accessible tables are:
-
-| Table                    | Available | Accessors                  |
-|:-------------------------|:---------:|:---------------------------|
-| Gene Interactions        | NO        | `"gene interactions"`      |
-| Chemicals Interactions   | YES       | `"chemical interactions"`  |
-| Diseases                 | YES       | `"diseases"`               |
-| Gene-Gene Interactions   | YES       | `"gene-gene interactions"` |
-| Pathways (KEGG)          | YES       | `"kegg pathways"`          |
-| GO (Gene Ontology Terms) | YES       | `"go terms"`               |
-
-Example of how to extract one of this tables follows:
-
-```{r ctd_gene_ext_dise}
-x <- get_table( ctd_genes , index_name = "diseases" )
-if( nrow( x ) > 0 ) {
-    x[ 1:2, 1:3 ]
-}
-```
-
-The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
-
-```{r ctd_gene_ext_tbl}
-colnames( get_table( ctd_genes, index_name = "chemical interactions" ) )
-colnames( get_table( ctd_genes, index_name = "diseases" ) )
-colnames( get_table( ctd_genes, index_name = "gene-gene interactions" ) )
-colnames( get_table( ctd_genes, index_name = "kegg pathways" ) )
-colnames( get_table( ctd_genes, index_name = "go terms" ) )
-```
-
-### Plotting Gene Created `CTDdata` Objects
-
-The generic `plot` function has the same mechanism that `get_table`. Using the argument `index_name` we select the table to plot. Then, the arguments `subset.gene` and `subset.*` (being * chemicals, diseases, pathways and go) allows to filter the X-axis and Y-axis. Depending the table to be plotted, the argument `field.score` can be used to select the field to plotted (that can takes `"Inference"` or `"Reference"` values). Then argument `filter.score` can be used to filter entries of the table. Finally, the argument `max.length` is in charge to reduce the characters of the labels.
-
-The following plot shows the number of reference that cites the association between the APOE-like genes and chemicals.
-
-```{r ctd_gene_hm_chem}
-plot( ctd_genes, index_name = "chemical interactions", filter.score = 3 )
-```
-
-Then, next plot shows shows the inference score that associates the APOE-like genes with diseases according to *CTDbase*.
-
-```{r ctd_gene_hm_dise}
-plot( ctd_genes, index_name = "disease", filter.score = 115 )
-```
-
-The plot to explore the gene-gene interactions is based in a network representation. The genes from the original set are dark-coloured, while the other genes are light-coloured.
-
-```{r ctd_gene_ntw_gene}
-plot( ctd_genes, index_name = "gene-gene interactions", 
-    representation = "network", main = "APOE-like gene-gene interactions" )
-```
-
-Finally both KEG pathways and GO terms related to the given set of genes can be also visually explored. for KEGG pathways:
-
-```{r ctd_gen_ntw_hegg}
-plot( ctd_genes, index_name = "kegg pathways", 
-    representation = "network", main = "KEGG pathways related to APOE genes" )
-```
-
-With idea to allow user to create clean networks, arguments `subset.gene` and `subset.pathway` can be used to filter genes and KEGG pathways. For GO term we use the same structure:
-
-```{r ctd_gen_ntw_go}
-plot( ctd_genes, index_name = "go terms",
-    representation = "network", main = "GO terms related to APOE genes",
-    ontology = "Molecular Function" )
-```
-
-The argument `ontology` can take values `"Biological Process"`, `"Cellular Component"` and `"Molecular Function"`. One of them or any combination. This helps to filter the relation that will be plotted in the network. With the same idea, arguments `subset.gene` and `subset.go` can be used to filter genes and GO terms.
-
-## ... by chemical
-
-To query *CTDbase* for a given chemical or set of chemicals, we use the function `query_ctd_chem`:
-
-```{r args_query_chem}
-args( query_ctd_chem )
-```
-
-The argument `terms` is the one that must be filled with the list of chemicals of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for chemicals. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
-
-A typical chemical-query follows:
-
-```{r ctd_chem}
-ctd_chem <- query_ctd_chem( 
-  terms = c( "Zinc", "Cadmium" ),
-  ask = FALSE,
-  verbose = FALSE
-)
-ctd_chem
-```
-
-As can be seen, `query_ctd_chem` informs about the number of terms used in the query and the number of terms lost in the process. To know the exact terms that were found in *CTDbase* and the ones that were lost, we use the method `get_terms`.
-
-```{r ctd_get_chem}
-get_terms( ctd_chem )
-```
-
-### Extract Tables
-
-Now that the information about the chemicals of interest was download from *CTDbase* we can access to it using the method `get_table`. Method extract allows to access to different tables according to the origin of the \texttt{CTDdata} object. For a \texttt{CTDdata} created from chemicals the accessible tables are:
-
-| Table                    | Available | Accessors                  |
-|:-------------------------|:---------:|:---------------------------|
-| Gene Interactions        | YES       | `"gene interactions"`      |
-| Chemicals Interactions   | NO        | `"chemical interactions"`  |
-| Diseases                 | YES       | `"diseases"`               |
-| Gene-Gene Interactions   | NO        | `"gene-gene interactions"` |
-| Pathways (KEGG)          | YES       | `"kegg pathways"`          |
-| GO (Gene Ontology Terms) | YES       | `"go terms"`               |
-
-Example of how to extract one of this tables follows:
-
-```{r ctd_chem_ext_dise}
-x <- get_table( ctd_chem , index_name = "diseases" )
-if( nrow( x ) > 0 ) {
-    x[ 1:2, 1:6 ]
-}
-```
-
-The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
-
-```{r ctd_chem_ext_tbl}
-colnames( get_table( ctd_chem, index_name = "gene interactions" ) )
-colnames( get_table( ctd_chem, index_name = "diseases" ) )
-colnames( get_table( ctd_chem, index_name = "kegg pathways" ) )
-colnames( get_table( ctd_chem, index_name = "go terms" ) )
-```
-
-### Plotting Chemical Created `CTDdata` Objects
-
-The generic `plot` function seen in the previous sections for *gene queries* also works with the *chemical queries*. The arguments that can be used are the same when plotting both types of queries.
-
-The following plot shows the inference score for each chemical-gene association according to *CTDbase*.
-
-```{r ctd_chem_hm_gene}
-plot( ctd_chem, index_name = "gene interactions", filter.score = 5 )
-```
-
-This associations, or relations, can be further inspected in a network representation that includes the effect of the chemical on the altered genes.
-
-```{r ctd_chem_ntw_gene}
-plot( ctd_chem, index_name = "gene interactions", representation = "network",
-    filter.score = 3, main = "Gen-Chemical interaction for Zinc and Cadmium" )
-```
-
-Consequently, a heat-map with the inference score for the associations between chemicals and diseases can also be plotted.
-
-```{r ctd_chm_htm_dise}
-plot( ctd_chem, index_name = "disease" )
-```
-
-The association between KEGG pathways and chemicals can be seen as a heat-map. The heat-map shows the P-Value of the association between each pathway and each chemical.
-
-```{r ctd_chem_htm_kegg}
-plot( ctd_chem, index_name = "kegg pathways", filter.score = 1e-40 )
-```
-
-The argument `filter.score` can be used to filter associations by their P-Value. Only the associations with a -Value lower or equal to the value given to `filter.score` are keep. Then, the heat-map calculates the terciles of the distribution of P-Values to create the legend (that has always four categories).
-
-The heat-map for GO terms follows the same mechanic:
-
-```{r ctd_chem_htm_go, fig.height=8}
-plot( ctd_chem, index_name = "go terms",
-    representation = "network", filter.score = 1e-210 )
-```
-
-## ... by disease
-
-To query *CTDbase* for a given disease or set of diseases, we use the function `query_ctd_dise`:
-
-```{r args_query_dise}
-args( query_ctd_dise )
-```
-
-The argument `terms` is the one that must be filled with the list of diseases of interest. The argument `filename` is filled with the name that will receive the table with the specific vocabulary from *CTDbase* for diseases. The function checks if this file already exists, if is the case it used the local version. The argument `mode` is used to download the vocabulary file (for more info., check `download.file` from module `utils`). Finally, the argument `verbose` will show relevant messages about the querying process if is set to `TRUE`.
-
-A typical gene-query follows:
-
-```{r ctd_dise}
-ctd_diseases <- query_ctd_dise( 
-  terms = c( "Dementia", "Alzheimer" ),
-  ask = FALSE,
-  verbose = FALSE
-)
-ctd_diseases
-```
-
-As can be seen, `query_ctd_chem` informs about the number of terms used in the query and the number of terms lost in the process. To know the exact terms that were found in *CTDbase* and the ones that were lost, we use the method `get_terms`.
-
-```{r ctd_get_dise}
-get_terms( ctd_diseases )
-```
-
-### Extract Tables
-
-Now that the information about the diseases of interest was download from *CTDbase* we can access to it using the method `get_table`. Method extract allows to access to different tables according to the origin of the \texttt{CTDdata} object. For a \texttt{CTDdata} created from diseases the accessible tables are:
-
-| Table                    | Available | Accessors                  |
-|:-------------------------|:---------:|:---------------------------|
-| Gene Interactions        | YES       | `"gene interactions"`      |
-| Chemicals Interactions   | YES       | `"chemical interactions"`  |
-| Diseases                 | NO        | `"diseases"`               |
-| Gene-Gene Interactions   | NO        | `"gene-gene interactions"` |
-| Pathways (KEGG)          | YES       | `"kegg pathways"`          |
-| GO (Gene Ontology Terms) | NO        | `"go terms"`               |
-
-```{r ctd_dise_ext_gene}
-x <- get_table( ctd_diseases , index_name = "gene interactions" )
-if( nrow( x ) > 0 ) {
-    x[ 1:2, 1:5 ]
-}
-```
-
-The information stored in each table can be see in the following code, were the names of the columns of each table is shown:
-
-```{r ctd_dise_ext_tbl}
-colnames( get_table( ctd_diseases, index_name = "gene interactions" ) )
-colnames( get_table( ctd_diseases, index_name = "chemical interactions" ) )
-colnames( get_table( ctd_diseases, index_name = "kegg pathways" ) )
-```
-
-### Plotting Disease Created `CTDdata` Objects
-
-As seen in the previous sections `CTDquerier` allows for basic visualization from disease-retrieved information from *CTDbase*. The function `plot` is also used on disease created `CTDdata` objects allowing to display the disease-gene interaction tables, the disease-chemical interaction table and the pathway related to disease table.
-
-Disease created `CTDdata` objects have a heat-map visualization of the disease interaction with chemicals. This plot allows to select the *CTDbase*'s inference score or the number of reference to highlight the associations.
-
-```{r ctd_dise_htm_gen, fig.height=8}
-plot( ctd_diseases, index_name = "gene interactions", filter.score = 75 )
-```
-
-Then, the associations between diseases and chemicals can also be plotted. Usually this plot is a heat-map as previously seen for genes. Nevertheless the lot can result in a bar-plot. This happens when the argument `filter.core` that allows to filter the associations (selecting any of *CTDbase*'s inference score or number of reference for the association) is so string that only a single disease is kept.
-
-```{r ctd_dise_htm_chm}
-plot( ctd_diseases, index_name = "chemical interactions", filter.score = 35 )
-```
-
-Finally a network for the KEGG pathways inferred for the diseases can also be obtained.
-
-```{r ctd_dise_ntw_kegg}
-plot( ctd_diseases, index_name = "kegg pathways", 
-    representation = "network", subset.disease = "Dementia" )
+geneValid$get_terms()
 ```
 
 
-# Session Info.
 
-```{r sessionInfo, echo=FALSE}
-sessionInfo()
-```
 
-# Bibliography
+
