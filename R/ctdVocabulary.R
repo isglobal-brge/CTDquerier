@@ -48,9 +48,9 @@ ctdVocabulary <- R6::R6Class("ctdVocabulary",
             }
 
             if(data_format == "csv") {
-                private$data_content <- x <- data.table::fread(file_path, sep =",", showProgress = FALSE, data.table = TRUE, header = FALSE, col.names = col_names)
+                private$data_content <- data.table::fread(file_path, sep = ",", showProgress = FALSE, data.table = TRUE, header = FALSE, col.names = col_names)
             } else {
-                private$data_content <- x <- data.table::fread(file_path, sep ="\t", showProgress = FALSE, data.table = TRUE, header = FALSE, col.names = col_names)
+                private$data_content <- data.table::fread(file_path, sep = "\t", showProgress = FALSE, data.table = TRUE, header = FALSE, col.names = col_names)
             }
         },
         #' @description
@@ -70,7 +70,7 @@ ctdVocabulary <- R6::R6Class("ctdVocabulary",
         #' @param ... Do not used.
         #' @return A `invisible` object.
         print = function(...) {
-            cat("ctdVocabulary (source: ", private$data_source ,"\n", sep = "")
+            cat("ctdVocabulary (source: ", private$data_source ,")\n", sep = "")
             cat("  . file: ", private$file_path, "\n", sep = "")
             cat("  . columns: ", ncol(self$table()), "\n", sep = "")
             cat("  . rows: ", nrow(self$table()), "\n", sep = "")

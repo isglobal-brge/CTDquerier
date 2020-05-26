@@ -22,6 +22,7 @@ Encapsulation of one or multiple database files from _CTDbase_.
 \itemize{
 \item \href{#method-new}{\code{ctdStorage$new()}}
 \item \href{#method-print}{\code{ctdStorage$print()}}
+\item \href{#method-get}{\code{ctdStorage$get()}}
 \item \href{#method-includes}{\code{ctdStorage$includes()}}
 \item \href{#method-clone}{\code{ctdStorage$clone()}}
 }
@@ -32,13 +33,17 @@ Encapsulation of one or multiple database files from _CTDbase_.
 \subsection{Method \code{new()}}{
 Create a new `ctdStorage` object.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ctdStorage$new(file_list)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ctdStorage$new(file_list, lazy_load = TRUE, eager_unload = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{file_list}}{List of character vectors. Each vector containing two elements: name and path.}
+
+\item{\code{lazy_load}}{(default: `TRUE`) Indicates if the files will be loaded once they are required or immediately.}
+
+\item{\code{eager_unload}}{(default: `TRUE`) Indicates if the files will be un-loaded once they are not required or kept in memory.}
 }
 \if{html}{\out{</div>}}
 }
@@ -65,6 +70,15 @@ Shows a brief description of the `ctdStorage`.
 \subsection{Returns}{
 A `invisible` object.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get"></a>}}
+\if{latex}{\out{\hypertarget{method-get}{}}}
+\subsection{Method \code{get()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ctdStorage$get()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-includes"></a>}}

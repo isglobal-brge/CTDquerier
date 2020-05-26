@@ -27,25 +27,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## The Comparative Toxicogenomics Database
 
-The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a public resource for toxicogenomic information manually curated from the peer-reviewed scientific literature, providing key information about the interactions of environmental chemicals with gene products and their effect on human disease [@CTDbase2003][@CTDbase2017]. *CTDbase* is offered to public by using a web-based interface that includes basic and advanced query options to access data for sequences, references, and toxic agents, and a platform for analysing sequences.
+The Comparative Toxicogenomics Database (*CTDbase*; http://ctdbase.org) is a public resource for toxicogenomic information manually curated from the peer-reviewed scientific literature, providing key information about the interactions of environmental chemicals with gene products and their effect on human disease [@CTDbase2003][@CTDbase2017][@CTDbase2019]. *CTDbase* is offered to public by using a web-based interface that includes basic and advanced query options to access data for sequences, references, and toxic agents, and a platform for analysing sequences.
 
 ## `CTDquerier` R package
 
-`CTDquerier` is an R package that allows to R users to incorporate basic data from *CTDbase* about genes, chemicals and diseases into their analyses. First it loads *CTDbase* files into R, then it allows to validate user's input and then to extract relationships between the diferent sets of data.
+`CTDquerier` is an R package that allows to R users to incorporate basic data from *CTDbase* about genes, chemicals and diseases into their analyses. First it loads *CTDbase* files into R, then it allows to validate user's input and then to extract relationships between the different sets of data.
 
 `CTDquerier` can be installed using `devtools`. To install `CTDquerier` run the following command in an R session:
 
 ```{r, eval=FALSE}
-devtools::install_github(
-  "https://github.com/isglobal-brge/CTDquerier", 
-  repo = "devel"
-)
+devtools::install_github("isglobal-brge/CTDquerier", ref = "devel")
 ```
 
 Once installed, `CTDquerier` should be loaded running the following command:
 
-```{r}
-library(CTDQuerier)
+```{r, message=FALSE}
+library(CTDquerier)
 ```
 
 
@@ -65,15 +62,15 @@ The classes from `CTDquerier` can be classified in three groups according to the
 
 | Input     | Class           | Method/Function | Description                                                           |
 |:----------|:----------------|:----------------|:----------------------------------------------------------------------|
-| Genes     | `ctdVocabulary` | `search_term`   | Searches a single or multiple gene terms from a specific source.      |
-| Diseases  | `ctdVocabulary` | `search_term`   | Searches a single or multiple disease terms from a specific source.   |
-| Chemicals | `ctdVocabulary` | `search_term`   | Searches a single or multiple chemical terms from a specific source.  |
-| Pathways  | `ctdVocabulary` | `search_term`   | Searches a single or multiple pathway terms from a specific source.   |
-| Genes     | `ctdVocabulary` | `validate_term` | Validates a single or multiple gene terms from a specific source.     |
-| Diseases  | `ctdVocabulary` | `validate_term` | Validates a single or multiple disease terms from a specific source.  |
-| Chemicals | `ctdVocabulary` | `validate_term` | Validates a single or multiple chemical terms from a specific source. |
-| Pathways  | `ctdVocabulary` | `validate_term` | Validates a single or multiple pathway terms from a specific source.  |
-|   | `...` | It loads and stored network files. |
+| Genes     | `ctdVocabulary` | `search_term`   | Searches a single or multiple gene terms in gene vocabulary.          |
+| Diseases  | `ctdVocabulary` | `search_term`   | Searches a single or multiple disease terms in disease vocabulary.    |
+| Chemicals | `ctdVocabulary` | `search_term`   | Searches a single or multiple chemical terms in chemical vocabulary.  |
+| Pathways  | `ctdVocabulary` | `search_term`   | Searches a single or multiple pathway terms in pathway vocabulary.    |
+| Genes     | `ctdVocabulary` | `validate_term` | Validates a single or multiple gene in gene vocabulary.               |
+| Diseases  | `ctdVocabulary` | `validate_term` | Validates a single or multiple disease terms in disease vocabulary.   |
+| Chemicals | `ctdVocabulary` | `validate_term` | Validates a single or multiple chemical terms in chemical vocabulary. |
+| Pathways  | `ctdVocabulary` | `validate_term` | Validates a single or multiple pathway terms in pathway vocabulary.   |
+| `ctdTerm` | `ctdStorage`    | `...`           | ... |
 
 3. Data visualization:
 
@@ -84,7 +81,7 @@ The classes from `CTDquerier` can be classified in three groups according to the
 
 # Using *CTDbase* in R
 
-## Loading vocabulary
+## Loading vocabulary files
 
 ```{r, echo=FALSE}
 ctd_file <- function(file) {
@@ -96,14 +93,24 @@ The first step to use `CTDquerier` is to load the vocabulary files.
 
 To do so, download them from [http://ctdbase.org/downloads/](http://ctdbase.org/downloads/). They are tagged as _[13. Chemical vocabulary](http://ctdbase.org/downloads/#allchems)_, _[14. Disease vocabulary (MEDIC)](http://ctdbase.org/downloads/#alldiseases)_, _[15. Gene vocabulary](http://ctdbase.org/downloads/#allgenes)_, and _[16. Pathway vocabulary](http://ctdbase.org/downloads/#allpathways)_. Once on the disk, they are loaded using the class `ctdVocabulary`:
 
-```{r}
-genVocabulary <- ctdVocabulary$new(ctd_file("CTD_genes.csv.gz"), "gene")
-disVocabulary <- ctdVocabulary$new(ctd_file("CTD_diseases.csv.gz"), "disease")
-chemVocabulary <- ctdVocabulary$new(ctd_file("CTD_chemicals.csv.gz"), "chemical")
-pathVocabulary <- ctdVocabulary$new(ctd_file("CTD_pathways.csv.gz"), "pathway")
+```{r vocabulary_gen}
+genVocabulary <- ctdVocabulary$new(
+  ctd_file("CTD_genes.csv.gz"), "gene")
+genVocabulary
 ```
 
-The previous piece of code showed the function `ctd_file`. This is auxiliary function that creates a path to a given file and it will be used along the _vignnette_ in order to make the paths shorter. It's implementation is:
+The variable `genVocabulary` is an object of class `ctdVocabulary` and it indicates that it was created using a gene-source.
+
+```{r vocabulary_dis_chem_path}
+disVocabulary <- ctdVocabulary$new(
+  ctd_file("CTD_diseases.csv.gz"), "disease")
+chemVocabulary <- ctdVocabulary$new(
+  ctd_file("CTD_chemicals.csv.gz"), "chemical")
+pathVocabulary <- ctdVocabulary$new(
+  ctd_file("CTD_pathways.csv.gz"), "pathway")
+```
+
+The previous two pieces of code showed the function `ctd_file`. This is auxiliary function that creates a path to a given file and it will be used along the _vignette_ in order to make the paths shorter. It's implementation is:
 
 ```{r, eval=FALSE}
 ctd_file <- function(file) {
@@ -111,41 +118,59 @@ ctd_file <- function(file) {
 }
 ```
 
-## Loading storage
+In order to use `CTDquerier` you only need the vocabulary files to validate your imput. Meaning that if your imput is a list of genes, or a list of chemicals, you do not need to load the disease, nor the pathway files.
+
+## Loading storage files
 
 In order to perform queries to _CTDbase_, `CTDquerier` needs the _"database files"_. Download them from [http://ctdbase.org/downloads/](http://ctdbase.org/downloads/). They are:
 
- 1. Chemical–gene interactions
- 2. Chemical–gene interaction types
- 3. Chemical–disease associations
- 4. Chemical–GO enriched associations
- 5. Chemical–pathway enriched associations
- 6. Gene–disease associations
- 7. Gene–pathway associations
- 8. Disease–pathway associations
- 9. Chemical–phenotype interactions
+  * _[1. Chemical–gene interactions](http://ctdbase.org/downloads/#cg)_
+  * _[2. Chemical–gene interaction types](http://ctdbase.org/downloads/#gcixntypes)_
+  * _[3. Chemical–disease associations](http://ctdbase.org/downloads/#cd)_
+  * _[4. Chemical–GO enriched associations](http://ctdbase.org/downloads/#chemgoenriched)_
+  * _[5. Chemical–pathway enriched associations](http://ctdbase.org/downloads/#chempathwaysenriched)_
+  * _[6. Gene–disease associations](http://ctdbase.org/downloads/#gd)_
+  * _[7. Gene–pathway associations](http://ctdbase.org/downloads/#genepathways)_
+  * _[8. Disease–pathway associations](http://ctdbase.org/downloads/#diseasepathways)_
+  * _[9. Chemical–phenotype interactions](http://ctdbase.org/downloads/#allphenotypes)_
 
 These files are given to `CTDquerier` as `list` of vectors, pointing to their location in disk:
 
-```{r}
+```{r storage_files}
 fileList <- list(
-  c("Chemical–gene interactions", ctd_file("CTD_chem_gene_ixns.csv.gz")),
-  c("Chemical–gene interaction types", ctd_file("CTD_chem_gene_ixn_types.csv")),
-  c("Chemical–disease associations", ctd_file("CTD_chemicals_diseases.csv.gz")),
-  c("Chemical–GO enriched associations", ctd_file("CTD_chem_go_enriched.csv.gz")),
-  c("Chemical–pathway enriched associations", ctd_file("CTD_chem_pathways_enriched.csv.gz")),
-  c("Gene–disease associations", ctd_file("CTD_genes_diseases.csv.gz")),
-  c("Gene–pathway associations", ctd_file("CTD_genes_pathways.csv.gz")),
-  c("Disease–pathway associations", ctd_file("CTD_diseases_pathways.csv.gz")),
-  c("Chemical–phenotype interactions", ctd_file("CTD_pheno_term_ixns.csv.gz"))
+  c("Chemical–gene interactions", 
+    "csv", ctd_file("CTD_chem_gene_ixns.csv.gz")),
+  c("Chemical–gene interaction types", 
+    "csv", ctd_file("CTD_chem_gene_ixn_types.csv")),
+  c("Chemical–disease associations", 
+    "csv", ctd_file("CTD_chemicals_diseases.csv.gz")),
+  c("Chemical–GO enriched associations", 
+    "csv", ctd_file("CTD_chem_go_enriched.csv.gz")),
+  c("Chemical–pathway enriched associations", 
+    "csv", ctd_file("CTD_chem_pathways_enriched.csv.gz")),
+  c("Gene–disease associations", 
+    "csv", ctd_file("CTD_genes_diseases.csv.gz")),
+  c("Gene–pathway associations", 
+    "csv", ctd_file("CTD_genes_pathways.csv.gz")),
+  c("Disease–pathway associations", 
+    "csv", ctd_file("CTD_diseases_pathways.csv.gz")),
+  c("Chemical–phenotype interactions", 
+    "csv", ctd_file("CTD_pheno_term_ixns.csv.gz"))
 )
 ```
 
 Having the list of files, the method `load_storage` of `ctdStorage` will load them and prepare them to our use.
 
-```{r}
-fileStorage <- ctdStorage$new(fileList)
+```{r loading_storage}
+fileStorage <- ctdStorage$new(fileList, lazy_load = FALSE)
+fileStorage
+
+x <- fileStorage$get()
 ```
+
+The class `ctdStorage` has two parameters that dictate when the storage files will be loaded and unloaded. They can be updated using the `new` method during the creation of the object. Those are: _lazy load_ and _eager unload_. The second one, _eager unload_, indicates that the storage files will be unloaded when not required if set `TRUE` (by default: `TRUE`).
+
+The first one, _lazy load_, indicated that the storage files will be loaded only when required if set to `TRUE` (by default: `TRUE`). __Be carefull!__, loading all the storage files at a time it will use more than 11GB of RAM memory.  Run `?ctdStorage` for more information.
 
 ## Searching and validatign terms
 
@@ -165,7 +190,7 @@ head(tmp)
 ```
 Once we know the right term(s) to use we validate them:
 
-```{r, eval=FALSE}
+```{r}
 geneValid <- genVocabulary$validate_term(
   terms = c( "APOE", "APOEB", "APOE2", "APOE3" , "APOE4", "APOA1", "APOA5" )
 )
