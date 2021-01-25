@@ -121,6 +121,7 @@
 #' @aliases CTDdata-class
 #' @rdname CTDdata-class
 #' @exportClass CTDdata
+#' @slot timestamp Character with the timestamp.
 #' @slot type Character saving \code{"GENE"}, \code{"CHEMICAL"} or
 #' \code{"DISEASE"} depending if it was created using
 #' \code{\link{query_ctd_gene}}, \code{\link{query_ctd_chem}} or

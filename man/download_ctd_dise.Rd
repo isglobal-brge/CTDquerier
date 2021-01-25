@@ -12,11 +12,6 @@ information of each step.}
 
 \item{ask}{(default \code{TRUE}) If \code{TRUE} it asks the the persistent
 location must be used.}
-
-\item{filename}{(default \code{"CTD_diseases.tsv.gz"}) Name of the file in
-the local system.}
-
-\item{mode}{(default \code{"auto"}) Mode passed to \code{download.file}.}
 }
 \value{
 Passed name into \code{filename} argument if it could be download

@@ -1,6 +1,7 @@
-#' Package for CTDbase data query, data visualization and data analysis.
-#'
-#'
+#' @title Package for CTDbase data query, data visualization and data analysis.
+#' 
+#' @description It can retrieve information related to genes, chemicals and diseases.
+#' 
 #' @section Data Download:
 #' \code{CTDquerier} offers two functions to query CTDbase (http://ctdbase.org):
 #' \code{\link{query_ctd_gene}} to query CTDbase given a set of genes; and

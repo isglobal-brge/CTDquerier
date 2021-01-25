@@ -88,7 +88,7 @@ load_ctd_chem <- function( verbose = FALSE ) {
     if( class( tbl ) == "data.frame" ) {
         colnames( tbl ) <-
           c( "ChemicalName", "ChemicalID", "CasRN", "Definition", "ParentIDs",
-             "TreeNumbers", "ParentTreeNumbers", "Synonyms", "DrugBankIDs" )
+             "TreeNumbers", "ParentTreeNumbers", "Synonyms")#, "DrugBankIDs" )
         tbl <- tbl[ !is.na( tbl$ChemicalName ), ]
         tbl$ChemicalName <- toupper( tbl$ChemicalName )
         tbl$Synonyms <- toupper( tbl$Synonyms )

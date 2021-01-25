@@ -11,15 +11,13 @@
 \alias{plot,CTDdata,ANY-method}
 \title{Class CTDdata}
 \usage{
-\S4method{enrich}{CTDdata}(x, y, universe, use = "curated",
-  warnings = TRUE, ...)
+\S4method{enrich}{CTDdata}(x, y, universe, use = "curated", warnings = TRUE, ...)
 
 \S4method{get_table}{CTDdata}(object, index_name, ...)
 
 \S4method{get_terms}{CTDdata}(object)
 
-\S4method{plot}{CTDdata,ANY}(x, y, index_name = "base",
-  representation = "heatmap", ...)
+\S4method{plot}{CTDdata,ANY}(x, y, index_name = "base", representation = "heatmap", ...)
 }
 \arguments{
 \item{x}{Object of class \code{CTDdata}.}
@@ -180,6 +178,8 @@ that can be used to query CTDbase.
 \section{Slots}{
 
 \describe{
+\item{\code{timestamp}}{Character with the timestamp.}
+
 \item{\code{type}}{Character saving \code{"GENE"}, \code{"CHEMICAL"} or
 \code{"DISEASE"} depending if it was created using
 \code{\link{query_ctd_gene}}, \code{\link{query_ctd_chem}} or

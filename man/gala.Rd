@@ -4,7 +4,9 @@
 \name{gala}
 \alias{gala}
 \title{\code{CTDdata} for ilustrative purpouses}
-\format{An object of class \code{CTDdata} of length 1.}
+\format{
+An object of class \code{CTDdata} of length 1.
+}
 \usage{
 data("gala")
 }

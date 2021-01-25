@@ -78,9 +78,6 @@ download_ctd_genes <- function( verbose = FALSE, ask = TRUE ) {
 #'  \item DrugBankIDs ('|'-delimited list)
 #'  }
 #'
-#' @param filename (default \code{"CTD_chemicals.tsv.gz"}) Name of the file in
-#' the local system.
-#' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
 #' @param ask (default \code{TRUE}) If \code{TRUE} it asks the the persistent
@@ -128,9 +125,6 @@ download_ctd_chem <- function( verbose = FALSE, ask = TRUE ) {
 #'  \item SlimMappings (MEDIC-Slim mappings; '|'-delimited list)
 #'  }
 #'
-#' @param filename (default \code{"CTD_diseases.tsv.gz"}) Name of the file in
-#' the local system.
-#' @param mode (default \code{"auto"}) Mode passed to \code{download.file}.
 #' @param verbose (default \code{FALSE}) If set to \code{TRUE} is shows relevant
 #' information of each step.
 #' @param ask (default \code{TRUE}) If \code{TRUE} it asks the the persistent

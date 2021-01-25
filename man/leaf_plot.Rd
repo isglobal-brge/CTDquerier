@@ -4,9 +4,16 @@
 \alias{leaf_plot}
 \title{Function to create a leaf plot}
 \usage{
-leaf_plot(dta, label = "name", valueLeft = "var1",
-  valueRight = "var2", titleLeft = NULL, titleRight = NULL,
-  colorLeft = "#FF7F50", colorRight = "#20B2AA")
+leaf_plot(
+  dta,
+  label = "name",
+  valueLeft = "var1",
+  valueRight = "var2",
+  titleLeft = NULL,
+  titleRight = NULL,
+  colorLeft = "#FF7F50",
+  colorRight = "#20B2AA"
+)
 }
 \arguments{
 \item{dta}{\code{data.frame} with, at last, three columns corresponding

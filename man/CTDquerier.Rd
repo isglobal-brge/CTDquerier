@@ -3,10 +3,9 @@
 \docType{package}
 \name{CTDquerier}
 \alias{CTDquerier}
-\alias{CTDquerier-package}
 \title{Package for CTDbase data query, data visualization and data analysis.}
 \description{
-Package for CTDbase data query, data visualization and data analysis.
+It can retrieve information related to genes, chemicals and diseases.
 }
 \section{Data Download}{
 

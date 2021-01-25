@@ -24,7 +24,6 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = TRUE, verbose = FALS
   if( verbose ) message( "Loading chemical vocabulary." )
   tbl <- load_ctd_chem( verbose )
   ## //
-
   ## VALIDATE INPUT CHEMICALS
   terms <- toupper( terms )
   keep <- tbl[ 1, ]; keep <- keep[ -1, ]
@@ -70,7 +69,6 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = TRUE, verbose = FALS
     }
   }
   keep$Acc <- gsub( "MESH:", "", keep[ , 2 ] )
-
   if( length( disc ) != 0 ) {
     warning( length( disc ) , "/", length( terms ), " terms were discarted." )
   }
@@ -84,26 +82,26 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = TRUE, verbose = FALS
     if( verbose ) {
       message( "Staring query for chemical '", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
-
+    
     ## PREPARE URLs
     url_disease <- get_ctd_url(
       index    = "chemical_disease",
-      term     = keep[ ii, 10 ],
+      term     = keep[ ii, 9 ],
       category = "chem"
     )
     url_kegg <- get_ctd_url(
       index    = "chemical_kegg",
-      term     = keep[ ii, 10 ],
+      term     = keep[ ii, 9 ],
       category = "chem"
     )
     url_go <- get_ctd_url(
       index    = "chemical_go",
-      term     = keep[ ii, 10 ],
+      term     = keep[ ii, 9 ],
       category = "chem"
     )
     url_genes <- get_ctd_url(
       index    = "chemical_gene_interaction",
-      term     = keep[ ii, 10 ],
+      term     = keep[ ii, 9 ],
       category = "chem"
     )
     ## //
@@ -158,7 +156,7 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = TRUE, verbose = FALS
     }
     # //
   }
-
+  
   new( "CTDdata",
     type                   = "CHEMICAL",
     timestamp              = as.character( Sys.time() ),

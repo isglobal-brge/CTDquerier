@@ -197,7 +197,7 @@ ctd_chem <- query_ctd_chem(
   ask = FALSE,
   verbose = FALSE
 )
-ctd_chem
+  ctd_chem
 ```
 
 As can be seen, `query_ctd_chem` informs about the number of terms used in the query and the number of terms lost in the process. To know the exact terms that were found in *CTDbase* and the ones that were lost, we use the method `get_terms`.
