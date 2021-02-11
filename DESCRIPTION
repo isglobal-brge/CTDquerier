@@ -29,3 +29,4 @@ RoxygenNote: 7.1.1
 biocViews: Software, BiomedicalInformatics, Infrastructure,
         DataImport, DataRepresentation, GeneSetEnrichment, 
         NetworkEnrichment, Pathways, Network, GO, KEGG
+PackageStatus: Deprecated
