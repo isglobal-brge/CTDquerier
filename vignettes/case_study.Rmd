@@ -19,6 +19,9 @@ output:
     toc_float: true
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.retina = 1)
+```
 
 # `CTDquerier` R package
 
