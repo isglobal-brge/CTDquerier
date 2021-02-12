@@ -81,7 +81,7 @@ The information shows corresponds to:
   chemical associations. In parenthesis the total number of associations.
   \item GO terms: Shows the unique number of GO terms versus
   chemical associations. In parenthesis the total number of associations.
-}\cr
+}
 \code{CTDdata} objects allows many types of representation according to the
 different sources (chemical, gene or disease). The used method is
 \code{plot}, matching the argument \code{x} with a \code{CTDdata} object. The
