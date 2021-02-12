@@ -75,29 +75,16 @@ These four files can be loaded as follows:
 
 ```{r loading_xkr4_tables, warning=FALSE}
 # Chemicals - XKR4
-bq_xkr4_c <- system.file(
-  paste0( "extdata", .Platform$file.sep, "bq_xkr4_chem.tsv" ), 
-  package="CTDquerier"
-)
-nrow( read.delim( bq_xkr4_c, sep = "\t" ) )
+bq_xkr4_c <- "https://raw.githubusercontent.com/isglobal-brge/brgedata/master/inst/extdata/CTDquerier_examples/bq_xkr4_chem.tsv"
+
 # Diseses curated - XKR4
-bq_xkr4_dC <- system.file(
-  paste0( "extdata", .Platform$file.sep, "bq_xkr4_disease_curated.tsv" ), 
-  package="CTDquerier"
-)
-nrow( read.delim( bq_xkr4_dC, sep = "\t" ) )
+bq_xkr4_dC <- "https://raw.githubusercontent.com/isglobal-brge/brgedata/master/inst/extdata/CTDquerier_examples/bq_xkr4_disease_curated.tsv"
+
 # Diseases inferred - XKR4
-bq_xkr4_dI <- system.file(
-  paste0( "extdata", .Platform$file.sep, "bq_xkr4_disease_inferred.tsv" ), 
-  package="CTDquerier"
-)
-nrow( read.delim( bq_xkr4_dI, sep = "\t" ) )
+bq_xkr4_dI <- "https://raw.githubusercontent.com/isglobal-brge/brgedata/master/inst/extdata/CTDquerier_examples/bq_xkr4_disease_inferred.tsv"
+
 # Diseases all - XKR4
-bq_xkr4_dA <- system.file(
-  paste0( "extdata", .Platform$file.sep, "bq_xkr4_disease_all.tsv" ), 
-  package="CTDquerier"
-)
-nrow( read.delim( bq_xkr4_dA, sep = "\t" ) )
+bq_xkr4_dA <- "https://raw.githubusercontent.com/isglobal-brge/brgedata/master/inst/extdata/CTDquerier_examples/bq_xkr4_disease_all.tsv"
 ```
 
 What we can see from these files is that *XKR4* has, according to *CTDbase*, 18 curated associations with chemicals, 1 curated association with diseases, 1339 inferred associations with diseases and 1340 association with diseases (including both curated and inferred). It must be said that these associations are not unique.

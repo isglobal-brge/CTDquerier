@@ -57,11 +57,9 @@ The authors aim to identify novel asthma-related genes in Latino populations by 
 The **Table E1** from the GALA Study [@Torgerson2012] was downloaded and converted into a `.csv` file. This table is included in the package and can be loaded into `R` by:
 
 ```{r gala_read_csv}
-table_e1_csv <- system.file(
-  paste0( "extdata", .Platform$file.sep, "gala_table_e1.csv" ), 
-  package="CTDquerier"
-)
-table_e1 <- read.csv( table_e1_csv, stringsAsFactors = FALSE )
+table_e1 <- read.csv( 
+  "https://raw.githubusercontent.com/isglobal-brge/brgedata/master/inst/extdata/CTDquerier_examples/gala_table_e1.csv"
+  , stringsAsFactors = FALSE )
 ```
 
 The column *Genes* of the table has the genes of interest. Let us start by removing regions without annotated genes. 
@@ -386,8 +384,7 @@ Finally, one may be interested in providing statistical evidence about the enric
 This can be answered by using the method `enrich`. This method performs a Fisher test of enrichment given two objects of class `CTDdata` at gene level. For this analysis we need to provide to method `enrich` with a gene universe. `CTDquerier` provides a gene universe obtained from HGNC (HUGO Gene Nomenclature Committee) at date 2018/01/10 ([https://www.genenames.org/cgi-bin/download](https://www.genenames.org/cgi-bin/download)). The universe can be loaded with:
 
 ```{r load_hugo}
-hgnc_universe <- read.delim( system.file( "extdata", "HGNC_Genes.tsv", package="CTDquerier" ),
-    sep = "\t", stringsAsFactor = FALSE )
+hgnc_universe <- read.delim( "https://github.com/isglobal-brge/brgedata/blob/master/inst/extdata/CTDquerier_examples/HGNC_Genes.tsv?raw=true", sep = "\t", stringsAsFactor = FALSE )
 ```
 
 ## Are the GALA genes significantly associated with asthma according to *CTDabse*?
