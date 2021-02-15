@@ -4,7 +4,7 @@
 \alias{query_ctd_chem}
 \title{Function to query CTDbase using chemical terminology ( Chemical Name )}
 \usage{
-query_ctd_chem(terms, max.distance = 10, ask = TRUE, verbose = FALSE)
+query_ctd_chem(terms, max.distance = 10, ask = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{terms}{Character vector with the chemicals used in the query.}

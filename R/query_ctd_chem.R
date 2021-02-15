@@ -16,7 +16,7 @@
 #' @examples
 #' rst <- query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE )
 #' @export query_ctd_chem
-query_ctd_chem <- function( terms, max.distance = 10, ask = TRUE, verbose = FALSE ) {
+query_ctd_chem <- function( terms, max.distance = 10, ask = FALSE, verbose = FALSE ) {
   ## SETUP
   if( !download_ctd_chem( verbose, ask ) ) {
     return( create_empty_data( terms ) )
