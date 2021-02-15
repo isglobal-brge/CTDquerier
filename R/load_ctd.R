@@ -27,8 +27,7 @@
 load_ctd_gene <- function( verbose = FALSE ) {
     bfc <- .get_cache( verbose, ask = FALSE )
     if( nrow( BiocFileCache::bfcquery( bfc, "CTD_genes" ) ) != 1 ) {
-        warning( "GENE vocabulary could not be loaded." )
-        return(data.frame())
+        stop( "GENE vocabulary could not be loaded." )
     } else {
         filename <- BiocFileCache::bfcrpath( bfc, "CTD_genes" )
     }
@@ -76,8 +75,7 @@ load_ctd_gene <- function( verbose = FALSE ) {
 load_ctd_chem <- function( verbose = FALSE ) {
     bfc <- .get_cache( verbose, ask = FALSE )
     if( nrow( BiocFileCache::bfcquery( bfc, "CTD_chemicals" ) ) != 1 ) {
-        warning( "CHEMICAL vocabulary could not be loaded." )
-        return(data.frame())
+        stop( "CHEMICAL vocabulary could not be loaded." )
     } else {
         filename <- BiocFileCache::bfcrpath( bfc, "CTD_chemicals" )
     }
@@ -127,8 +125,7 @@ load_ctd_chem <- function( verbose = FALSE ) {
 load_ctd_dise <- function( verbose = FALSE ) {
     bfc <- .get_cache( verbose, ask = FALSE )
     if( nrow( BiocFileCache::bfcquery( bfc, "CTD_diseases" ) ) != 1 ) {
-        warning( "DISEASE vocabulary could not be loaded." )
-        return(data.frame())
+        stop( "DISEASE vocabulary could not be loaded." )
     } else {
         filename <- BiocFileCache::bfcrpath( bfc, "CTD_diseases" )
     }

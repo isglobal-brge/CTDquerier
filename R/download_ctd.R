@@ -2,13 +2,11 @@
     #path <- file.path(tempdir(), "tempCTDquerierCacheDir")
     #bfc <- BiocFileCache::BiocFileCache( path )
     if( verbose ) {
-        cache <- rappdirs::user_cache_dir( appname = "CTDQuery",
-            appauthor = "isglobal" )
+        cache <- tools::R_user_dir("CTDquerier", which = "cache")
         bfc <- BiocFileCache::BiocFileCache( cache, ask = ask )
     } else {
         suppressMessages( suppressWarnings({
-            cache <- rappdirs::user_cache_dir( appname = "CTDQuery",
-                                               appauthor = "isglobal" )
+            cache <- tools::R_user_dir("CTDquerier", which = "cache")
             bfc <- BiocFileCache::BiocFileCache( cache )
         } ) )
     }
