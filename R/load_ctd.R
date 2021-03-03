@@ -37,7 +37,7 @@ load_ctd_gene <- function( verbose = FALSE ) {
                     stringsAsFactors = FALSE )
     }, error = function( e ) 1 )
 
-    if( class( tbl ) == "data.frame" ) {
+    if( is(tbl, "data.frame") ) {
         colnames( tbl ) <-
             c( "GeneSymbol", "GeneName", "GeneID", "AltGeneIDs", "Synonyms",
                "BioGRIDIDs", "PharmGKBIDs", "UniprotIDs" )
@@ -85,7 +85,7 @@ load_ctd_chem <- function( verbose = FALSE ) {
                     stringsAsFactors = FALSE )
     }, error = function( e ) 1 )
 
-    if( class( tbl ) == "data.frame" ) {
+    if( is(tbl, "data.frame") ) {
         colnames( tbl ) <-
           c( "ChemicalName", "ChemicalID", "CasRN", "Definition", "ParentIDs",
              "TreeNumbers", "ParentTreeNumbers", "Synonyms")#, "DrugBankIDs" )
@@ -135,7 +135,7 @@ load_ctd_dise <- function( verbose = FALSE ) {
                     stringsAsFactors = FALSE )
     }, error = function( e ) 1 )
 
-  if( class( tbl ) == "data.frame" ) {
+  if( is(tbl, "data.frame") ) {
     colnames( tbl ) <-
       c( "DiseaseName", "DiseaseID", "AltDiseaseIDs", "Definition", "ParentIDs", "TreeNumbers", "ParentTreeNumbers", "Synonyms", "SlimMappings" )
     tbl <- tbl[ !is.na( tbl$DiseaseName ), ]

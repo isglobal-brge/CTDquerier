@@ -28,7 +28,7 @@ query_ctd_dise <- function( terms, ask = TRUE, verbose = FALSE ) {
   terms <- toupper( terms )
   keep <- S4Vectors::DataFrame( DiseaseName = "", DiseaseID = "" )
   disc <- character()
-  for( ii in 1:length( terms ) ) {
+  for( ii in seq_len(length(terms)) ) {
     if( terms[ ii ] %in% tbl$DiseaseName ) {
       keep <- rbind( keep, tbl[ tbl$DiseaseName == terms[ ii ] , c( "DiseaseName", "DiseaseID" ) ] )
     } else {

@@ -129,6 +129,7 @@ download_ctd_chem <- function( verbose = FALSE, ask = TRUE ) {
 #' location must be used.
 #' @return Passed name into \code{filename} argument if it could be download
 #' \code{1} otherwise.
+#' @examples
 #' download_ctd_dise()
 #' file.exists( "CTD_diseases.tsv.gz" )
 #' @export download_ctd_dise

@@ -28,7 +28,7 @@ query_ctd_gene <- function( terms, ask = TRUE, verbose = FALSE ) {
     terms <- toupper( terms )
     keep <- S4Vectors::DataFrame( GeneSymbol = "", GeneID = "" )
     disc <- character()
-    for( ii in 1:length( terms ) ) {
+    for( ii in seq_len(length(terms)) ) {
         if( terms[ ii ] %in% tbl$GeneSymbol ) {
             keep <- rbind( keep, tbl[ tbl$GeneSymbol == terms[ ii ] , c( "GeneSymbol", "GeneID" ) ] )
         } else {
@@ -52,7 +52,7 @@ query_ctd_gene <- function( terms, ask = TRUE, verbose = FALSE ) {
     gene_go <- prepare_ctd_gene( "gene_go" )
     gene_kegg <- prepare_ctd_gene( "gene_kegg" )
     gene_chemical_interaction <- prepare_ctd_gene( "gene_chemical_interaction" )
-    for( ii in 1:nrow( keep ) ) {
+    for( ii in seq_len(nrow(keep)) ) {
         if( verbose ) {
             message( "Staring query for gene '", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
         }

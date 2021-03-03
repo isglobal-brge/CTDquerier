@@ -16,8 +16,6 @@ location must be used.}
 \value{
 Passed name into \code{filename} argument if it could be download
 \code{1} otherwise.
-download_ctd_dise()
-file.exists( "CTD_diseases.tsv.gz" )
 }
 \description{
 This function download the "Disease vocabulary" file (\code{CTD_diseases.tsv.gz})
@@ -36,4 +34,8 @@ The field included in the file (\code{CTD_diseases.tsv.gz}) are:
  \item Synonyms ('|'-delimited list)
  \item SlimMappings (MEDIC-Slim mappings; '|'-delimited list)
  }
+}
+\examples{
+download_ctd_dise()
+file.exists( "CTD_diseases.tsv.gz" )
 }

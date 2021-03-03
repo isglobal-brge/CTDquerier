@@ -78,7 +78,7 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = FALSE, verbose = FAL
   chem_diseases <- prepare_ctd_chem( "chem_diseases" )
   chem_go <- prepare_ctd_chem( "chem_go" )
   chem_kegg <- prepare_ctd_chem( "chem_kegg" )
-  for( ii in 1:nrow( keep ) ) {
+  for( ii in seq_len(nrow(keep)) ) {
     if( verbose ) {
       message( "Staring query for chemical '", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }

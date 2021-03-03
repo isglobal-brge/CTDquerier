@@ -23,6 +23,7 @@ int_plot_gene_chemical_heatmap <- function( x, subset.gene, subset.chemical,
     tbl <- data.frame( tbl )[ , c( "Chemical.Name", "GeneSymbol", "Reference.Count" ) ]
     chemicals <- unique( tbl$Chemical.Name )
     tbl$Reference.Count <- as.numeric( tbl$Reference.Count )
+    
     tbl <- do.call( rbind, lapply( unique( tbl$GeneSymbol ), function( gn ) {
         sub <- tbl[ tbl$GeneSymbol == gn, ]
         new <- data.frame( "GeneSymbol" = gn,
@@ -30,9 +31,9 @@ int_plot_gene_chemical_heatmap <- function( x, subset.gene, subset.chemical,
                            "Reference.Count" = 0,
                            stringsAsFactors = FALSE
         )
-        new$Reference.Count <- sapply( new$Chemical.Name, function( ch ) {
+        new$Reference.Count <- vapply( new$Chemical.Name, function( ch ) {
             max( sub[ sub$Chemical.Name == ch, "Reference.Count" ] )
-        } )
+        }, FUN.VALUE = 1.1 )
         new
     } ) )
 

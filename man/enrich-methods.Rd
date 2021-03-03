@@ -36,3 +36,9 @@ disease \code{\link{CTDdata}}), the genes from  the 'gene interactions'
 table are used. If \code{universe} is missing, all genes in CTDbase
 are used as universe.
 }
+\examples{
+data("gala")
+air <- query_ctd_chem( terms = "Air Pollutants" )
+hgnc_universe <- read.delim('https://raw.githubusercontent.com/isglobal-brge/brgedata/master/inst/extdata/CTDquerier_examples/HGNC_Genes.tsv', sep = "\t", stringsAsFactor = FALSE)
+enrich(gala, air, hgnc_universe$Approved.Symbol)
+}

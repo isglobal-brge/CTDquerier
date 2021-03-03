@@ -40,6 +40,11 @@ setGeneric("get_terms", function(object)
 #' @param ... NOT USED
 #' @return A list with class \code{htest}. Check
 #' \code{fisher.test} for more information.
+#' @examples 
+#' data("gala")
+#' air <- query_ctd_chem( terms = "Air Pollutants" )
+#' hgnc_universe <- read.delim('https://raw.githubusercontent.com/isglobal-brge/brgedata/master/inst/extdata/CTDquerier_examples/HGNC_Genes.tsv', sep = "\t", stringsAsFactor = FALSE)
+#' enrich(gala, air, hgnc_universe$Approved.Symbol)
 #' @export enrich
 setGeneric("enrich", function(x, y, universe, use = "curated",
         warnings = TRUE, ...)

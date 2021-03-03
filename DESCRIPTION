@@ -1,14 +1,14 @@
 Package: CTDquerier
 Title: Package for CTDbase data query, visualization and downstream analysis
-Version: 1.99.9
+Version: 1.99.10
 Authors@R: c( person("Carles", "Hernandez-Ferrer", email = "carles.hernandez@isglobal.org", role = c("aut")),
   person("Juan R.", "Gonzalez", email = "juanr.gonzalez@isglobal.org", role = "aut"),
   person("Xavier", "Escribà-Montagut", email = "xavier.escriba@isglobal.org", role = "cre"))
 Description: Package to retrieve and visualize data from the Comparative Toxicogenomics Database (http://ctdbase.org/). The downloaded data is formated as DataFrames for further downstream analyses.
-Depends: R (>= 3.4.0)
+Depends: R (>= 4.0.1)
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Imports: RCurl,
     stringr,
     S4Vectors,
@@ -27,4 +27,3 @@ RoxygenNote: 7.1.1
 biocViews: Software, BiomedicalInformatics, Infrastructure,
         DataImport, DataRepresentation, GeneSetEnrichment, 
         NetworkEnrichment, Pathways, Network, GO, KEGG
-PackageStatus: Deprecated
