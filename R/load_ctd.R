@@ -24,6 +24,7 @@
 #' fdl <- load_ctd_gene()
 #' dim( fdl )
 #' @export load_ctd_gene
+#' @importFrom methods is
 load_ctd_gene <- function( verbose = FALSE ) {
     bfc <- .get_cache( verbose, ask = FALSE )
     if( nrow( BiocFileCache::bfcquery( bfc, "CTD_genes" ) ) != 1 ) {
@@ -72,6 +73,7 @@ load_ctd_gene <- function( verbose = FALSE ) {
 #' fdl <- load_ctd_chem()
 #' dim( fdl )
 #' @export load_ctd_chem
+#' @importFrom methods is
 load_ctd_chem <- function( verbose = FALSE ) {
     bfc <- .get_cache( verbose, ask = FALSE )
     if( nrow( BiocFileCache::bfcquery( bfc, "CTD_chemicals" ) ) != 1 ) {
@@ -122,6 +124,7 @@ load_ctd_chem <- function( verbose = FALSE ) {
 #' fdl <- load_ctd_dise()
 #' dim( fdl )
 #' @export load_ctd_dise
+#' @importFrom methods is
 load_ctd_dise <- function( verbose = FALSE ) {
     bfc <- .get_cache( verbose, ask = FALSE )
     if( nrow( BiocFileCache::bfcquery( bfc, "CTD_diseases" ) ) != 1 ) {
