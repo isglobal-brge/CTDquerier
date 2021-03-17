@@ -5,7 +5,7 @@ Authors@R: c( person("Carles", "Hernandez-Ferrer", email = "carles.hernandez@isg
   person("Juan R.", "Gonzalez", email = "juanr.gonzalez@isglobal.org", role = "aut"),
   person("Xavier", "Escribà-Montagut", email = "xavier.escriba@isglobal.org", role = "cre"))
 Description: Package to retrieve and visualize data from the Comparative Toxicogenomics Database (http://ctdbase.org/). The downloaded data is formated as DataFrames for further downstream analyses.
-Depends: R (>= 4.0.1)
+Depends: R (>= 4.1)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: false
