@@ -39,6 +39,6 @@ are used as universe.
 \examples{
 data("gala")
 air <- query_ctd_chem( terms = "Air Pollutants" )
-hgnc_universe <- read.delim('https://raw.githubusercontent.com/isglobal-brge/brgedata/master/inst/extdata/CTDquerier_examples/HGNC_Genes.tsv', sep = "\t", stringsAsFactor = FALSE)
-enrich(gala, air, hgnc_universe$Approved.Symbol)
+hgnc_universe <- readRDS(paste0(path.package("CTDquerier"),"/extdata/universe.RDS"))
+enrich(gala, air, hgnc_universe)
 }
