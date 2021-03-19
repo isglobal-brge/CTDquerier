@@ -20,9 +20,10 @@
 #' warnings are raised.
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
-#' download_ctd_genes()
+#' if(download_ctd_genes()){
 #' fdl <- load_ctd_gene()
 #' dim( fdl )
+#' }
 #' @export load_ctd_gene
 #' @importFrom methods is
 load_ctd_gene <- function( verbose = FALSE ) {
@@ -69,9 +70,10 @@ load_ctd_gene <- function( verbose = FALSE ) {
 #' warnings are raised.
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
-#' download_ctd_chem()
+#' if(download_ctd_chem()){
 #' fdl <- load_ctd_chem()
 #' dim( fdl )
+#' }
 #' @export load_ctd_chem
 #' @importFrom methods is
 load_ctd_chem <- function( verbose = FALSE ) {
@@ -120,9 +122,10 @@ load_ctd_chem <- function( verbose = FALSE ) {
 #' warnings are raised.
 #' @return A \code{data.frame} with the content of the file "CTD_genes.tsv.gz"
 #' @examples
-#' download_ctd_dise()
+#' if(download_ctd_dise()){
 #' fdl <- load_ctd_dise()
 #' dim( fdl )
+#' }
 #' @export load_ctd_dise
 #' @importFrom methods is
 load_ctd_dise <- function( verbose = FALSE ) {

@@ -31,7 +31,8 @@ The field included in the file (\code{CTD_chemicals.tsv.gz}) are:
  }
 }
 \examples{
-download_ctd_chem()
+if(download_ctd_chem()){
 fdl <- load_ctd_chem()
 dim( fdl )
+}
 }

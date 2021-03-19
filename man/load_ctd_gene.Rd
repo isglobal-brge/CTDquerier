@@ -32,7 +32,8 @@ The field included in the file (\code{CTD_genes.tsv.gz}) are:
 }
 }
 \examples{
-download_ctd_genes()
+if(download_ctd_genes()){
 fdl <- load_ctd_gene()
 dim( fdl )
+}
 }

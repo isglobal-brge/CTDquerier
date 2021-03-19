@@ -31,7 +31,8 @@ The field included in the file (\code{CTD_diseases.tsv.gz}) are:
  }
 }
 \examples{
-download_ctd_dise()
+if(download_ctd_dise()){
 fdl <- load_ctd_dise()
 dim( fdl )
+}
 }
