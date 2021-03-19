@@ -87,7 +87,7 @@ download_ctd_genes <- function( verbose = FALSE, ask = TRUE ) {
 #' file.exists( "CTD_chemicals.tsv.gz" )
 #' @export download_ctd_chem
 download_ctd_chem <- function( verbose = FALSE, ask = TRUE ) {
-    fileURL <- "http://ctdbase.org/reports/CTD_chemicals.tsv.gz"
+    fileURL <- "http://ctdbase.org/reports/CTD_chemicals.csv.gz"
     bfc <- .get_cache( verbose, ask )
 
     if( nrow( BiocFileCache::bfcquery(bfc, "CTD_chemicals") ) == 0 ) {
