@@ -114,7 +114,7 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = FALSE, verbose = FAL
     if( nrow( tmp ) > 0 ) {
       tmp$ChemicalName <- keep[ ii, 1 ]
       tmp$ChemicalID <- keep[ ii, 2 ]
-      chem_diseases <- rbind( chem_diseases, tmp )
+      chem_diseases <- rbind( chem_diseases, S4Vectors::DataFrame(tmp) )
     } else if( verbose ) {
       message(" . . No 'disease' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
@@ -126,7 +126,7 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = FALSE, verbose = FAL
     if( nrow( tmp ) > 0 ) {
       tmp$ChemicalName <- keep[ ii, 1 ]
       tmp$ChemicalID <- keep[ ii, 2 ]
-      chem_gene_interactions <- rbind( chem_gene_interactions, tmp )
+      chem_gene_interactions <- rbind( chem_gene_interactions, S4Vectors::DataFrame(tmp) )
     } else if( verbose ) {
       message(" . . No 'chemical-gene interation' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
@@ -138,7 +138,7 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = FALSE, verbose = FAL
     if( nrow( tmp ) > 0 ) {
       tmp$ChemicalName <- keep[ ii, 1 ]
       tmp$ChemicalID <- keep[ ii, 2 ]
-      chem_go <- rbind( chem_go, tmp )
+      chem_go <- rbind( chem_go, S4Vectors::DataFrame(tmp) )
     } else if( verbose ) {
       message(" . . No 'GO terms' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
@@ -150,7 +150,7 @@ query_ctd_chem <- function( terms, max.distance = 10, ask = FALSE, verbose = FAL
     if( nrow( tmp ) > 0 ) {
       tmp$ChemicalName <- keep[ ii, 1 ]
       tmp$ChemicalID <- keep[ ii, 2 ]
-      chem_kegg <- rbind( chem_kegg, tmp )
+      chem_kegg <- rbind( chem_kegg, S4Vectors::DataFrame(tmp) )
     } else if( verbose ) {
       message(" . . No 'KEGG pathways' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }

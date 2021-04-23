@@ -76,7 +76,7 @@ query_ctd_dise <- function( terms, ask = TRUE, verbose = FALSE ) {
     if( nrow( tmp ) > 0 ) {
         #tmp$GeneSymbol <- keep[ ii, 1 ]
         #tmp$GeneID <- keep[ ii, 2 ]
-        disease_gene_interactions <- rbind( disease_gene_interactions, tmp )
+        disease_gene_interactions <- rbind( disease_gene_interactions, S4Vectors::DataFrame(tmp) )
     } else if( verbose ) {
         message(" . . No 'disease-chemical interation' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
@@ -87,7 +87,7 @@ query_ctd_dise <- function( terms, ask = TRUE, verbose = FALSE ) {
     if( nrow( tmp ) > 0 ) {
       #tmp$GeneSymbol <- keep[ ii, 1 ]
       #tmp$GeneID <- keep[ ii, 2 ]
-      disease_chemical_interaction <- rbind( disease_chemical_interaction, tmp )
+      disease_chemical_interaction <- rbind( disease_chemical_interaction, S4Vectors::DataFrame(tmp) )
     } else if( verbose ) {
       message(" . . No 'disease-chemical interation' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }
@@ -98,7 +98,7 @@ query_ctd_dise <- function( terms, ask = TRUE, verbose = FALSE ) {
     if( nrow( tmp ) > 0 ) {
       #tmp$GeneSymbol <- keep[ ii, 1 ]
       #tmp$GeneID <- keep[ ii, 2 ]
-      disease_kegg <- rbind( disease_kegg, tmp )
+      disease_kegg <- rbind( disease_kegg, S4Vectors::DataFrame(tmp) )
     } else if( verbose ) {
       message(" . . No 'KEGG pathways' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
     }

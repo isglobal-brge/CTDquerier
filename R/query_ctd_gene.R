@@ -106,7 +106,7 @@ query_ctd_gene <- function( terms, ask = TRUE, verbose = FALSE ) {
         if( nrow( tmp ) > 0 ) {
             tmp$GeneSymbol <- keep[ ii, 1 ]
             tmp$GeneID <- keep[ ii, 2 ]
-            gene_gene_interactions <- rbind( gene_gene_interactions, tmp )
+            gene_gene_interactions <- rbind( gene_gene_interactions, S4Vectors::DataFrame(tmp) )
         } else if( verbose ) {
             message(" . . No 'gene-gene interaction' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
         }
@@ -118,7 +118,7 @@ query_ctd_gene <- function( terms, ask = TRUE, verbose = FALSE ) {
         if( nrow( tmp ) > 0 ) {
             tmp$GeneSymbol <- keep[ ii, 1 ]
             tmp$GeneID <- keep[ ii, 2 ]
-            gene_diseases <- rbind( gene_diseases, tmp )
+            gene_diseases <- rbind( gene_diseases, S4Vectors::DataFrame(tmp) )
         } else if( verbose ) {
             message(" . . No 'disease' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
         }
@@ -130,7 +130,7 @@ query_ctd_gene <- function( terms, ask = TRUE, verbose = FALSE ) {
         if( nrow( tmp ) > 0 ) {
             tmp$GeneSymbol <- keep[ ii, 1 ]
             tmp$GeneID <- keep[ ii, 2 ]
-            gene_chemical_interaction <- rbind( gene_chemical_interaction, tmp )
+            gene_chemical_interaction <- rbind( gene_chemical_interaction, S4Vectors::DataFrame(tmp) )
         } else if( verbose ) {
             message(" . . No 'gene-chemical interaction' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
         }
@@ -142,7 +142,7 @@ query_ctd_gene <- function( terms, ask = TRUE, verbose = FALSE ) {
         if( nrow( tmp ) > 0 ) {
             tmp$GeneSymbol <- keep[ ii, 1 ]
             tmp$GeneID <- keep[ ii, 2 ]
-            gene_go <- rbind( gene_go, tmp )
+            gene_go <- rbind( gene_go, S4Vectors::DataFrame(tmp) )
         } else if( verbose ) {
             message(" . . No 'GO terms' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
         }
@@ -154,7 +154,7 @@ query_ctd_gene <- function( terms, ask = TRUE, verbose = FALSE ) {
         if( nrow( tmp ) > 0 ) {
             tmp$GeneSymbol <- keep[ ii, 1 ]
             tmp$GeneID <- keep[ ii, 2 ]
-            gene_kegg <- rbind( gene_kegg, tmp )
+            gene_kegg <- rbind( gene_kegg, S4Vectors::DataFrame(tmp) )
         } else if( verbose ) {
             message(" . . No 'KEGG pathways' table available for ", keep[ ii, 1 ], "' ( ", keep[ ii, 2 ], " )" )
         }
