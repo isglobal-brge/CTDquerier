@@ -66,6 +66,7 @@ setMethod(
             }
         }
 
-        return( fisher.test( table( universe %in% y, universe %in% x ) ) )
+        return( tryCatch({fisher.test( table( universe %in% y, universe %in% x ) )}, 
+                         error = function(w){invisible()}) )
     }
 )
