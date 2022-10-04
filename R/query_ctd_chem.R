@@ -14,7 +14,10 @@
 #' information of each step.
 #' @return An object of class \code{\link{CTDdata}}.
 #' @examples
-#' rst <- query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE )
+#' # Example in a tryCatch, since we are performing a connection to a server we might
+#' # get a refused connection due to a server rejection. Evaluate the recieved HTTP 
+#' # message to understand if the server is not available or if your IP adress is temporarly restricted
+#' rst <- tryCatch({query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE ))}, error = function(w){NULL})
 #' @export query_ctd_chem
 query_ctd_chem <- function( terms, max.distance = 10, ask = FALSE, verbose = FALSE ) {
   ## SETUP
