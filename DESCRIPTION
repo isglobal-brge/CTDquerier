@@ -1,6 +1,6 @@
 Package: CTDquerier
 Title: Package for CTDbase data query, visualization and downstream analysis
-Version: 2.1.0
+Version: 2.5.0
 Authors@R: c( person("Carles", "Hernandez-Ferrer", email = "carles.hernandez@isglobal.org", role = c("aut")),
   person("Juan R.", "Gonzalez", email = "juanr.gonzalez@isglobal.org", role = "aut"),
   person("Xavier", "Escribà-Montagut", email = "xavier.escriba@isglobal.org", role = "cre"))
