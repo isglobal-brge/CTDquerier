@@ -164,17 +164,17 @@ The other arguments of \code{plot} functions follows:
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{enrich}: Method to perform enrichment analysis given two
+\item \code{enrich(CTDdata)}: Method to perform enrichment analysis given two
 object of class \code{CTDdata}.
 
-\item \code{get_table}: Method to obtain a specific inner table from an \code{CTDdata} object.
+\item \code{get_table(CTDdata)}: Method to obtain a specific inner table from an \code{CTDdata} object.
 
-\item \code{get_terms}: Return a list with the terms found to create the object.
+\item \code{get_terms(CTDdata)}: Return a list with the terms found to create the object.
 
-\item \code{plot}: Generates a basic plot showing the number of terms
+\item \code{plot(x = CTDdata, y = ANY)}: Generates a basic plot showing the number of terms
 that can be used to query CTDbase.
-}}
 
+}}
 \section{Slots}{
 
 \describe{
