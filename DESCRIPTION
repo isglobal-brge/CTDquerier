@@ -23,7 +23,7 @@ Imports: RCurl,
     BiocFileCache
 VignetteBuilder: rmarkdown
 Suggests: BiocStyle, knitr, rmarkdown
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 biocViews: Software, BiomedicalInformatics, Infrastructure,
         DataImport, DataRepresentation, GeneSetEnrichment, 
         NetworkEnrichment, Pathways, Network, GO, KEGG

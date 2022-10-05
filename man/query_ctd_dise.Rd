@@ -26,5 +26,8 @@ interactions, associated diseases, associated KEGG pathways and
 associated GO terms.
 }
 \examples{
-rst <- query_ctd_dise( terms = "Asthma", verbose = TRUE )
+# Example in a tryCatch, since we are performing a connection to a server we might
+# get a refused connection due to a server rejection. Evaluate the recieved HTTP 
+# message to understand if the server is not available or if your IP adress is temporarly restricted
+rst <- tryCatch({query_ctd_dise( terms = "Asthma", verbose = TRUE )}, error = function(w){NULL})
 }

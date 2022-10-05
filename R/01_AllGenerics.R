@@ -41,10 +41,15 @@ setGeneric("get_terms", function(object)
 #' @return A list with class \code{htest}. Check
 #' \code{fisher.test} for more information.
 #' @examples 
+#' # Example in a tryCatch, since we are performing a connection to a server we might
+#' # get a refused connection due to a server rejection. Evaluate the recieved HTTP 
+#' # message to understand if the server is not available or if your IP adress is temporarly restricted
+#' tryCatch({
 #' data("gala")
 #' air <- query_ctd_chem( terms = "Air Pollutants" )
 #' hgnc_universe <- readRDS(paste0(path.package("CTDquerier"),"/extdata/universe.RDS"))
 #' enrich(gala, air, hgnc_universe)
+#' }, error = function(w){NULL})
 #' @export enrich
 setGeneric("enrich", function(x, y, universe, use = "curated",
         warnings = TRUE, ...)

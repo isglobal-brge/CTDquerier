@@ -28,5 +28,8 @@ for each one, downloading chemical-genes interactions, associated
 diseases, associated KEGG pathways and associated GO terms.
 }
 \examples{
-rst <- query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE )
+# Example in a tryCatch, since we are performing a connection to a server we might
+# get a refused connection due to a server rejection. Evaluate the recieved HTTP 
+# message to understand if the server is not available or if your IP adress is temporarly restricted
+rst <- tryCatch({query_ctd_chem( terms = c( "Iron", "Air Pollutants" ), verbose = TRUE )}, error = function(w){NULL})
 }
